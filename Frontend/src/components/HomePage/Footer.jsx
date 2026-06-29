@@ -12,11 +12,11 @@ function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const socialLogos = [
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-pink-500 rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaGithub /></div>, title: "GitHub", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-purple-500 rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-shadow"><FaYoutube /></div>, title: "YouTube", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-cyan-400 rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-shadow"><FaTwitter /></div>, title: "Twitter", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-pink-500 rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaLinkedin /></div>, title: "LinkedIn", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-purple-500 rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-shadow"><FaInstagram /></div>, title: "Instagram", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaGithub /></div>, title: "GitHub", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaYoutube /></div>, title: "YouTube", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaTwitter /></div>, title: "Twitter", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaLinkedin /></div>, title: "LinkedIn", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaInstagram /></div>, title: "Instagram", href: "#" },
   ];
 
 
@@ -72,7 +72,7 @@ function Footer() {
 
           {/* Left Form */}
           <div className="w-full lg:w-[45%] mb-8 lg:mb-0">
-            <h2 className="text-[3.5rem] sm:text-[4rem] leading-[0.85] font-black tracking-tighter uppercase mb-4 text-transparent bg-clip-text bg-gradient-to-r from-[#951D13] to-[#f34a82] dark:from-orange-400 dark:to-pink-500 font-poppins drop-shadow-sm">
+            <h2 className="text-[3.5rem] sm:text-[4rem] leading-[0.85] font-black tracking-tighter uppercase mb-4 text-[#7A1E2C] font-poppins drop-shadow-sm">
               GET<br />IN<br />TOUCH
             </h2>
 
@@ -84,25 +84,25 @@ function Footer() {
 
                 <div className="flex flex-col gap-6">
 
-                  <div className="relative">
-                    <FaEnvelope className="absolute left-0 top-1/2 -translate-y-1/2 text-[#951D13] dark:text-[#421919]" />
+                  <div className="relative group">
+                    <FaEnvelope className="absolute left-0 top-1/2 -translate-y-1/2 text-[#951D13] dark:text-[#7A1E2C] group-hover:text-[#9C211E] transition-colors" />
                     <input
                       name="email"
                       type="email"
                       required
                       placeholder="EMAIL"
-                      className="w-full pl-8 border-b-[2px] border-[#951D13]/30 focus:border-[#951D13]/70 dark:border-[#421919]/30 dark:focus:border-[#421919]/70 bg-transparent py-2 text-sm font-bold placeholder-[#951D13]/60 dark:placeholder-[#421919]/60 focus:outline-none uppercase text-[#951D13] dark:text-[#421919] font-poppins transition-colors"
+                      className="w-full pl-8 border-b-[2px] border-[#951D13]/30 focus:border-[#951D13]/70 dark:border-[#7A1E2C]/30 dark:focus:border-[#7A1E2C]/70 dark:hover:border-[#9C211E]/70 dark:hover:shadow-[0_4px_10px_rgba(156,33,30,0.1)] bg-transparent py-2 text-sm font-bold placeholder-[#951D13]/60 dark:placeholder-[#7A1E2C]/60 focus:outline-none uppercase text-[#951D13] dark:text-[#7A1E2C] font-poppins transition-all duration-300"
                     />
                   </div>
 
-                  <div className="relative">
-                    <FaRegComment className="absolute left-0 top-3 text-[#951D13] dark:text-[#421919]" />
+                  <div className="relative group">
+                    <FaRegComment className="absolute left-0 top-3 text-[#951D13] dark:text-[#7A1E2C] group-hover:text-[#9C211E] transition-colors" />
                     <textarea
                       name="message"
                       rows="1"
                       required
                       placeholder="MESSAGE"
-                      className="w-full pl-8 border-b-[2px] border-[#951D13]/30 focus:border-[#951D13]/70 dark:border-[#421919]/30 dark:focus:border-[#421919]/70 bg-transparent py-2 text-sm font-bold placeholder-[#951D13]/60 dark:placeholder-[#421919]/60 focus:outline-none uppercase text-[#951D13] dark:text-[#421919] font-poppins transition-colors resize-none"
+                      className="w-full pl-8 border-b-[2px] border-[#951D13]/30 focus:border-[#951D13]/70 dark:border-[#7A1E2C]/30 dark:focus:border-[#7A1E2C]/70 dark:hover:border-[#9C211E]/70 dark:hover:shadow-[0_4px_10px_rgba(156,33,30,0.1)] bg-transparent py-2 text-sm font-bold placeholder-[#951D13]/60 dark:placeholder-[#7A1E2C]/60 focus:outline-none uppercase text-[#951D13] dark:text-[#7A1E2C] font-poppins transition-all duration-300 resize-none"
                     />
                   </div>
                 </div>
@@ -122,48 +122,48 @@ function Footer() {
           <div className="w-full lg:w-1/2 flex flex-col sm:flex-row justify-between lg:justify-end gap-12 lg:gap-24 font-poppins">
             {/* Column 1 */}
             <div className="flex flex-col gap-5">
-              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#bd4110] dark:text-[#421919] uppercase tracking-wide">
+              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#7A1E2C] dark:text-[#7A1E2C] uppercase tracking-wide">
                 <Shuffle text="About" tag="span" />
               </h4>
-              <Link to="/about" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/about" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="About SQAC" tag="span" />
               </Link>
-              <Link to="/team" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/team" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Meet Our Team" tag="span" />
               </Link>
-              <Link to="/history" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/history" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="History" tag="span" />
               </Link>
             </div>
 
             {/* Column 2 */}
             <div className="flex flex-col gap-5">
-              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#bd4110] dark:text-[#421919] uppercase tracking-wide">
+              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#7A1E2C] dark:text-[#7A1E2C] uppercase tracking-wide">
                 <Shuffle text="Engage" tag="span" />
               </h4>
-              <Link to="/events" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/events" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Events" tag="span" />
               </Link>
-              <Link to="/projects" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/projects" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Projects" tag="span" />
               </Link>
-              <Link to="/recruitment" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <Link to="/recruitment" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Join Us" tag="span" />
               </Link>
             </div>
 
             {/* Column 3 */}
             <div className="flex flex-col gap-5">
-              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#bd4110] dark:text-[#421919] uppercase tracking-wide">
+              <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#7A1E2C] dark:text-[#7A1E2C] uppercase tracking-wide">
                 <Shuffle text="Community" tag="span" />
               </h4>
-              <a href="#" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Discord" tag="span" />
               </a>
-              <a href="#" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="WhatsApp" tag="span" />
               </a>
-              <a href="#" className="text-base font-bold hover:underline text-[#bd4110] dark:text-[#421919] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
+              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] dark:text-[#7A1E2C] hover:text-[#951D13] dark:hover:text-[#a53b3b] transition-colors">
                 <Shuffle text="Contact" tag="span" />
               </a>
             </div>
@@ -197,7 +197,7 @@ function Footer() {
       </div>
 
       {/* Bottom Section (Dark Theme) */}
-      <div className="bg-[#971F18] dark:bg-black text-[#f3d8ad] dark:text-[#E76FD3] pt-20 md:pt-32 pb-4 px-6 md:px-12 relative z-0 flex flex-col overflow-hidden transition-colors duration-500">
+      <div className="bg-[#7A1E2C] dark:bg-black text-[#f3d8ad] dark:text-[#E76FD3] pt-20 md:pt-32 pb-4 px-6 md:px-12 relative z-0 flex flex-col overflow-hidden transition-colors duration-500">
 
         {/* GIANT TEXT "SQAC" */}
         <div className="w-full flex justify-center items-center mt-2 mb-4 relative">
@@ -210,13 +210,13 @@ function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="w-full max-w-[1500px] mx-auto flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-bold uppercase tracking-widest mt-auto border-t border-[#f3d8ad]/20 dark:border-white/10 pt-6 px-4 font-poppins text-[#f3d8ad]/80 dark:text-[#421919]">
+        <div className="w-full max-w-[1500px] mx-auto flex flex-col md:flex-row justify-between items-center text-[10px] md:text-xs font-bold uppercase tracking-widest mt-auto border-t border-[#f3d8ad]/20 dark:border-white/10 pt-6 px-4 font-poppins text-[#f3d8ad]/80 dark:text-[#7A1E2C]">
           <span className="mb-4 md:mb-0">{new Date().getFullYear()} © SQAC</span>
           <div className="flex gap-8 mb-4 md:mb-0">
-            <Link to="#" className="hover:text-white dark:hover:text-[#a53b3b] transition-colors">PRIVACY</Link>
-            <Link to="#" className="hover:text-white dark:hover:text-[#a53b3b] transition-colors">CODE OF CONDUCT</Link>
+            <Link to="#" className="hover:text-white dark:hover:text-[#9C211E] transition-colors">PRIVACY</Link>
+            <Link to="#" className="hover:text-white dark:hover:text-[#9C211E] transition-colors">CODE OF CONDUCT</Link>
           </div>
-          <span className="cursor-pointer hover:text-white dark:hover:text-[#a53b3b] transition-colors">BRAND KIT</span>
+          <span className="cursor-pointer hover:text-white dark:hover:text-[#9C211E] transition-colors">BRAND KIT</span>
         </div>
       </div>
     </footer>

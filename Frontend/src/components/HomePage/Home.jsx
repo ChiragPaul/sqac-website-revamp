@@ -15,7 +15,7 @@ export default function LandingHero() {
         className="
           absolute w-[500px] sm:w-[500px] md:w-[900px]
           h-[600px] sm:h-[800px] md:h-[400px]
-          bg-pink-300 dark:bg-purple-600
+          bg-pink-300 dark:bg-[#7A1E2C]
           opacity-20 dark:opacity-15
           rounded-full blur-3xl
           top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0
@@ -46,7 +46,7 @@ export default function LandingHero() {
               bg-clip-text text-transparent
               bg-gradient-to-tr
               from-[#951D13] via-[#f34a82] to-[#F0A01F]
-              dark:from-purple-400 dark:via-pink-400 dark:to-orange-300
+              dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400
             "
           >
             SQAC
@@ -60,7 +60,7 @@ export default function LandingHero() {
             className="
               text-base sm:text-xl md:text-[2rem]
               font-semibold px-2
-              text-[#bd4110] dark:text-gray-300
+              text-[#bd4110] dark:text-[#F5E1C2]
             "
           >
             "Where Code Meets Quality"
@@ -78,12 +78,12 @@ export default function LandingHero() {
             w-[250px] sm:w-[220px] md:w-[370px] lg:w-[350px]
             aspect-square rounded-full
             border-[6px] sm:border-[8px]
-            border-[#F18B85] dark:border-purple-500
+            border-[#F18B85] dark:border-[#7A1E2C]
             bg-white/30 dark:bg-black/40
             backdrop-blur-xl shadow-2xl
             flex items-center justify-center
             hover:shadow-[0_0_40px_#F18B85]
-            dark:hover:shadow-[0_0_40px_#a855f7]
+            dark:hover:shadow-[0_0_40px_#7A1E2C]
             transition-all duration-300
           "
         >
@@ -109,7 +109,7 @@ export default function LandingHero() {
               bg-clip-text text-transparent
               bg-gradient-to-tr
               from-[#951D13] via-[#f34a82] to-[#F0A01F]
-              dark:from-purple-400 dark:via-pink-400 dark:to-orange-300
+              dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400
             "
           >
             Software Quality<br />Assurance Community

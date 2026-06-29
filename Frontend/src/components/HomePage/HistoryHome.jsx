@@ -92,10 +92,10 @@ export default function HistoryHome() {
       </div>
 
       <div className="relative z-10 text-center mb-16">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#971F18] to-[#971F18] dark:from-pink-500 dark:via-purple-500 dark:to-cyan-400 font-poppins">
+        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400 font-poppins">
           Our Interactive Archives
         </h1>
-        <p className="mt-4 text-gray-700 dark:text-zinc-400 text-lg font-poppins max-w-2xl mx-auto px-4">
+        <p className="mt-4 text-gray-700 dark:text-[#F5E1C2] text-lg font-poppins max-w-2xl mx-auto px-4">
           Select a volume from our bookshelf to explore the legacy and milestones of SQAC.
         </p>
       </div>
@@ -149,7 +149,7 @@ export default function HistoryHome() {
                 style={{ transform: 'rotateX(90deg) translateZ(-128px)', opacity: isOpen ? 0.1 : 0.8 }}></div>
 
               {/* Spine */}
-              <div className="spine absolute inset-0 w-full h-full bg-gradient-to-r from-[#3B0A4B] to-[#4A1E5C] border-l border-r border-[#2a0e36] shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] flex flex-col items-center justify-between py-8 rounded-sm"
+              <div className="spine absolute inset-0 w-full h-full bg-gradient-to-r from-[#7A1E2C] to-[#5a1620] border-l border-r border-[#4a121c] shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] flex flex-col items-center justify-between py-8 rounded-sm"
                 style={{ transform: 'translateZ(128px)', backfaceVisibility: 'hidden' }}>
                 <div className="opacity-70 group-hover:opacity-100 transition-opacity scale-90">
                   {milestone.icon}
@@ -169,7 +169,7 @@ export default function HistoryHome() {
                 }}>
 
                 {/* Outside Front Cover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#4A1E5C] to-[#2a0e36] border-l border-[#8A4E9E]/40 rounded-r-lg shadow-2xl overflow-hidden"
+                <div className="absolute inset-0 bg-gradient-to-br from-[#7A1E2C] to-[#5a1620] border-l border-[#8A4E9E]/40 rounded-r-lg shadow-2xl overflow-hidden"
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(0deg)' }}>
                   <div className="absolute inset-0 bg-black/30 z-10 pointer-events-none group-hover:bg-transparent transition-colors duration-500"></div>
                   <img src={milestone.image} alt={milestone.title} className="w-full h-48 object-cover opacity-60 mix-blend-overlay" />
@@ -211,7 +211,7 @@ export default function HistoryHome() {
               {/* Removed Bottom Edge to fix artifact at the bottom */}
 
               {/* Back Cover */}
-              <div className="back-cover absolute top-0 w-[256px] h-full origin-left bg-[#2a0e36] border border-[#12081f] rounded-r-lg z-10"
+              <div className="back-cover absolute top-0 w-[256px] h-full origin-left bg-[#7A1E2C] border border-[#12081f] rounded-r-lg z-10"
                 style={{
                   left: '0px',
                   transform: 'translateZ(128px) rotateY(90deg)',
@@ -235,30 +235,30 @@ export default function HistoryHome() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full relative overflow-hidden bg-[#f4ead5]/90 dark:bg-[#2a1b38]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl shadow-2xl border border-[#8b5a2b]/30 flex flex-col justify-center"
+                className="w-full h-full relative overflow-hidden bg-[#f4ead5]/90 dark:bg-gradient-to-br dark:from-black dark:to-[#7A1E2C]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl shadow-2xl border border-[#8b5a2b]/30 flex flex-col justify-center"
               >
                 {/* Decorative vintage background for preview */}
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] pointer-events-none mix-blend-overlay"></div>
                 
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-[#4A1E5C]/10 dark:bg-purple-500/20 rounded-xl text-[#4A1E5C] dark:text-purple-300">
+                    <div className="p-3 bg-[#4A1E5C]/10 dark:bg-[#7A1E2C]/20 rounded-xl text-[#4A1E5C] dark:text-[#F5E1C2]">
                       {historyMilestones[hoveredBookIndex].icon}
                     </div>
-                    <span className="px-4 py-1.5 bg-[#8b5a2b]/15 text-[#8b5a2b] dark:text-yellow-500 font-bold tracking-[0.2em] text-xs rounded uppercase shadow-sm">
+                    <span className="px-4 py-1.5 bg-[#8b5a2b]/15 text-[#8b5a2b] dark:text-[#F5E1C2] font-bold tracking-[0.2em] text-xs rounded uppercase shadow-sm">
                       {historyMilestones[hoveredBookIndex].year}
                     </span>
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3B0A4B] dark:text-purple-200 mb-6 drop-shadow-sm leading-tight">
+                  <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3B0A4B] dark:text-[#F5E1C2] mb-6 drop-shadow-sm leading-tight">
                     {historyMilestones[hoveredBookIndex].title}
                   </h3>
                   
-                  <p className="text-[#5c4a3d] dark:text-purple-100/70 text-lg leading-relaxed font-medium flex-grow text-justify">
+                  <p className="text-[#5c4a3d] dark:text-[#F5E1C2]/90 text-lg leading-relaxed font-medium flex-grow text-justify">
                     {historyMilestones[hoveredBookIndex].desc}
                   </p>
                   
-                  <div className="mt-8 flex items-center text-sm font-bold text-[#8A4E9E] dark:text-pink-400 uppercase tracking-widest animate-pulse">
+                  <div className="mt-8 flex items-center text-sm font-bold text-[#8A4E9E] dark:text-[#F5E1C2] uppercase tracking-widest animate-pulse">
                     <Compass size={18} className="mr-2" /> Click volume to dive deeper
                   </div>
                 </div>
@@ -272,9 +272,9 @@ export default function HistoryHome() {
                 className="w-full h-full flex flex-col items-center justify-center text-center opacity-40 border-2 border-dashed border-[#8b5a2b]/30 rounded-2xl p-8"
               >
                 <div className="w-20 h-20 bg-[#8b5a2b]/10 rounded-full flex items-center justify-center mb-6">
-                  <Star size={36} className="text-[#8b5a2b] dark:text-purple-400" />
+                  <Star size={36} className="text-[#8b5a2b] dark:text-[#F5E1C2]" />
                 </div>
-                <p className="text-2xl font-serif text-[#8b5a2b] dark:text-purple-300 italic">
+                <p className="text-2xl font-serif text-[#8b5a2b] dark:text-[#F5E1C2] italic">
                   Hover over a volume on the shelf to catch a glimpse of the past...
                 </p>
               </motion.div>

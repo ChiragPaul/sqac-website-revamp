@@ -93,7 +93,7 @@ export default function Gallery3D() {
       // - Explicitly added absolute, top-0, left-0 to avoid document reflow refitting.
       // - Replaced transition-all with transition-[border-color,box-shadow] so that changing 3D matrix inline transforms never triggers CSS layout transition fights.
       // - Removed scale-105 on card hover to avoid fighting matrix3d scales.
-      element.className = "gallery-item absolute top-0 left-0 group w-[95px] h-[140px] sm:w-[130px] sm:h-[190px] md:w-[160px] md:h-[235px] rounded-2xl overflow-hidden cursor-pointer border border-white/10 dark:border-white/5 bg-zinc-950/85 shadow-2xl transition-[border-color,box-shadow] duration-300 hover:border-purple-500/50 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] pointer-events-auto select-none backdrop-blur-sm";
+      element.className = "gallery-item absolute top-0 left-0 group w-[95px] h-[140px] sm:w-[130px] sm:h-[190px] md:w-[160px] md:h-[235px] rounded-2xl overflow-hidden cursor-pointer border border-white/10 dark:border-white/5 bg-zinc-950/85 shadow-2xl transition-[border-color,box-shadow] duration-300 hover:border-purple-500/50 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] dark:hover:border-[#7A1E2C]/50 dark:hover:shadow-[0_0_35px_rgba(122,30,44,0.45)] pointer-events-auto select-none backdrop-blur-sm";
       element.style.willChange = "transform";
 
       const img = document.createElement("img");
@@ -212,11 +212,11 @@ export default function Gallery3D() {
     const centerEl = document.createElement("div");
     centerEl.className = "flex flex-col items-center justify-center pointer-events-none select-none text-center px-4 w-[280px] sm:w-[500px] md:w-[800px]";
     centerEl.innerHTML = `
-      <h2 class="text-3xl sm:text-5xl md:text-[5.5rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-purple-400 dark:via-pink-400 dark:to-orange-300 filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
+      <h2 class="text-3xl sm:text-5xl md:text-[5.5rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400 filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
         KEY MOMENTS
       </h2>
-      <div class="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-purple-500 to-transparent my-2.5 md:my-4"></div>
-      <p class="text-[9px] md:text-xs text-rose-500 dark:text-purple-400 font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
+      <div class="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-[#7A1E2C] to-transparent my-2.5 md:my-4"></div>
+      <p class="text-[9px] md:text-xs text-rose-500 dark:text-[#7A1E2C] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
         SQAC Community
       </p>
     `;
