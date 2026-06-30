@@ -10,6 +10,7 @@ import Team from "./components/Team/Team.jsx";
 import Projects from "./components/Projects/Projects.jsx";
 import JoinUs from "./components/JoinUs/JoinUs.jsx";
 import HistoryTimeline from "./components/History/HistoryTimeline.jsx";
+import Achievements from "./components/Achievements/Achievements.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import useLenisScroll from "./utils/smoothScroll";
 import Navbar from "./components/HomePage/Navbar.jsx";
@@ -23,7 +24,7 @@ import "./App.css";
 
 const AppContent = () => {
   const location = useLocation();
-  const showFooter = location.pathname !== "/team";
+  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements";
 
   return (
     <>
@@ -37,6 +38,7 @@ const AppContent = () => {
         <Route path="/team" element={<Team />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/recruitment" element={<JoinUs />} />
+        <Route path="/achievements" element={<Achievements />} />
       </Routes>
       {showFooter && <Footer />}
     </>

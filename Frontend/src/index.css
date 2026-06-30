@@ -54,3 +54,22 @@ html.lenis {
 .lenis.lenis-stopped {
   overflow: hidden;
 }
+
+/* ── 1. CUSTOM SCROLLBAR (modal) ──────────────────── */
+.custom-scroll::-webkit-scrollbar       { width: 4px; }
+.custom-scroll::-webkit-scrollbar-track { background: transparent; }
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ec4899, #f97316);
+  border-radius: 9999px;
+}
+
+/* ── 2. ORB FLOAT (HeroSection usage) ────────────── */
+.orb-float {
+  animation: orb-pulse 10s ease-in-out infinite;
+}
+
+@keyframes orb-pulse {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(20px,-14px) scale(1.04); }
+  66%      { transform: translate(-14px,10px) scale(0.96); }
+}
