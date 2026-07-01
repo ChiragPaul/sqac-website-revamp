@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube, FaTwitter, FaUser, FaEnvelope, FaRegComment, FaPaperPlane } from "react-icons/fa";
 import { motion } from "framer-motion";
 import SQAC from "../../assets/LogoSQAC-removebg-preview.png";
@@ -10,6 +10,17 @@ import LogoLoop from "./LogoLoop";
 function Footer() {
   const [success, setSuccess] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  if (location.pathname === '/events') {
+    return null;
+  }
 
   const socialLogos = [
     { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaGithub /></div>, title: "GitHub", href: "#" },
@@ -18,13 +29,6 @@ function Footer() {
     { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaLinkedin /></div>, title: "LinkedIn", href: "#" },
     { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#951D13] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(122,30,44,0.5)] transition-shadow"><FaInstagram /></div>, title: "Instagram", href: "#" },
   ];
-
-
-  useEffect(() => {
-    const handleScroll = () => setShowScrollTop(window.scrollY > 300);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
