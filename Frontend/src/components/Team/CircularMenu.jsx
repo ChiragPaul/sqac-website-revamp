@@ -199,7 +199,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           exit={{ x: 60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           onClick={() => setIsExpanded(true)}
-          className={`fixed xl:absolute right-0 top-[230px] sm:top-[250px] xl:top-auto z-[150] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
+          className={`fixed xl:absolute right-0 top-[290px] sm:top-[250px] xl:top-auto z-[150] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
           style={{
             background: `linear-gradient(135deg, ${activeColor}e0, ${activeColor}a0)`,
             boxShadow: `0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)`
@@ -207,9 +207,9 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
         >
           <ChevronLeft className="w-4 h-4 text-white/80 animate-pulse group-hover:-translate-x-0.5 transition-transform" />
           <ActiveIcon size={20} className="text-white drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]" />
-          <span 
+          <span
             className="text-[9px] font-black uppercase tracking-widest text-white select-none text-center leading-none mt-1"
-            style={{ 
+            style={{
               fontFamily: "'Outfit', sans-serif",
               writingMode: 'vertical-rl',
               textOrientation: 'mixed',
@@ -229,7 +229,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           className="relative flex items-center justify-center select-none w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] md:w-[240px] md:h-[240px] lg:w-[260px] lg:h-[260px] xl:w-[340px] xl:h-[340px] mx-auto filter drop-shadow-2xl"
         >
           {/* Background glow overlay */}
-          <div 
+          <div
             className="absolute inset-0 rounded-full transition-all duration-500 blur-[50px] opacity-20 dial-bg-glow pointer-events-none"
             style={{
               background: `radial-gradient(circle, ${centerColor} 0%, transparent 70%)`
@@ -238,7 +238,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
 
           {/* Close trigger on clicking background on mobile */}
           {isMobile && (
-            <div 
+            <div
               className="absolute inset-0 bg-transparent cursor-pointer z-0"
               onClick={() => setIsExpanded(false)}
             />
@@ -339,10 +339,10 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
                               color: isActive
                                 ? '#ffffff'
                                 : isHovered
-                                ? segColor
-                                : darkMode
-                                ? 'rgba(255, 255, 255, 0.5)'
-                                : 'rgba(0, 0, 0, 0.5)',
+                                  ? segColor
+                                  : darkMode
+                                    ? 'rgba(255, 255, 255, 0.5)'
+                                    : 'rgba(0, 0, 0, 0.5)',
                               filter: isActive ? 'drop-shadow(0 0 4px rgba(255, 255, 255, 0.6))' : 'none'
                             }}
                           />
@@ -358,10 +358,10 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
                             fill: isActive
                               ? '#ffffff'
                               : isHovered
-                              ? (darkMode ? '#ffffff' : '#000000')
-                              : darkMode
-                              ? 'rgba(255, 255, 255, 0.6)'
-                              : 'rgba(0, 0, 0, 0.6)',
+                                ? (darkMode ? '#ffffff' : '#000000')
+                                : darkMode
+                                  ? 'rgba(255, 255, 255, 0.6)'
+                                  : 'rgba(0, 0, 0, 0.6)',
                             filter: isActive ? 'drop-shadow(0 0 3px rgba(255, 255, 255, 0.5))' : 'none'
                           }}
                         >
@@ -418,11 +418,11 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           </motion.svg>
 
           {/* Dynamic text positioned absolutely over the center circle */}
-          <div 
+          <div
             className={`absolute inset-0 flex flex-col items-center justify-center text-center p-3 pointer-events-none transition-transform duration-300 z-20 ${isMobile ? 'translate-x-[-18px] sm:translate-x-[-20px] md:translate-x-[-22px] lg:translate-x-[-24px] cursor-pointer pointer-events-auto' : ''}`}
             onClick={() => { if (isMobile) setIsExpanded(false); }}
           >
-            <h4 
+            <h4
               className="text-[11px] sm:text-xs md:text-sm lg:text-base font-black tracking-tight leading-tight transition-all duration-300 capitalize text-center uppercase"
               style={{
                 color: centerColor,
@@ -436,7 +436,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
               {centerValue}
             </h4>
             {!isMobile && (
-              <motion.div 
+              <motion.div
                 className="w-8 h-[2px] mt-2 rounded-full pointer-events-none"
                 animate={{
                   backgroundColor: centerColor,

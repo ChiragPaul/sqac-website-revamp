@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactCardFlip from 'react-card-flip';
 //import { teamMembers } from '../data/teamData';
 import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Globe, Users, Mouse } from 'lucide-react';
 import { useTheme } from "../../contexts/ThemeContext";
@@ -240,6 +241,18 @@ export default function Team({ darkMode: propDarkMode }) {
   const { isDarkMode } = useTheme();
   const darkMode = propDarkMode !== undefined ? propDarkMode : isDarkMode;
 
+  const getDisplayDomain = (member) => {
+    if (member.domain === 'Board') return 'Leadership';
+    if (!member.subDomain) return member.domain;
+    const sub = member.subDomain.trim();
+    if (sub.toLowerCase() === 'ai/ml') return 'AI/ML';
+    if (sub.toLowerCase() === 'pr') return 'PR';
+    return sub
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  };
+
 
   const [teamMembers, setTeamMembers] = useState(PLACEHOLDER_MEMBERS);
   const [filter, setFilter] = useState('Board'); // Default to Board based on the reference image showing Board active
@@ -257,6 +270,7 @@ export default function Team({ darkMode: propDarkMode }) {
   const sectionRef = useRef(null);
   const isScrollingRef = useRef(false);
   const isDragging = useRef(false);
+  const [isCardFlipped, setIsCardFlipped] = useState(false);
 
   useEffect(() => {
     const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
@@ -365,37 +379,37 @@ export default function Team({ darkMode: propDarkMode }) {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      let cardW = 200;
-      let cardH = 280;
+      let cardW = 180;
+      let cardH = 270;
 
       if (width >= 1280) {
-        cardW = 250;
-        cardH = 320;
+        cardW = 240;
+        cardH = 360;
         if (height < 780) {
           cardW = 220;
-          cardH = 280;
+          cardH = 330;
         }
       } else if (width >= 1024) {
         cardW = 200;
-        cardH = 260;
+        cardH = 300;
         if (height < 700) {
           cardW = 180;
-          cardH = 240;
+          cardH = 270;
         }
       } else if (width >= 768) {
-        cardW = 160;
-        cardH = 220;
+        cardW = 170;
+        cardH = 255;
       } else {
-        cardW = 140;
-        cardH = 190;
+        cardW = 180;
+        cardH = 270;
       }
 
       setCardWidth(cardW);
       setCardHeight(cardH);
       setIsPhone(width < 768);
 
-      // Horizontal radius takes cards right to the edge with a 16px safe margin
-      const rx = Math.max(200, width / 2 - cardW / 2 - 16);
+      // Horizontal radius takes cards right to the edge with a 16px safe margin, scaled for more overlap
+      const rx = Math.max(150, (width / 2 - cardW / 2 - 16) * 0.78);
       // Depth radius is capped at 360px for desktop to keep perspective clean
       const rz = Math.min(360, width * 0.25);
 
@@ -422,10 +436,10 @@ export default function Team({ darkMode: propDarkMode }) {
 
       const bottomMargin = width < 768 ? 60 : 30;
       const center = carouselH / 2;
-      const activeCardH = cardH * 1.32;
+      const activeCardH = cardH;
       const targetBottom = carouselH - bottomMargin;
-      // Added a small 30px offset to push cards down slightly without cropping
-      const translateYVal = targetBottom - (activeCardH / 2) - center + 30;
+      // Push cards down slightly on phone, but pull them higher on desktop/laptop
+      const translateYVal = targetBottom - (activeCardH / 2) - center + (width < 768 ? 30 : -50);
       setTranslateYOffset(translateYVal);
     };
     handleResize();
@@ -497,6 +511,10 @@ export default function Team({ darkMode: propDarkMode }) {
     : 0;
 
   useEffect(() => {
+    setIsCardFlipped(false);
+  }, [activeIndex]);
+
+  useEffect(() => {
     setActiveIndex(0);
     setDragOffset(0);
     setHoveredId(null);
@@ -532,9 +550,14 @@ export default function Team({ darkMode: propDarkMode }) {
     setDragOffset(0);
   };
 
-  const handleCardClick = (index) => {
+  const handleCardClick = (e, index) => {
+    e.stopPropagation();
     if (isDragging.current) return;
-    setActiveIndex(index);
+    if (index === activeDisplayIndex) {
+      setIsCardFlipped(prev => !prev);
+    } else {
+      setActiveIndex(index);
+    }
   };
 
   useEffect(() => {
@@ -561,10 +584,10 @@ export default function Team({ darkMode: propDarkMode }) {
   }, [angleStep]);
 
   return (
-    <section ref={sectionRef} id="team" className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-between pt-24 sm:pt-28 xl:pt-20 pb-0 transition-colors duration-500 ${darkMode ? 'bg-mesh-dark text-white' : 'bg-mesh-light text-gray-900'}`}>
+    <section ref={sectionRef} id="team" className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-between pt-24 sm:pt-28 xl:pt-20 pb-0 transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}>
 
       {/* Circular dial menu — anchored to section top-right, never overlaps cards */}
-      <div className="absolute -right-[110px] sm:-right-[120px] md:-right-[130px] lg:-right-[40px] xl:right-8 top-[160px] sm:top-[120px] md:top-[80px] xl:top-[72px] z-[30] w-auto">
+      <div className="absolute -right-[110px] sm:-right-[120px] md:-right-[130px] xl:right-8 top-[290px] sm:top-[180px] xl:top-[72px] z-[30] w-auto">
         <CircularMenu
           activeFilter={filter}
           activeSubFilter={subFilter}
@@ -625,6 +648,16 @@ export default function Team({ darkMode: propDarkMode }) {
         className="relative w-full flex items-center justify-center perspective-2000 mt-auto z-[40]"
         style={{ touchAction: 'pan-y', height: carouselHeight }}
         onMouseLeave={() => setHoveredId(null)}
+        onClick={(e) => {
+          if (!isPhone || isDragging.current) return;
+          const rect = e.currentTarget.getBoundingClientRect();
+          const clickX = e.clientX - rect.left;
+          if (clickX < rect.width * 0.35) {
+            handlePrev();
+          } else if (clickX > rect.width * 0.65) {
+            handleNext();
+          }
+        }}
       >
         {/* Glowing Platform Base */}
         <div className="carousel-platform" />
@@ -654,9 +687,13 @@ export default function Team({ darkMode: propDarkMode }) {
               // For phone view, only show 3 cards (active card + 2 neighbors) and hide the rest to avoid clutter.
               // For tablet/desktop view, show all cards around the circle (no opacity = 0 clipping).
               const isVisible = !isPhone || absoluteDiff < angleStep * 1.5;
+              let indexDiff = Math.abs(i - activeDisplayIndex);
+              if (indexDiff > displayCount / 2) {
+                indexDiff = displayCount - indexDiff;
+              }
               const opacity = isPhone
-                ? (isVisible ? (0.45 + 0.55 * (Math.cos(normAngle * Math.PI / (angleStep * 1.5 * 2)) + 1) / 2) : 0)
-                : (0.45 + 0.55 * (Math.cos(normAngle * Math.PI / 180) + 1) / 2);
+                ? (isVisible ? (i === activeDisplayIndex ? 1.0 : 0.95) : 0)
+                : Math.max(0.4, 1.0 - indexDiff * 0.05);
 
               // Continuous dynamic scaling based on relative angle (normAngle)
               // This ensures fluid scaling during dragging/scrolling
@@ -682,11 +719,11 @@ export default function Team({ darkMode: propDarkMode }) {
               return (
                 <motion.div
                   key={member.id}
-                  className={`absolute rounded-[32px] overflow-hidden shadow-2xl p-4 sm:p-6 md:p-8 flex flex-col justify-between select-none
+                  className={`absolute rounded-[32px] overflow-hidden shadow-2xl select-none
                     bg-gradient-to-r ${gradientClass}
                     ${i === activeDisplayIndex
-                      ? 'border-2 border-white/40 shadow-[0_0_30px_rgba(255,255,255,0.15)]'
-                      : 'border border-white/10 opacity-70'
+                      ? 'border-2 border-white/70 shadow-[0_0_20px_rgba(255,255,255,0.45),_0_0_5px_rgba(255,255,255,0.25)]'
+                      : 'border border-white/25 shadow-[0_0_8px_rgba(255,255,255,0.08)] opacity-70'
                     }
                   `}
                   style={{
@@ -696,14 +733,14 @@ export default function Team({ darkMode: propDarkMode }) {
                     top: '50%',
                     transformStyle: 'preserve-3d',
                     backfaceVisibility: 'hidden',
-                    pointerEvents: isVisible ? (i === activeDisplayIndex ? 'default' : 'pointer') : 'none',
+                    pointerEvents: isVisible ? 'auto' : 'none',
                     cursor: i === activeDisplayIndex ? 'default' : 'pointer',
                   }}
                   animate={{
                     transform: `translate(-50%, -50%) translateX(${X}px) translateZ(${Z}px) rotateY(0deg) scale(${scale})`,
                     opacity: opacity,
                     zIndex: Math.round(Z + 1000),
-                    height: i === activeDisplayIndex ? cardHeight * 1.32 : cardHeight,
+                    height: cardHeight,
                   }}
                   transition={isDragging.current ? { duration: 0 } : {
                     type: 'spring',
@@ -711,7 +748,7 @@ export default function Team({ darkMode: propDarkMode }) {
                     damping: 22,
                     mass: 0.8
                   }}
-                  onClick={() => handleCardClick(i)}
+                  onClick={(e) => handleCardClick(e, i)}
                   onMouseEnter={() => i === activeDisplayIndex && setHoveredId(member.id)}
                   onMouseLeave={() => setHoveredId(null)}
                 >
@@ -721,92 +758,122 @@ export default function Team({ darkMode: propDarkMode }) {
                   {/* Glassmorphism subtle overlay */}
                   <div className="absolute inset-0 bg-white/10 dark:bg-black/10 backdrop-blur-[2px] pointer-events-none" />
 
-                  {/* Card Content - Top */}
-                  <div className="relative z-10 flex flex-col justify-between h-full w-full">
-                    <div className="flex flex-col gap-2 sm:gap-3 md:gap-4">
-                      {/* Initials Circle */}
-                      <div
-                        className="w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold text-white text-base sm:text-lg md:text-xl shadow-sm overflow-hidden"
-                        style={{
-                          background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)',
-                          backdropFilter: 'blur(10px)',
-                          border: '1px solid rgba(255,255,255,0.3)'
-                        }}
-                      >
-                        {member.pic ? (
-                          <img src={member.pic} alt={member.name} className="w-full h-full object-cover" />
-                        ) : (
-                          member.initials
+                  <ReactCardFlip
+                    isFlipped={i === activeDisplayIndex && isCardFlipped}
+                    flipDirection="horizontal"
+                    containerClassName="w-full h-full"
+                  >
+                    {/* CARD FRONT */}
+                    <div className="w-full h-full p-4 sm:p-6 md:p-8 flex flex-col justify-between relative z-10">
+                      <div className="flex flex-col gap-2.5 sm:gap-3 md:gap-4">
+                        {/* Initials Circle (Larger Profile Pic) */}
+                        <div
+                          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-bold text-white text-lg sm:text-xl md:text-2xl shadow-sm overflow-hidden"
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)',
+                            backdropFilter: 'blur(10px)',
+                            border: '1px solid rgba(255,255,255,0.3)'
+                          }}
+                        >
+                          {member.pic ? (
+                            <img src={member.pic} alt={member.name} className="w-full h-full object-cover" />
+                          ) : (
+                            member.initials
+                          )}
+                        </div>
+
+                        {/* Header info (Name, Domain, Position) */}
+                        <div className="space-y-1 sm:space-y-1.5">
+                          <h4 className="font-black tracking-tight leading-tight text-[#1C1C1E] dark:text-white text-base sm:text-xl md:text-2xl whitespace-normal break-words">
+                            {member.name}
+                          </h4>
+                          <p className="text-[10px] sm:text-xs uppercase font-extrabold tracking-widest text-[#1C1C1E]/70 dark:text-gray-300">
+                            {getDisplayDomain(member)}
+                          </p>
+                          <p className="font-semibold text-[10px] sm:text-xs md:text-sm opacity-85 text-[#1C1C1E] dark:text-gray-200">
+                            {member.role}
+                          </p>
+                        </div>
+
+                        {/* Social Logos */}
+                        <div className={`flex items-center gap-1.5 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                          {[
+                            { icon: <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.linkedin, label: 'LinkedIn' },
+                            { icon: <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.github, label: 'GitHub' },
+                            { icon: <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.portfolio, label: 'Portfolio' },
+                          ].map((social, idx) => (
+                            <a
+                              key={idx}
+                              href={social.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                              aria-label={`${member.name} ${social.label}`}
+                            >
+                              {social.icon}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Bottom Area (Domain Badge / Flip Action) */}
+                      <div className="mt-auto pt-2 sm:pt-3 md:pt-4 flex items-center justify-between border-t border-white/20">
+                        {/* Domain Badge */}
+                        <div className="flex items-center gap-1 sm:gap-1.5 text-[#1C1C1E] dark:text-white">
+                          <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-80" />
+                          <span className="font-bold text-[9px] sm:text-[10px]">
+                            {getDisplayDomain(member)}
+                          </span>
+                        </div>
+
+                        {/* Flip Indicator */}
+                        {i === activeDisplayIndex && (
+                          <span className="text-[9px] sm:text-[10px] font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
+                            Click to View Bio
+                          </span>
                         )}
                       </div>
+                    </div>
 
-                      {/* Header info (Name, Role) */}
-                      <div>
-                        <h4 className="font-black tracking-tight leading-tight text-[#1C1C1E] dark:text-white text-base sm:text-xl md:text-2xl whitespace-normal break-words">
-                          {member.name}
-                        </h4>
-                        <p className="font-semibold mt-0.5 sm:mt-1 text-[10px] sm:text-xs md:text-sm opacity-80 text-[#1C1C1E] dark:text-gray-200">
-                          {member.role}
+                    {/* CARD BACK */}
+                    <div className="w-full h-full p-4 sm:p-6 md:p-8 flex flex-col justify-between relative z-10">
+                      {/* Bio content only */}
+                      <div className="flex-1 flex flex-col justify-center overflow-y-auto pr-1">
+                        <p className="text-[11px] sm:text-xs md:text-sm font-medium text-[#1C1C1E]/95 dark:text-white/95 leading-relaxed">
+                          {member.bio}
                         </p>
                       </div>
-                    </div>
 
-                    {/* Expandable Content (Middle) - Only visible when active */}
-                    <div className={`overflow-hidden flex-1 flex flex-col justify-start transition-all duration-500 mt-2 sm:mt-3 md:mt-4 ${i === activeDisplayIndex ? 'opacity-100 max-h-[200px]' : 'opacity-0 max-h-0 pointer-events-none'
-                      }`}>
-                      <p className="text-[10px] sm:text-xs font-medium text-[#1C1C1E]/80 dark:text-white/80 leading-relaxed mb-2 sm:mb-3 line-clamp-3">
-                        {member.bio}
-                      </p>
-                      <div className="space-y-0.5 sm:space-y-1">
-                        <span className="text-[9px] uppercase font-black tracking-widest text-[#1C1C1E]/60 dark:text-white/60">
-                          Key Contributions
-                        </span>
-                        <ul className="space-y-0.5">
-                          {member.contributions.slice(0, 2).map((contr, idx) => (
-                            <li key={idx} className="flex items-start gap-1.5 text-[9px] sm:text-[11px] font-medium text-[#1C1C1E]/90 dark:text-white/90">
-                              <span className="w-1.5 h-1.5 rounded-full bg-white/80 mt-1 flex-shrink-0" />
-                              <span className="line-clamp-1">{contr}</span>
-                            </li>
+                      {/* Bottom Area (Socials / Flip Back) */}
+                      <div className="mt-auto pt-3 flex items-center justify-between border-t border-white/20">
+                        {/* Social Links */}
+                        <div className="flex items-center gap-1.5">
+                          {[
+                            { icon: <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.linkedin, label: 'LinkedIn' },
+                            { icon: <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.github, label: 'GitHub' },
+                            { icon: <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.portfolio, label: 'Portfolio' },
+                          ].map((social, idx) => (
+                            <a
+                              key={idx}
+                              href={social.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                              aria-label={`${member.name} ${social.label}`}
+                            >
+                              {social.icon}
+                            </a>
                           ))}
-                        </ul>
-                      </div>
-                    </div>
+                        </div>
 
-                    {/* Bottom Area (Domain / Socials) */}
-                    <div className="mt-auto pt-2 sm:pt-3 md:pt-4 flex items-center justify-between border-t border-white/20">
-                      {/* Domain Badge */}
-                      <div className="flex items-center gap-1 sm:gap-1.5 text-[#1C1C1E] dark:text-white">
-                        <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-80" />
-                        <span className="font-bold text-[9px] sm:text-[10px]">
-                          {member.domain === 'Board' ? 'Leadership' :
-                            member.domain === 'Technical' ? 'Engineering' :
-                              member.domain === 'Corporate' ? 'Strategy & PR' : 'Creative'}
+                        <span className="text-[9px] sm:text-[10px] font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
+                          Click to Flip Back
                         </span>
                       </div>
-
-                      {/* Social Links - Visible only on active */}
-                      <div className={`flex items-center gap-1 sm:gap-1.5 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'
-                        }`}>
-                        {[
-                          { icon: <Linkedin className="w-3 h-3 sm:w-3.5 sm:h-3.5" />, url: member.linkedin, label: 'LinkedIn' },
-                          { icon: <Github className="w-3 h-3 sm:w-3.5 sm:h-3.5" />, url: member.github, label: 'GitHub' },
-                          { icon: <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5" />, url: member.portfolio, label: 'Portfolio' },
-                        ].map((social, idx) => (
-                          <a
-                            key={idx}
-                            href={social.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                            aria-label={`${member.name} ${social.label}`}
-                          >
-                            {social.icon}
-                          </a>
-                        ))}
-                      </div>
                     </div>
-                  </div>
+                  </ReactCardFlip>
                 </motion.div>
               );
             })}
