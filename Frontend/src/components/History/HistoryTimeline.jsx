@@ -110,7 +110,7 @@ export default function HistoryTimeline() {
                 style={{ transform: 'rotateX(90deg) translateZ(-128px)', opacity: isOpen ? 0.2 : 0.8 }}></div>
 
               {/* Spine */}
-              <div className="spine absolute inset-0 w-full h-full bg-gradient-to-r from-zinc-800 to-zinc-900 border-l border-r border-black/80 shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center justify-between py-8 rounded-sm"
+              <div className="spine absolute inset-0 w-full h-full bg-gradient-to-r from-[#7A1E2C] to-[#5a1620] border-l border-r border-[#4a121b] shadow-[inset_0_0_15px_rgba(0,0,0,0.9)] flex flex-col items-center justify-between py-8 rounded-sm"
                 style={{ transform: 'translateZ(128px)', backfaceVisibility: 'hidden' }}>
                 <div className="opacity-70 group-hover:opacity-100 transition-opacity">
                   {milestone.icon}
@@ -130,7 +130,7 @@ export default function HistoryTimeline() {
                 }}>
 
                 {/* Outside Front Cover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black border-l border-white/10 rounded-r-lg shadow-2xl overflow-hidden"
+                <div className="absolute inset-0 bg-gradient-to-br from-[#7A1E2C] to-[#4a121b] border-l border-white/10 rounded-r-lg shadow-2xl overflow-hidden"
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(0deg)' }}>
                   <div className="absolute inset-0 bg-black/30 z-10 pointer-events-none group-hover:bg-transparent transition-colors duration-500"></div>
                   <img src={milestone.image} alt={milestone.title} className="w-full h-48 object-cover opacity-70 mix-blend-overlay" />
@@ -189,7 +189,7 @@ export default function HistoryTimeline() {
               </div>
 
               {/* Back Cover */}
-              <div className="back-cover absolute top-0 w-[256px] h-full origin-left bg-zinc-900 border border-black/40 rounded-r-lg z-10"
+              <div className="back-cover absolute top-0 w-[256px] h-full origin-left bg-[#4a121b] border border-black/40 rounded-r-lg z-10"
                 style={{
                   left: '0px',
                    transform: 'translateZ(128px) rotateY(90deg)',

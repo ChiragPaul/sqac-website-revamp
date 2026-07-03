@@ -11,7 +11,12 @@ export const useTheme = () => {
 };
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem("theme");
+    return savedTheme
+      ? savedTheme === "dark"
+      : window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
     // Update localStorage and document class when theme changes
@@ -25,24 +30,6 @@ export const ThemeProvider = ({ children }) => {
       document.documentElement.classList.remove("dark");
     }
   }, [isDarkMode]);
-
-  // Apply theme class on initial mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const shouldBeDark = savedTheme
-      ? savedTheme === "dark"
-      : window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    setIsDarkMode(shouldBeDark);
-
-    if (shouldBeDark) {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
 
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);

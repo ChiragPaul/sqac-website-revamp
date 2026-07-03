@@ -7,6 +7,7 @@ import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import RocketLaunchOutlinedIcon from '@mui/icons-material/RocketLaunchOutlined';
 import EventOutlinedIcon from '@mui/icons-material/EventOutlined';
 import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
+import EmojiEventsOutlinedIcon from '@mui/icons-material/EmojiEventsOutlined';
 import ToggleDarkMode from "../ToggleDarkMode";
 import gsap from "gsap";
 
@@ -160,6 +161,7 @@ function Navbar() {
     { label: "Team", path: "/team", icon: <GroupOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Projects", path: "/projects", icon: <RocketLaunchOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Events", path: "/events", icon: <EventOutlinedIcon style={{ fontSize: '22px' }} /> },
+    { label: "Achievements", path: "/achievements", icon: <EmojiEventsOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Join Us", path: "/recruitment", icon: <PersonAddOutlinedIcon style={{ fontSize: '22px' }} /> },
   ];
 

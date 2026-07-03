@@ -212,11 +212,11 @@ export default function Gallery3D() {
     const centerEl = document.createElement("div");
     centerEl.className = "flex flex-col items-center justify-center pointer-events-none select-none text-center px-4 w-[280px] sm:w-[500px] md:w-[800px]";
     centerEl.innerHTML = `
-      <h2 class="text-3xl sm:text-5xl md:text-[5.5rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400 filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
+      <h2 class="text-3xl sm:text-5xl md:text-[5.5rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
         KEY MOMENTS
       </h2>
       <div class="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-[#7A1E2C] to-transparent my-2.5 md:my-4"></div>
-      <p class="text-[9px] md:text-xs text-rose-500 dark:text-[#7A1E2C] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
+      <p class="text-[9px] md:text-xs text-rose-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
         SQAC Community
       </p>
     `;

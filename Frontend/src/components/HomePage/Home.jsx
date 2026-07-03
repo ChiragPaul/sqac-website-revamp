@@ -46,7 +46,7 @@ export default function LandingHero() {
               bg-clip-text text-transparent
               bg-gradient-to-tr
               from-[#951D13] via-[#f34a82] to-[#F0A01F]
-              dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400
+              dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39]
             "
           >
             SQAC
@@ -109,7 +109,7 @@ export default function LandingHero() {
               bg-clip-text text-transparent
               bg-gradient-to-tr
               from-[#951D13] via-[#f34a82] to-[#F0A01F]
-              dark:from-[#7A1E2C] dark:via-[#9C211E] dark:to-orange-400
+              dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39]
             "
           >
             Software Quality<br />Assurance Community
