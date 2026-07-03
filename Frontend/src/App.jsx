@@ -24,7 +24,7 @@ import "./App.css";
 
 const AppContent = () => {
   const location = useLocation();
-  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements";
+  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements" && location.pathname !== "/events";
 
   return (
     <>
