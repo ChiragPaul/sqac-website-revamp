@@ -199,7 +199,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           exit={{ x: 60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           onClick={() => setIsExpanded(true)}
-          className={`fixed xl:absolute right-0 top-[290px] sm:top-[250px] xl:top-auto z-[150] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
+          className={`fixed xl:absolute right-0 top-[16px] sm:top-[250px] xl:top-auto z-[150] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
           style={{
             background: `linear-gradient(135deg, ${activeColor}e0, ${activeColor}a0)`,
             boxShadow: `0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)`

@@ -14,8 +14,8 @@ import gsap from "gsap";
 const navbarStyles = `
 .sidebar-nav {
   position: fixed;
-  top: 1.25rem; 
-  left: 1.25rem;
+  top: 0.75rem; 
+  left: 0.75rem;
   z-index: 1000;
   display: flex;
   flex-direction: column;
