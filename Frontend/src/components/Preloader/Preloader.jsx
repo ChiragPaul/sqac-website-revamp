@@ -99,8 +99,8 @@ const Preloader = ({ onComplete }) => {
             const currentCenterX = rect.left + rect.width / 2;
             const currentCenterY = rect.top + rect.height / 2;
             
-            const targetCenterX = 52; // Navbar logo center is at 20px (1.25rem) + 32px (half of 64px container)
-            const targetCenterY = 52;
+            const targetCenterX = 44; // Navbar logo center is at 12px (0.75rem) + 32px (half of 64px container)
+            const targetCenterY = 44;
             
             const moveX = targetCenterX - currentCenterX;
             const moveY = targetCenterY - currentCenterY;
@@ -150,6 +150,9 @@ const Preloader = ({ onComplete }) => {
         <div id="preloader-fade-wrapper" style={{ width: '100%', height: '100%', backgroundColor: '#000' }}>
           <canvas ref={canvasRef} id="preloader-canvas" />
         </div>
+        
+        {/* Dark patch stays behind to cover the Gemini logo */}
+        <div className="dark-patch" id="dark-patch"></div>
         
         {/* Overlay to hide the Gemini logo and fly to navbar */}
         <div className="watermark-overlay" id="watermark-logo">

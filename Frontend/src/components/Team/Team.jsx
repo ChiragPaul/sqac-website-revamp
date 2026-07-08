@@ -400,8 +400,8 @@ export default function Team({ darkMode: propDarkMode }) {
         cardW = 170;
         cardH = 255;
       } else {
-        cardW = 180;
-        cardH = 270;
+        cardW = 210;
+        cardH = 315;
       }
 
       setCardWidth(cardW);
@@ -439,7 +439,8 @@ export default function Team({ darkMode: propDarkMode }) {
       const activeCardH = cardH;
       const targetBottom = carouselH - bottomMargin;
       // Push cards down slightly on phone, but pull them higher on desktop/laptop
-      const translateYVal = targetBottom - (activeCardH / 2) - center + (width < 768 ? 30 : -50);
+      // Adjusting to push them down on desktop to avoid overlap with the wheel
+      const translateYVal = targetBottom - (activeCardH / 2) - center + (width < 768 ? 50 : 30);
       setTranslateYOffset(translateYVal);
     };
     handleResize();
@@ -584,10 +585,10 @@ export default function Team({ darkMode: propDarkMode }) {
   }, [angleStep]);
 
   return (
-    <section ref={sectionRef} id="team" className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-between pt-24 sm:pt-28 xl:pt-20 pb-0 transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}>
+    <section ref={sectionRef} id="team" className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-between pt-16 sm:pt-28 xl:pt-20 pb-0 transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}>
 
       {/* Circular dial menu — anchored to section top-right, never overlaps cards */}
-      <div className="absolute -right-[110px] sm:-right-[120px] md:-right-[130px] xl:right-8 top-[290px] sm:top-[180px] xl:top-[72px] z-[30] w-auto">
+      <div className="absolute -right-[110px] sm:-right-[120px] md:-right-[130px] xl:right-8 top-[16px] sm:top-[180px] xl:top-[72px] z-[30] w-auto">
         <CircularMenu
           activeFilter={filter}
           activeSubFilter={subFilter}
