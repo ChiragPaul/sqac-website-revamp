@@ -267,6 +267,7 @@ export default function Team({ darkMode: propDarkMode }) {
   const [translateYOffset, setTranslateYOffset] = useState(0);
   const [carouselHeight, setCarouselHeight] = useState(530);
   const [isPhone, setIsPhone] = useState(false);
+  const [scaleFactor, setScaleFactor] = useState(1);
   const sectionRef = useRef(null);
   const isScrollingRef = useRef(false);
   const isDragging = useRef(false);
@@ -379,69 +380,44 @@ export default function Team({ darkMode: propDarkMode }) {
     const handleResize = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      let cardW = 180;
-      let cardH = 270;
+      const isMobileDevice = width < 768;
+      setIsPhone(isMobileDevice);
 
-      if (width >= 1280) {
-        cardW = 240;
-        cardH = 360;
-        if (height < 780) {
-          cardW = 220;
-          cardH = 330;
-        }
-      } else if (width >= 1024) {
-        cardW = 200;
-        cardH = 300;
-        if (height < 700) {
-          cardW = 180;
-          cardH = 270;
-        }
-      } else if (width >= 768) {
-        cardW = 170;
-        cardH = 255;
+      if (isMobileDevice) {
+        setCardWidth(210);
+        setCardHeight(315);
+        setRadiusX(150);
+        setRadiusZ(width * 0.25);
+        setCarouselHeight(height < 600 ? 300 : 360);
+        
+        const center = (height < 600 ? 300 : 360) / 2;
+        const translateYVal = (height < 600 ? 300 : 360) - 60 - (315 / 2) - center + 50;
+        setTranslateYOffset(translateYVal);
+        setScaleFactor(1);
       } else {
-        cardW = 210;
-        cardH = 315;
+        const calculatedScale = Math.max(0.65, Math.min(1.2, Math.min(width / 1920, height / 1080)));
+        setScaleFactor(calculatedScale);
+
+        const cardW = Math.round(240 * calculatedScale);
+        const cardH = Math.round(360 * calculatedScale);
+        setCardWidth(cardW);
+        setCardHeight(cardH);
+
+        const rx = Math.round(540 * calculatedScale);
+        const rz = Math.round(330 * calculatedScale);
+        setRadiusX(rx);
+        setRadiusZ(rz);
+
+        const carouselH = Math.round(530 * calculatedScale);
+        setCarouselHeight(carouselH);
+
+        const bottomMargin = 30;
+        const center = carouselH / 2;
+        const activeCardH = cardH;
+        const targetBottom = carouselH - bottomMargin;
+        const translateYVal = targetBottom - (activeCardH / 2) - center + 30;
+        setTranslateYOffset(translateYVal);
       }
-
-      setCardWidth(cardW);
-      setCardHeight(cardH);
-      setIsPhone(width < 768);
-
-      // Horizontal radius takes cards right to the edge with a 16px safe margin, scaled for more overlap
-      const rx = Math.max(150, (width / 2 - cardW / 2 - 16) * 0.78);
-      // Depth radius is capped at 360px for desktop to keep perspective clean
-      const rz = Math.min(360, width * 0.25);
-
-      setRadiusX(rx);
-      setRadiusZ(rz);
-
-      let carouselH = 530;
-      if (width < 640) {
-        carouselH = height < 600 ? 300 : 360;
-      } else if (width < 768) {
-        carouselH = 460;
-      } else {
-        if (height < 720) {
-          carouselH = 400;
-        } else if (height < 800) {
-          carouselH = 450;
-        } else if (height < 850) {
-          carouselH = 480;
-        } else {
-          carouselH = 530;
-        }
-      }
-      setCarouselHeight(carouselH);
-
-      const bottomMargin = width < 768 ? 60 : 30;
-      const center = carouselH / 2;
-      const activeCardH = cardH;
-      const targetBottom = carouselH - bottomMargin;
-      // Push cards down slightly on phone, but pull them higher on desktop/laptop
-      // Adjusting to push them down on desktop to avoid overlap with the wheel
-      const translateYVal = targetBottom - (activeCardH / 2) - center + (width < 768 ? 50 : 30);
-      setTranslateYOffset(translateYVal);
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -585,10 +561,17 @@ export default function Team({ darkMode: propDarkMode }) {
   }, [angleStep]);
 
   return (
-    <section ref={sectionRef} id="team" className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-between pt-16 sm:pt-28 xl:pt-20 pb-0 transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}>
+    <section 
+      ref={sectionRef} 
+      id="team" 
+      className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-end xl:justify-between pt-24 sm:pt-28 xl:pt-20 pb-6 md:pb-0 md:pl-[80px] transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}
+      style={{
+        '--scale-factor': scaleFactor
+      }}
+    >
 
       {/* Circular dial menu — anchored to section top-right, never overlaps cards */}
-      <div className="absolute -right-[110px] sm:-right-[120px] md:-right-[130px] xl:right-8 top-[16px] sm:top-[180px] xl:top-[72px] z-[30] w-auto">
+      <div className="circular-menu-wrapper z-[200]">
         <CircularMenu
           activeFilter={filter}
           activeSubFilter={subFilter}
@@ -601,43 +584,41 @@ export default function Team({ darkMode: propDarkMode }) {
       </div>
 
       {/* Top Header & Filters Section - Constrained Width */}
-      <div className="max-w-[1400px] mx-auto px-6 relative z-20 w-full flex flex-col justify-start">
+      <div className="max-w-[1400px] mx-auto px-6 relative z-20 w-full flex flex-col justify-start" style={{ paddingRight: 'clamp(1.5rem, 22vw, 22rem)' }}>
         {/* Header and Filters aligned top */}
         <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-3 gap-2 xl:gap-4">
           <div className="max-w-xl">
-            <h2 className={`text-sm uppercase tracking-[0.2em] font-extrabold mb-3 ${darkMode ? 'text-sqac-primary' : 'text-[#FF3B7C]'}`}>
+            <h2 className={`team-heading-sub text-sm uppercase tracking-[0.2em] font-extrabold mb-3 ${darkMode ? 'text-sqac-primary' : 'text-[#FF3B7C]'}`}>
               THE PEOPLE BEHIND SQAC
             </h2>
-            <h3 className={`text-4xl sm:text-6xl font-black tracking-tight leading-tight ${darkMode ? 'text-white' : 'text-[#1C1C1E]'}`}>
+            <h3 className={`team-heading-main text-4xl sm:text-6xl font-black tracking-tight leading-tight ${darkMode ? 'text-white' : 'text-[#1C1C1E]'}`}>
               Meet The Core Innovators
             </h3>
 
           </div>
         </div>
 
-        {/* Showing Text and Navigation */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-4 sm:gap-6">
-            <span className={`text-[11px] font-bold uppercase tracking-widest opacity-60 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Showing member {totalMembers > 0 ? (((activeIndex % totalMembers) + totalMembers) % totalMembers) + 1 : 0} of {totalMembers}
-            </span>
-
-
-          </div>
+        {/* Showing Text and Navigation — arrows stay LEFT, away from the circular menu on the right */}
+        <div className="flex items-center gap-3 sm:gap-5 mb-3">
+          <span className={`team-showing-text text-[11px] font-bold uppercase tracking-widest opacity-60 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+            Showing member {totalMembers > 0 ? (((activeIndex % totalMembers) + totalMembers) % totalMembers) + 1 : 0} of {totalMembers}
+          </span>
 
           {totalMembers > 1 && (
-            <div className="flex items-center gap-3">
+            <div className="team-nav-buttons flex items-center gap-2">
               <button
                 onClick={handlePrev}
-                className={`p-2.5 rounded-full shadow-md transition-all ${darkMode ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10' : 'bg-white/90 border border-black/5 hover:bg-white text-gray-900'}`}
+                aria-label="Previous member"
+                className={`p-2 rounded-full shadow-md transition-all ${darkMode ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10' : 'bg-white/90 border border-black/5 hover:bg-white text-gray-900'}`}
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <button
                 onClick={handleNext}
-                className={`p-2.5 rounded-full shadow-md transition-all ${darkMode ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10' : 'bg-white/90 border border-black/5 hover:bg-white text-gray-900'}`}
+                aria-label="Next member"
+                className={`p-2 rounded-full shadow-md transition-all ${darkMode ? 'bg-white/5 border border-white/10 text-white hover:bg-white/10' : 'bg-white/90 border border-black/5 hover:bg-white text-gray-900'}`}
               >
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
           )}
@@ -720,7 +701,7 @@ export default function Team({ darkMode: propDarkMode }) {
               return (
                 <motion.div
                   key={member.id}
-                  className={`absolute rounded-[32px] overflow-hidden shadow-2xl select-none
+                  className={`team-card absolute rounded-[32px] overflow-hidden shadow-2xl select-none
                     bg-gradient-to-r ${gradientClass}
                     ${i === activeDisplayIndex
                       ? 'border-2 border-white/70 shadow-[0_0_20px_rgba(255,255,255,0.45),_0_0_5px_rgba(255,255,255,0.25)]'
@@ -765,11 +746,11 @@ export default function Team({ darkMode: propDarkMode }) {
                     containerClassName="w-full h-full"
                   >
                     {/* CARD FRONT */}
-                    <div className="w-full h-full p-4 sm:p-6 md:p-8 flex flex-col justify-between relative z-10">
-                      <div className="flex flex-col gap-2.5 sm:gap-3 md:gap-4">
+                    <div className="team-card-inner w-full h-full p-4 flex flex-col justify-between relative z-10">
+                      <div className="flex flex-col gap-2.5">
                         {/* Initials Circle (Larger Profile Pic) */}
                         <div
-                          className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-bold text-white text-lg sm:text-xl md:text-2xl shadow-sm overflow-hidden"
+                          className="team-card-avatar w-14 h-14 rounded-full flex items-center justify-center font-bold text-white shadow-sm overflow-hidden"
                           style={{
                             background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)',
                             backdropFilter: 'blur(10px)',
@@ -784,14 +765,14 @@ export default function Team({ darkMode: propDarkMode }) {
                         </div>
 
                         {/* Header info (Name, Domain, Position) */}
-                        <div className="space-y-1 sm:space-y-1.5">
-                          <h4 className="font-black tracking-tight leading-tight text-[#1C1C1E] dark:text-white text-base sm:text-xl md:text-2xl whitespace-normal break-words">
+                        <div className="space-y-1">
+                          <h4 className="team-card-name font-black tracking-tight leading-tight text-[#1C1C1E] dark:text-white whitespace-normal break-words">
                             {member.name}
                           </h4>
-                          <p className="text-[10px] sm:text-xs uppercase font-extrabold tracking-widest text-[#1C1C1E]/70 dark:text-gray-300">
+                          <p className="team-card-domain uppercase font-extrabold tracking-widest text-[#1C1C1E]/70 dark:text-gray-300">
                             {getDisplayDomain(member)}
                           </p>
-                          <p className="font-semibold text-[10px] sm:text-xs md:text-sm opacity-85 text-[#1C1C1E] dark:text-gray-200">
+                          <p className="team-card-role font-semibold opacity-85 text-[#1C1C1E] dark:text-gray-200">
                             {member.role}
                           </p>
                         </div>
@@ -799,16 +780,16 @@ export default function Team({ darkMode: propDarkMode }) {
                         {/* Social Logos */}
                         <div className={`flex items-center gap-1.5 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                           {[
-                            { icon: <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.linkedin, label: 'LinkedIn' },
-                            { icon: <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.github, label: 'GitHub' },
-                            { icon: <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.portfolio, label: 'Portfolio' },
+                            { icon: <Linkedin />, url: member.linkedin, label: 'LinkedIn' },
+                            { icon: <Github />, url: member.github, label: 'GitHub' },
+                            { icon: <Globe />, url: member.portfolio, label: 'Portfolio' },
                           ].map((social, idx) => (
                             <a
                               key={idx}
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
+                              className="team-card-social-link rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
                               onClick={(e) => e.stopPropagation()}
                               aria-label={`${member.name} ${social.label}`}
                             >
@@ -819,18 +800,18 @@ export default function Team({ darkMode: propDarkMode }) {
                       </div>
 
                       {/* Bottom Area (Domain Badge / Flip Action) */}
-                      <div className="mt-auto pt-2 sm:pt-3 md:pt-4 flex items-center justify-between border-t border-white/20">
+                      <div className="team-card-footer mt-auto pt-2 flex items-center justify-between border-t border-white/20">
                         {/* Domain Badge */}
-                        <div className="flex items-center gap-1 sm:gap-1.5 text-[#1C1C1E] dark:text-white">
-                          <Users className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-80" />
-                          <span className="font-bold text-[9px] sm:text-[10px]">
+                        <div className="team-card-badge-container flex items-center gap-1 text-[#1C1C1E] dark:text-white">
+                          <Users className="opacity-80" />
+                          <span className="team-card-badge font-bold">
                             {getDisplayDomain(member)}
                           </span>
                         </div>
 
                         {/* Flip Indicator */}
                         {i === activeDisplayIndex && (
-                          <span className="text-[9px] sm:text-[10px] font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
+                          <span className="team-card-flip-hint font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
                             Click to View Bio
                           </span>
                         )}
@@ -838,29 +819,29 @@ export default function Team({ darkMode: propDarkMode }) {
                     </div>
 
                     {/* CARD BACK */}
-                    <div className="w-full h-full p-4 sm:p-6 md:p-8 flex flex-col justify-between relative z-10">
+                    <div className="team-card-inner w-full h-full p-4 flex flex-col justify-between relative z-10">
                       {/* Bio content only */}
                       <div className="flex-1 flex flex-col justify-center overflow-y-auto pr-1">
-                        <p className="text-[11px] sm:text-xs md:text-sm font-medium text-[#1C1C1E]/95 dark:text-white/95 leading-relaxed">
+                        <p className="team-card-bio font-medium text-[#1C1C1E]/95 dark:text-white/95 leading-relaxed">
                           {member.bio}
                         </p>
                       </div>
 
                       {/* Bottom Area (Socials / Flip Back) */}
-                      <div className="mt-auto pt-3 flex items-center justify-between border-t border-white/20">
+                      <div className="team-card-footer mt-auto pt-3 flex items-center justify-between border-t border-white/20">
                         {/* Social Links */}
                         <div className="flex items-center gap-1.5">
                           {[
-                            { icon: <Linkedin className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.linkedin, label: 'LinkedIn' },
-                            { icon: <Github className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.github, label: 'GitHub' },
-                            { icon: <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4" />, url: member.portfolio, label: 'Portfolio' },
+                            { icon: <Linkedin />, url: member.linkedin, label: 'LinkedIn' },
+                            { icon: <Github />, url: member.github, label: 'GitHub' },
+                            { icon: <Globe />, url: member.portfolio, label: 'Portfolio' },
                           ].map((social, idx) => (
                             <a
                               key={idx}
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
+                              className="team-card-social-link rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
                               onClick={(e) => e.stopPropagation()}
                               aria-label={`${member.name} ${social.label}`}
                             >
@@ -869,7 +850,7 @@ export default function Team({ darkMode: propDarkMode }) {
                           ))}
                         </div>
 
-                        <span className="text-[9px] sm:text-[10px] font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
+                        <span className="team-card-flip-hint font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
                           Click to Flip Back
                         </span>
                       </div>

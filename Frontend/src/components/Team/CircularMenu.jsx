@@ -34,7 +34,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
   const [dragRotation, setDragRotation] = useState(0);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1280);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -199,8 +199,9 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           exit={{ x: 60, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
           onClick={() => setIsExpanded(true)}
-          className={`fixed xl:absolute right-0 top-[16px] sm:top-[250px] xl:top-auto z-[150] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
+          className={`fixed right-0 z-[200] flex flex-col items-center justify-center gap-1.5 w-[60px] h-[160px] rounded-l-full shadow-2xl border-l border-y border-white/20 backdrop-blur-lg cursor-pointer transition-all duration-300 group pl-1.5 pr-1 py-4`}
           style={{
+            top: 'clamp(8rem, 38vh, 18rem)',
             background: `linear-gradient(135deg, ${activeColor}e0, ${activeColor}a0)`,
             boxShadow: `0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)`
           }}
@@ -226,7 +227,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
           animate={{ x: 0, opacity: 1 }}
           exit={isMobile ? { x: 150, opacity: 0 } : false}
           transition={{ type: 'spring', stiffness: 180, damping: 18 }}
-          className="relative flex items-center justify-center select-none w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] md:w-[240px] md:h-[240px] lg:w-[260px] lg:h-[260px] xl:w-[340px] xl:h-[340px] mx-auto filter drop-shadow-2xl"
+          className="circular-menu-container relative flex items-center justify-center select-none w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] md:w-[240px] md:h-[240px] lg:w-[260px] lg:h-[260px] xl:w-[340px] xl:h-[340px] mx-auto filter drop-shadow-2xl"
         >
           {/* Background glow overlay */}
           <div
@@ -423,7 +424,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
             onClick={() => { if (isMobile) setIsExpanded(false); }}
           >
             <h4
-              className="text-[11px] sm:text-xs md:text-sm lg:text-base font-black tracking-tight leading-tight transition-all duration-300 capitalize text-center uppercase"
+              className="circular-menu-center-text text-[11px] sm:text-xs md:text-sm lg:text-base font-black tracking-tight leading-tight transition-all duration-300 capitalize text-center uppercase"
               style={{
                 color: centerColor,
                 textShadow: `0 0 10px ${centerColor}44`,
