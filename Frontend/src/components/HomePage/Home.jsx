@@ -7,7 +7,7 @@ export default function LandingHero() {
       className="
         relative min-h-screen w-full flex items-center justify-center
         px-4 sm:px-8 md:px-12 lg:px-20 overflow-hidden
-        bg-transparent
+        bg-transparent pt-28 lg:pt-0
       "
     >
       {/* Blurred background circle */}
@@ -42,7 +42,7 @@ export default function LandingHero() {
             viewport={{ once: true, amount: 0.5 }}
             className="
               text-[6rem] sm:text-7xl md:text-[155px] lg:text-[100px] xl:text-[160px]
-              mt-6 font-extrabold leading-tight
+              mt-16 lg:mt-6 font-extrabold leading-tight
               bg-clip-text text-transparent
               bg-gradient-to-tr
               from-[#951D13] via-[#f34a82] to-[#F0A01F]
