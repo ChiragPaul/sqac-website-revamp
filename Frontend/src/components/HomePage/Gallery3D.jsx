@@ -102,6 +102,7 @@ export default function Gallery3D() {
       // Hover scaling is moved solely to the internal image which has no 3D transform matrices applied, ensuring zero stutter
       img.className = "w-full h-full object-cover transition-transform duration-500 group-hover:scale-110";
       img.loading = "lazy";
+      img.draggable = false;
       element.appendChild(img);
 
       // Dark gradient overlay
@@ -171,7 +172,7 @@ export default function Gallery3D() {
 
       for (let i = 0; i < total; i++) {
         const theta = (i / total) * Math.PI * 2;
-        const y = cachedWidth < 640 ? -40 : 0; // Flat circular film strip, slightly lower on mobile
+        const y = cachedWidth < 640 ? 20 : 0; // Flat circular film strip, moved up to prevent overlapping gesture hint
 
         const dummy = targets.ring[i];
         dummy.position.set(
@@ -256,7 +257,7 @@ export default function Gallery3D() {
       if (!isDragging) return;
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
       const deltaX = clientX - previousX;
-      dragRotationY += deltaX * 0.005; 
+      dragRotationY += deltaX * 0.008; 
       previousX = clientX;
     };
 
@@ -273,19 +274,21 @@ export default function Gallery3D() {
       scrollContainer.addEventListener("touchstart", handlePointerDown, { passive: true });
       scrollContainer.addEventListener("touchmove", handlePointerMoveDrag, { passive: true });
       window.addEventListener("touchend", handlePointerUp);
+      window.addEventListener("touchcancel", handlePointerUp);
     }
 
     // 8. Scroll Trigger integration
-    let isSectionActive = false;
+    let inViewport = false;
+    const observer = new IntersectionObserver((entries) => {
+      inViewport = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    if (scrollContainer) observer.observe(scrollContainer);
 
     const trigger = ScrollTrigger.create({
       trigger: scrollContainerRef.current,
       start: "top 30%", // Start early to decrease top space before text appears
       end: "bottom bottom",
       scrub: 1.8, // Slower, more fluid damping
-      onToggle: (self) => {
-        isSectionActive = self.isActive;
-      },
       onUpdate: (self) => {
         // Tween the progress state variable smoothly using GSAP
         gsap.to(scrollState, {
@@ -303,8 +306,8 @@ export default function Gallery3D() {
     const animate = () => {
       const isTweening = trigger ? Math.abs(scrollState.progress - trigger.progress) > 0.001 : false;
 
-      // Perform rendering and calculations only when the section is active or catching up progress
-      if (isSectionActive || isTweening) {
+      // Perform rendering and calculations only when the section is in view, catching up, or dragging
+      if (inViewport || isTweening || isDragging) {
         const scrollProgress = scrollState.progress;
 
         // Lock the circle format once scroll progress reaches 0.95 (fully formed)
@@ -395,7 +398,7 @@ export default function Gallery3D() {
         const sceneQuatInverse = scene.quaternion.clone().invert();
         centerObj.quaternion.copy(sceneQuatInverse);
         if (cachedWidth < 640) {
-           centerObj.position.y = 190; // Move text further up on mobile to avoid cards overlapping it
+           centerObj.position.y = 240; // Move text further up to maintain gap with cards
         } else {
            centerObj.position.y = 0;
         }
@@ -438,6 +441,8 @@ export default function Gallery3D() {
       }
       window.removeEventListener("mouseup", handlePointerUp);
       window.removeEventListener("touchend", handlePointerUp);
+      window.removeEventListener("touchcancel", handlePointerUp);
+      observer.disconnect();
       trigger.kill();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -492,8 +497,8 @@ export default function Gallery3D() {
       </div>
 
       {/* Swipe Hint for Mobile */}
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center opacity-90 md:hidden pointer-events-none z-[100] animate-pulse">
-        <div className="flex items-center gap-2 text-white bg-black/70 px-5 py-2.5 rounded-full backdrop-blur-md border border-white/20 shadow-xl">
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center justify-center opacity-90 md:hidden pointer-events-none z-[100] animate-pulse">
+        <div className="flex items-center gap-2 text-white bg-black/40 px-5 py-2.5 rounded-full backdrop-blur-xl border border-white/20 shadow-xl">
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
           </svg>

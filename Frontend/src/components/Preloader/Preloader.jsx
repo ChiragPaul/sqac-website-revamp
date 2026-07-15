@@ -13,10 +13,10 @@ const Preloader = ({ onComplete }) => {
     if (!canvas) return;
     const context = canvas.getContext('2d');
 
-    let currentScroll = 0;
-    let targetScroll = window.scrollY || 0;
     let animationFrameId;
     let isFinished = false;
+    let startTime = null;
+    const animationDuration = 2500; // 2.5 seconds total duration
 
     const resizeCanvas = () => {
       const dpr = window.devicePixelRatio || 1;
@@ -26,9 +26,6 @@ const Preloader = ({ onComplete }) => {
       canvas.style.height = `${window.innerHeight}px`;
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = 'high';
-      
-      targetScroll = window.scrollY;
-      currentScroll = targetScroll;
     };
 
     const drawFrame = (frameIndex) => {
@@ -67,79 +64,65 @@ const Preloader = ({ onComplete }) => {
       };
     }
 
-    const tick = () => {
+    const tick = (timestamp) => {
       if (isFinished) return;
       
-      currentScroll += (targetScroll - currentScroll) * 0.08;
+      if (!startTime) startTime = timestamp;
       
-      const scrollContainer = document.querySelector('.preloader-scroll-container');
+      const elapsed = timestamp - startTime;
+      let masterFraction = elapsed / animationDuration;
       
-      if (scrollContainer) {
-        let totalScrollHeight = scrollContainer.offsetHeight - window.innerHeight;
-        if (totalScrollHeight <= 0) totalScrollHeight = 1;
+      if (masterFraction >= 1) {
+        // Trigger the fade out when reaching the end
+        isFinished = true;
+        masterFraction = 1;
+        drawFrame(frameCount);
         
-        let masterFraction = currentScroll / totalScrollHeight;
+        const fadeWrapper = document.getElementById('preloader-fade-wrapper');
+        if (fadeWrapper) {
+          fadeWrapper.style.transition = 'opacity 1s ease-out';
+          fadeWrapper.style.opacity = '0';
+        }
         
-        if (masterFraction >= 0.92) {
-          // Trigger the fade out when reaching the end
-          isFinished = true;
-          masterFraction = 1;
-          drawFrame(frameCount);
+        const watermark = document.getElementById('watermark-logo');
+        if (watermark) {
+          const rect = watermark.getBoundingClientRect();
           
-          const fadeWrapper = document.getElementById('preloader-fade-wrapper');
-          if (fadeWrapper) {
-            fadeWrapper.style.transition = 'opacity 1s ease-out';
-            fadeWrapper.style.opacity = '0';
-          }
+          const currentCenterX = rect.left + rect.width / 2;
+          const currentCenterY = rect.top + rect.height / 2;
           
-          const watermark = document.getElementById('watermark-logo');
-          if (watermark) {
-            const rect = watermark.getBoundingClientRect();
-            
-            const currentCenterX = rect.left + rect.width / 2;
-            const currentCenterY = rect.top + rect.height / 2;
-            
-            const targetCenterX = 44; // Navbar logo center is at 12px (0.75rem) + 32px (half of 64px container)
-            const targetCenterY = 44;
-            
-            const moveX = targetCenterX - currentCenterX;
-            const moveY = targetCenterY - currentCenterY;
-            const scale = 32 / (rect.width * 0.8); // target width is 32px, current img width is 80% of container
-            
-            watermark.style.transition = 'transform 1s cubic-bezier(0.25, 1, 0.5, 1), background-color 1s ease, box-shadow 1s ease';
-            watermark.style.backgroundColor = 'transparent';
-            watermark.style.boxShadow = 'none';
-            watermark.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
-          }
-
-          setTimeout(() => {
-            if (onComplete) onComplete();
-          }, 1000); // Wait 1 second for the fade to complete
-          return;
+          const targetCenterX = 44; // Navbar logo center is at 12px (0.75rem) + 32px (half of 64px container)
+          const targetCenterY = 44;
+          
+          const moveX = targetCenterX - currentCenterX;
+          const moveY = targetCenterY - currentCenterY;
+          const scale = 32 / (rect.width * 0.8); // target width is 32px, current img width is 80% of container
+          
+          watermark.style.transition = 'transform 1s cubic-bezier(0.25, 1, 0.5, 1), background-color 1s ease, box-shadow 1s ease';
+          watermark.style.backgroundColor = 'transparent';
+          watermark.style.boxShadow = 'none';
+          watermark.style.transform = `translate(${moveX}px, ${moveY}px) scale(${scale})`;
         }
 
-        if (masterFraction < 0) masterFraction = 0;
-        
-        const frameIndex = Math.floor(masterFraction * (frameCount - 1));
-        drawFrame(frameIndex + 1);
+        setTimeout(() => {
+          if (onComplete) onComplete();
+        }, 1000); // Wait 1 second for the fade to complete
+        return;
       }
+
+      const frameIndex = Math.floor(masterFraction * (frameCount - 1));
+      drawFrame(frameIndex + 1);
       
       animationFrameId = requestAnimationFrame(tick);
     };
 
-    const handleScroll = () => {
-      targetScroll = window.scrollY;
-    };
-
     window.addEventListener('resize', resizeCanvas);
-    window.addEventListener('scroll', handleScroll);
     
     resizeCanvas();
-    tick();
+    animationFrameId = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('scroll', handleScroll);
       cancelAnimationFrame(animationFrameId);
     };
   }, [onComplete]);

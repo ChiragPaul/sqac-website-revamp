@@ -1,13 +1,15 @@
 .preloader-scroll-container {
-  position: relative;
-  height: 800vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
   background: #000;
   width: 100%;
   z-index: 9998;
 }
 
 .preloader-sticky-viewport {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -28,10 +30,10 @@
 
 .dark-patch {
   position: absolute;
-  bottom: 9.5%;
-  right: 6%;
-  width: 90px;
-  height: 90px;
+  bottom: 6.5%;
+  right: 5%;
+  width: 110px;
+  height: 110px;
   background-color: #000;
   border-radius: 50%;
   z-index: 99;
@@ -41,10 +43,10 @@
 
 .watermark-overlay {
   position: absolute;
-  bottom: 9.5%;
-  right: 6%;
-  width: 90px;
-  height: 90px;
+  bottom: 6.5%;
+  right: 5%;
+  width: 110px;
+  height: 110px;
   background-color: #000;
   border-radius: 50%;
   display: flex;
