@@ -226,7 +226,7 @@ export default function HistoryHome() {
         </div>
 
         {/* Right Column: Hover Preview Panel */}
-        <div className="w-full lg:w-[40%] h-[380px] flex items-center z-10 mt-12 lg:mt-0">
+        <div className="hidden lg:flex w-full lg:w-[40%] min-h-[380px] items-center z-10 lg:mt-0">
           <AnimatePresence mode="wait">
             {hoveredBookIndex !== null ? (
               <motion.div
@@ -235,13 +235,13 @@ export default function HistoryHome() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="w-full h-full relative overflow-hidden bg-[#f4ead5]/90 dark:bg-gradient-to-br dark:from-black/90 dark:to-[#7A1E2C]/80 backdrop-blur-xl p-8 lg:p-10 rounded-2xl shadow-2xl border border-[#8b5a2b]/30 flex flex-col justify-center"
+                className="w-full min-h-[380px] relative overflow-hidden bg-[#f4ead5]/90 dark:bg-gradient-to-br dark:from-black/90 dark:to-[#7A1E2C]/80 backdrop-blur-xl p-6 lg:p-8 rounded-2xl shadow-2xl border border-[#8b5a2b]/30 flex flex-col justify-center"
               >
                 {/* Decorative vintage background for preview */}
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] pointer-events-none mix-blend-overlay"></div>
                 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-4 mb-3">
                     <div className="p-3 bg-[#4A1E5C]/10 dark:bg-[#7A1E2C]/20 rounded-xl text-[#4A1E5C] dark:text-[#F5E1C2]">
                       {historyMilestones[hoveredBookIndex].icon}
                     </div>
@@ -250,15 +250,15 @@ export default function HistoryHome() {
                     </span>
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3B0A4B] dark:text-[#F5E1C2] mb-6 drop-shadow-sm leading-tight">
+                  <h3 className="text-3xl md:text-4xl font-serif font-bold text-[#3B0A4B] dark:text-[#F5E1C2] mb-3 drop-shadow-sm leading-tight">
                     {historyMilestones[hoveredBookIndex].title}
                   </h3>
                   
-                  <p className="text-[#5c4a3d] dark:text-[#F5E1C2]/80 text-lg leading-relaxed font-medium flex-grow text-justify">
+                  <p className="text-[#5c4a3d] dark:text-[#F5E1C2]/80 text-base md:text-lg leading-relaxed font-medium flex-grow text-justify">
                     {historyMilestones[hoveredBookIndex].desc}
                   </p>
                   
-                  <div className="mt-8 flex items-center text-sm font-bold text-[#8A4E9E] dark:text-[#F5E1C2] uppercase tracking-widest animate-pulse">
+                  <div className="mt-4 md:mt-6 flex items-center text-sm font-bold text-[#8A4E9E] dark:text-[#F5E1C2] uppercase tracking-widest animate-pulse">
                     <Compass size={18} className="mr-2" /> Click volume to dive deeper
                   </div>
                 </div>
@@ -269,7 +269,7 @@ export default function HistoryHome() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="w-full h-full flex flex-col items-center justify-center text-center opacity-60 border-2 border-dashed border-[#8b5a2b]/30 rounded-2xl p-8 dark:bg-gradient-to-br dark:from-black/90 dark:to-[#7A1E2C]/80"
+                className="w-full min-h-[380px] flex flex-col items-center justify-center text-center opacity-60 border-2 border-dashed border-[#8b5a2b]/30 rounded-2xl p-6 lg:p-8 dark:bg-gradient-to-br dark:from-black/90 dark:to-[#7A1E2C]/80"
               >
                 <div className="w-20 h-20 bg-[#8b5a2b]/10 rounded-full flex items-center justify-center mb-6">
                   <Star size={36} className="text-[#8b5a2b] dark:text-[#F5E1C2]" />

@@ -1,0 +1,20 @@
+@layer base {
+  body {
+    @apply font-head text-gray-800 dark:text-[#F5E1C2] bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 dark:bg-black dark:bg-none transition-colors duration-500;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-head font-bold;
+  }
+}
+
+@layer components {
+  /* Reusable global classes based on homepage typography */
+  .sqac-heading-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-tr from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39];
+  }
+
+  .sqac-subtitle {
+    @apply text-[#bd4110] dark:text-[#F5E1C2];
+  }
+}

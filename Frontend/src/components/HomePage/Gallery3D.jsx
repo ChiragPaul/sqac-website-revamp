@@ -61,8 +61,8 @@ export default function Gallery3D() {
     const scene = new THREE.Scene();
 
     const getCameraZ = () => {
-      if (cachedWidth < 640) return 2100;
-      if (cachedWidth < 1024) return 1750;
+      if (cachedWidth < 640) return 950;
+      if (cachedWidth < 1024) return 1300;
       return 1450;
     };
 
@@ -93,8 +93,9 @@ export default function Gallery3D() {
       // - Explicitly added absolute, top-0, left-0 to avoid document reflow refitting.
       // - Replaced transition-all with transition-[border-color,box-shadow] so that changing 3D matrix inline transforms never triggers CSS layout transition fights.
       // - Removed scale-105 on card hover to avoid fighting matrix3d scales.
-      element.className = "gallery-item absolute top-0 left-0 group w-[95px] h-[140px] sm:w-[130px] sm:h-[190px] md:w-[160px] md:h-[235px] rounded-2xl overflow-hidden cursor-pointer border border-white/10 dark:border-white/5 bg-zinc-950/85 shadow-2xl transition-[border-color,box-shadow] duration-300 hover:border-purple-500/50 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] dark:hover:border-[#7A1E2C]/50 dark:hover:shadow-[0_0_35px_rgba(122,30,44,0.45)] pointer-events-auto select-none backdrop-blur-sm";
+      element.className = "gallery-item absolute top-0 left-0 group w-[90px] h-[130px] sm:w-[140px] sm:h-[200px] md:w-[160px] md:h-[235px] rounded-2xl overflow-hidden cursor-pointer border border-white/10 dark:border-white/5 bg-zinc-950/85 shadow-xl md:shadow-2xl transition-[border-color,box-shadow] duration-300 hover:border-purple-500/50 hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] dark:hover:border-[#7A1E2C]/50 dark:hover:shadow-[0_0_35px_rgba(122,30,44,0.45)] pointer-events-auto select-none sm:backdrop-blur-sm";
       element.style.willChange = "transform";
+      element.style.touchAction = "pan-y";
 
       const img = document.createElement("img");
       img.src = item.img;
@@ -151,10 +152,10 @@ export default function Gallery3D() {
       let gap = 16;
       const w = cachedWidth;
       if (w < 640) {
-        cardWidth = 95;
-        gap = 8;
+        cardWidth = 90;
+        gap = 25; // Space between cards to prevent overlapping
       } else if (w < 1024) {
-        cardWidth = 130;
+        cardWidth = 140;
         gap = 12;
       }
       ringRadius = (total * (cardWidth + gap)) / (2 * Math.PI);
@@ -170,7 +171,7 @@ export default function Gallery3D() {
 
       for (let i = 0; i < total; i++) {
         const theta = (i / total) * Math.PI * 2;
-        const y = 0; // Flat circular film strip
+        const y = cachedWidth < 640 ? -40 : 0; // Flat circular film strip, slightly lower on mobile
 
         const dummy = targets.ring[i];
         dummy.position.set(
@@ -198,9 +199,14 @@ export default function Gallery3D() {
           );
 
           // Force initial position on mount/resize if not scrolling or not formed
-          if (!hasFormedCircle && scrollState.progress === 0) {
-            obj.position.copy(obj.userData.initialPos);
-            obj.rotation.copy(obj.userData.initialRot);
+          if (scrollState.progress === 0) {
+            if (cachedWidth < 640) {
+              obj.position.copy(dummy.position);
+              obj.rotation.copy(dummy.rotation);
+            } else if (!hasFormedCircle) {
+              obj.position.copy(obj.userData.initialPos);
+              obj.rotation.copy(obj.userData.initialRot);
+            }
           }
         }
       }
@@ -235,6 +241,39 @@ export default function Gallery3D() {
       mouseY = (e.clientY - cachedHeight / 2) * 0.35;
     };
     window.addEventListener("mousemove", handleMouseMove);
+
+    // 7.5 Drag to Navigate Handler
+    let dragRotationY = 0;
+    let isDragging = false;
+    let previousX = 0;
+
+    const handlePointerDown = (e) => {
+      isDragging = true;
+      previousX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    };
+
+    const handlePointerMoveDrag = (e) => {
+      if (!isDragging) return;
+      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      const deltaX = clientX - previousX;
+      dragRotationY += deltaX * 0.005; 
+      previousX = clientX;
+    };
+
+    const handlePointerUp = () => {
+      isDragging = false;
+    };
+
+    const scrollContainer = scrollContainerRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener("mousedown", handlePointerDown);
+      scrollContainer.addEventListener("mousemove", handlePointerMoveDrag);
+      window.addEventListener("mouseup", handlePointerUp);
+      
+      scrollContainer.addEventListener("touchstart", handlePointerDown, { passive: true });
+      scrollContainer.addEventListener("touchmove", handlePointerMoveDrag, { passive: true });
+      window.addEventListener("touchend", handlePointerUp);
+    }
 
     // 8. Scroll Trigger integration
     let isSectionActive = false;
@@ -275,12 +314,20 @@ export default function Gallery3D() {
 
         // Billboard text fade-in over 0.0 -> 0.2 scroll progress
         let textOpacity;
-        if (hasFormedCircle) {
+        if (hasFormedCircle || cachedWidth < 640) {
           textOpacity = 1.0;
         } else {
           textOpacity = Math.max(0, Math.min(1.0, scrollProgress / 0.2));
         }
         centerEl.style.opacity = textOpacity.toString();
+
+        // Subtle ambient Y rotation + scroll-driven Y rotation
+        if (cachedWidth >= 640) {
+          autoRotationY += 0.002; // Slightly faster ambient to show off the auto movement
+        }
+        const scrollRotationY = cachedWidth < 640 ? 0 : scrollProgress * Math.PI * 0.75; 
+        const currentTotalRotation = autoRotationY + scrollRotationY + dragRotationY;
+        scene.rotation.y = currentTotalRotation;
 
         // Staggered cards transition from falling coordinates to circular strip targets
         objects.forEach((obj, idx) => {
@@ -291,7 +338,7 @@ export default function Gallery3D() {
           const duration_p = 0.3; // Slower individual card flight duration
 
           let t;
-          if (hasFormedCircle) {
+          if (hasFormedCircle || cachedWidth < 640) {
             t = 1.0;
           } else {
             t = Math.max(0, Math.min(1.0, (scrollProgress - start_p) / duration_p));
@@ -307,25 +354,51 @@ export default function Gallery3D() {
           const targetY = THREE.MathUtils.lerp(startPos.y, ringTarget.position.y, t_ease);
           const targetZ = THREE.MathUtils.lerp(startPos.z, ringTarget.position.z, t_ease);
 
-          const targetRotX = THREE.MathUtils.lerp(startRot.x, ringTarget.rotation.x, t_ease);
-          const targetRotY = THREE.MathUtils.lerp(startRot.y, ringTarget.rotation.y, t_ease);
-          const targetRotZ = THREE.MathUtils.lerp(startRot.z, ringTarget.rotation.z, t_ease);
+          let targetRotX, targetRotY, targetRotZ;
+
+          // Standard Ring orientation for both desktop and mobile
+          targetRotX = THREE.MathUtils.lerp(startRot.x, ringTarget.rotation.x, t_ease);
+          targetRotY = THREE.MathUtils.lerp(startRot.y, ringTarget.rotation.y, t_ease);
+          targetRotZ = THREE.MathUtils.lerp(startRot.z, ringTarget.rotation.z, t_ease);
+
+          if (cachedWidth < 640) {
+            // Mobile: fade out cards that aren't near the front
+            const theta = (idx / total) * Math.PI * 2;
+            const currentAngle = theta + currentTotalRotation;
+            const cosVal = Math.cos(currentAngle); // 1 is center front, -1 is back
+            
+            // Dynamic opacity to only show front and immediate neighbors
+            let opacity = 0;
+            if (cosVal > 0.75) {
+               opacity = 1;
+            } else if (cosVal > 0.25) {
+               opacity = (cosVal - 0.25) / 0.50; 
+            }
+            obj.element.style.opacity = opacity.toString();
+            obj.element.style.pointerEvents = opacity > 0.6 ? 'auto' : 'none';
+            obj.scale.set(1, 1, 1);
+          } else {
+            // Desktop: Normal Ring opacity
+            obj.element.style.opacity = "1";
+            obj.element.style.pointerEvents = 'auto';
+            obj.scale.set(1, 1, 1);
+          }
 
           obj.position.set(targetX, targetY, targetZ);
           obj.rotation.set(targetRotX, targetRotY, targetRotZ);
         });
 
-        // Subtle ambient Y rotation + scroll-driven Y rotation
-        autoRotationY += 0.0012;
-        const scrollRotationY = scrollProgress * Math.PI * 1.5; // Revolve slowly
-        scene.rotation.y = autoRotationY + scrollRotationY;
-
         // Slight forward tilt on X for circular strip 3D depth perspective
-        scene.rotation.x = 0.12;
+        scene.rotation.x = cachedWidth < 640 ? 0 : 0.12;
 
         // Billboard counter-rotation (using scene quaternion inverse) for center text
         const sceneQuatInverse = scene.quaternion.clone().invert();
         centerObj.quaternion.copy(sceneQuatInverse);
+        if (cachedWidth < 640) {
+           centerObj.position.y = 190; // Move text further up on mobile to avoid cards overlapping it
+        } else {
+           centerObj.position.y = 0;
+        }
 
         // Camera lag matching mouse position
         camera.position.x += (mouseX - camera.position.x) * 0.045;
@@ -357,6 +430,14 @@ export default function Gallery3D() {
       gsap.ticker.remove(animate);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
+      if (scrollContainer) {
+        scrollContainer.removeEventListener("mousedown", handlePointerDown);
+        scrollContainer.removeEventListener("mousemove", handlePointerMoveDrag);
+        scrollContainer.removeEventListener("touchstart", handlePointerDown);
+        scrollContainer.removeEventListener("touchmove", handlePointerMoveDrag);
+      }
+      window.removeEventListener("mouseup", handlePointerUp);
+      window.removeEventListener("touchend", handlePointerUp);
       trigger.kill();
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
@@ -369,7 +450,8 @@ export default function Gallery3D() {
   return (
     <div
       ref={scrollContainerRef}
-      className="relative h-[110vh] w-full -mt-[35vh] md:-mt-[30vh] bg-transparent transition-colors duration-500 overflow-hidden"
+      className="relative h-[85vh] md:h-[110vh] w-full mt-6 md:-mt-[30vh] bg-transparent transition-colors duration-500 overflow-hidden cursor-grab active:cursor-grabbing"
+      style={{ touchAction: 'pan-y' }}
     >
       {/* Sticky viewport wrapper */}
       <div className="gallery-sticky-wrapper sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
@@ -407,6 +489,16 @@ export default function Gallery3D() {
             animation: fadeOverlay 0.28s ease-out forwards;
           }
         `}</style>
+      </div>
+
+      {/* Swipe Hint for Mobile */}
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center justify-center opacity-90 md:hidden pointer-events-none z-[100] animate-pulse">
+        <div className="flex items-center gap-2 text-white bg-black/70 px-5 py-2.5 rounded-full backdrop-blur-md border border-white/20 shadow-xl">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          <span className="text-[10px] font-bold tracking-widest uppercase">Swipe to Navigate</span>
+        </div>
       </div>
 
       {/* Pop details view with centering and alternating thought bubbles */}

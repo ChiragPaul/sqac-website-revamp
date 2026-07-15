@@ -9,11 +9,11 @@ import CircularMenu from './CircularMenu';
 import "./teamtheme.css";
 
 const DARK_CARD_GRADIENTS = [
-  'from-[#FF7AA2] to-[#FF959D]', // Mid-pastel pink to Dusty coral
-  'from-[#FF959D] to-[#FFB494]', // Dusty coral to Warm peach
-  'from-[#FFB494] to-[#FFC982]', // Warm peach to Golden ochre
-  'from-[#FFC982] to-[#FFD680]', // Golden ochre to Soft yellow
-  'from-[#FFD680] to-[#FFAE6E]'  // Soft yellow to Soft warm orange
+  'from-black to-[#7A1E2C]', 
+  'from-black to-[#7A1E2C]',
+  'from-black to-[#7A1E2C]',
+  'from-black to-[#7A1E2C]',
+  'from-black to-[#7A1E2C]'
 ];
 
 const LIGHT_CARD_GRADIENTS = [
@@ -588,10 +588,10 @@ export default function Team({ darkMode: propDarkMode }) {
         {/* Header and Filters aligned top */}
         <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-3 gap-2 xl:gap-4">
           <div className="max-w-xl">
-            <h2 className={`team-heading-sub text-sm uppercase tracking-[0.2em] font-extrabold mb-3 ${darkMode ? 'text-sqac-primary' : 'text-[#FF3B7C]'}`}>
+            <h2 className="team-heading-sub text-sm uppercase tracking-[0.2em] font-extrabold mb-3 sqac-subtitle">
               THE PEOPLE BEHIND SQAC
             </h2>
-            <h3 className={`team-heading-main text-4xl sm:text-6xl font-black tracking-tight leading-tight ${darkMode ? 'text-white' : 'text-[#1C1C1E]'}`}>
+            <h3 className="team-heading-main text-4xl sm:text-6xl font-black tracking-tight leading-tight sqac-heading-gradient pb-2">
               Meet The Core Innovators
             </h3>
 
