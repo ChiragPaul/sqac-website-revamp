@@ -18,6 +18,8 @@ import imgTeam2 from "../../assets/teamImg2.png";
 import imgTechnical from "../../assets/technical.png";
 import imgCorp from "../../assets/Corp.png";
 import imgMedia from "../../assets/Media.png";
+import clubLogo from "../../assets/LogoSQAC-removebg-preview.png";
+import clubLogoDark from "../../assets/LogoSQAC.png";
 
 // Setup GSAP scroll trigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -219,13 +221,23 @@ export default function Gallery3D() {
     const centerEl = document.createElement("div");
     centerEl.className = "flex flex-col items-center justify-center pointer-events-none select-none text-center px-4 w-[280px] sm:w-[500px] md:w-[800px]";
     centerEl.innerHTML = `
-      <h2 class="text-3xl sm:text-5xl md:text-[5.5rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
-        KEY MOMENTS
-      </h2>
-      <div class="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-[#7A1E2C] to-transparent my-2.5 md:my-4"></div>
-      <p class="text-[9px] md:text-xs text-rose-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
-        SQAC Community
-      </p>
+      <!-- Mobile: Text -->
+      <div class="md:hidden flex flex-col items-center justify-center">
+        <h2 class="text-3xl sm:text-5xl font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
+          KEY MOMENTS
+        </h2>
+        <div class="h-[2px] w-20 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-[#7A1E2C] to-transparent my-2.5"></div>
+        <p class="text-[9px] sm:text-xs text-rose-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
+          SQAC Community
+        </p>
+      </div>
+      <!-- Laptop: Logo -->
+      <div class="hidden md:flex flex-col items-center justify-center filter drop-shadow-[0_0_40px_rgba(255,255,255,0.4)] dark:drop-shadow-[0_0_40px_rgba(122,30,44,0.6)]">
+        <img src="${clubLogo}" alt="SQAC Logo" class="w-[200px] md:w-[360px] object-contain opacity-95 drop-shadow-2xl dark:hidden block" />
+        <div class="w-[180px] md:w-[300px] h-[180px] md:h-[300px] rounded-full overflow-hidden flex items-center justify-center dark:flex hidden bg-black p-4 md:p-6 border border-zinc-800">
+           <img src="${clubLogoDark}" alt="SQAC Logo Dark" class="w-full h-full object-contain opacity-95" />
+        </div>
+      </div>
     `;
     centerEl.style.pointerEvents = "none";
     centerEl.style.opacity = "0"; // Starts hidden
@@ -460,11 +472,35 @@ export default function Gallery3D() {
   return (
     <div
       ref={scrollContainerRef}
-      className="relative h-[100vh] md:h-[110vh] w-full mt-6 md:-mt-[30vh] bg-transparent transition-colors duration-500 overflow-hidden cursor-grab active:cursor-grabbing"
+      className="relative h-[100vh] md:h-[110vh] w-full mt-12 md:mt-24 bg-transparent transition-colors duration-500 overflow-hidden cursor-grab active:cursor-grabbing"
       style={{ touchAction: 'pan-y' }}
     >
       {/* Sticky viewport wrapper */}
       <div className="gallery-sticky-wrapper sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
+        
+        {/* Gesture arrows for laptop view */}
+        <div className="hidden md:flex absolute top-[55%] left-4 lg:left-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
+          <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        <div className="hidden md:flex absolute top-[55%] right-4 lg:right-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
+          <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+        
+        {/* Laptop Header inside sticky wrapper */}
+        <div className="hidden md:flex flex-col items-center justify-center absolute top-[12vh] left-0 right-0 z-[100] pointer-events-none">
+           <h2 className="text-4xl lg:text-[4rem] font-black font-poppins tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] filter drop-shadow-[0_0_25px_rgba(243,74,130,0.25)] select-none">
+             KEY MOMENTS
+           </h2>
+           <div className="h-[3px] w-48 bg-gradient-to-r from-transparent via-[#f34a82] dark:via-[#7A1E2C] to-transparent my-3"></div>
+           <p className="text-sm text-rose-500 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39] font-bold tracking-[0.25em] uppercase font-poppins opacity-95">
+             SQAC Community
+           </p>
+        </div>
+
         {/* Three.js DOM container */}
         <div ref={containerRef} className="absolute inset-0 w-full h-full z-10" />
 
@@ -509,6 +545,18 @@ export default function Gallery3D() {
           </svg>
           <span className="text-[10px] font-semibold tracking-[0.2em] text-white/90 uppercase whitespace-nowrap">
             Swipe to Explore
+          </span>
+        </div>
+      </div>
+      
+      {/* Drag Hint for Desktop */}
+      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 items-center justify-center pointer-events-none z-[100]">
+        <div className="flex items-center gap-3 px-6 py-2 rounded-full border border-zinc-500/20 bg-zinc-800/10 dark:bg-white/5 backdrop-blur-md shadow-xl animate-pulse">
+          <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+          </svg>
+          <span className="text-[11px] font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase whitespace-nowrap">
+            Drag to Explore
           </span>
         </div>
       </div>
