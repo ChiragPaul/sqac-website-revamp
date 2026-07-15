@@ -398,8 +398,8 @@ export default function Team({ darkMode: propDarkMode }) {
         const calculatedScale = Math.max(0.65, Math.min(1.2, Math.min(width / 1920, height / 1080)));
         setScaleFactor(calculatedScale);
 
-        const cardW = Math.round(240 * calculatedScale);
-        const cardH = Math.round(360 * calculatedScale);
+        const cardW = Math.round(290 * calculatedScale);
+        const cardH = Math.round(435 * calculatedScale);
         setCardWidth(cardW);
         setCardHeight(cardH);
 
@@ -411,11 +411,11 @@ export default function Team({ darkMode: propDarkMode }) {
         const carouselH = Math.round(530 * calculatedScale);
         setCarouselHeight(carouselH);
 
-        const bottomMargin = 30;
+        const bottomMargin = 60;
         const center = carouselH / 2;
         const activeCardH = cardH;
         const targetBottom = carouselH - bottomMargin;
-        const translateYVal = targetBottom - (activeCardH / 2) - center + 30;
+        const translateYVal = targetBottom - (activeCardH / 2) - center;
         setTranslateYOffset(translateYVal);
       }
     };
@@ -564,7 +564,7 @@ export default function Team({ darkMode: propDarkMode }) {
     <section 
       ref={sectionRef} 
       id="team" 
-      className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-end xl:justify-between pt-24 sm:pt-28 xl:pt-20 pb-6 md:pb-0 md:pl-[80px] transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}
+      className={`relative overflow-hidden font-sans h-screen min-h-[600px] flex flex-col justify-end xl:justify-between pt-24 sm:pt-28 xl:pt-6 pb-6 md:pb-0 md:pl-[80px] transition-colors duration-500 ${darkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#f3d79e] via-[#f3d8ad] to-red-300 text-gray-900'}`}
       style={{
         '--scale-factor': scaleFactor
       }}
@@ -649,7 +649,7 @@ export default function Team({ darkMode: propDarkMode }) {
           className="w-full h-full relative flex items-center justify-center preserve-3d cursor-grab active:cursor-grabbing"
           style={{ transformStyle: 'preserve-3d' }}
           animate={{
-            transform: `translateY(${translateYOffset}px) rotateX(12deg)`
+            transform: `translateX(${isPhone ? 0 : -30}px) translateY(${translateYOffset}px) rotateX(12deg)`
           }}
           transition={isDragging.current ? { duration: 0 } : { type: "spring", stiffness: 120, damping: 20 }}
           onPan={handlePan}

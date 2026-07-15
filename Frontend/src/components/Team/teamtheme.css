@@ -397,24 +397,24 @@ body {
   }
 
   .team-heading-sub {
-    font-size: clamp(0.7rem, 0.8vw + 0.2rem, 0.875rem) !important;
+    font-size: clamp(0.6rem, 0.7vw + 0.1rem, 0.75rem) !important;
     margin-bottom: calc(0.75rem * var(--scale-factor)) !important;
   }
   
   .team-heading-main {
-    font-size: clamp(1.8rem, 3.2vw + 0.4rem, 3.75rem) !important;
+    font-size: clamp(1.5rem, 2.5vw + 0.2rem, 2.75rem) !important;
   }
 }
 
 /* ─── Desktop-only larger headings (≥ 1024px) ──────────────────────────── */
 @media (min-width: 1024px) {
   .team-heading-sub {
-    font-size: clamp(0.9rem, 1.1vw + 0.1rem, 1.25rem) !important;
+    font-size: clamp(0.75rem, 0.9vw + 0.1rem, 1rem) !important;
   }
 
   .team-heading-main {
-    /* Scales from ~3rem on small laptops up to ~6rem on 1920px screens */
-    font-size: clamp(3rem, 4.8vw + 0.5rem, 6rem) !important;
+    /* Scales from ~2rem on small laptops up to ~4.5rem on 1920px screens */
+    font-size: clamp(2.2rem, 3.5vw + 0.5rem, 4rem) !important;
   }
 
   .team-showing-text {
