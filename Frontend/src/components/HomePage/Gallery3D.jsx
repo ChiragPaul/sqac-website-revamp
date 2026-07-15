@@ -172,7 +172,7 @@ export default function Gallery3D() {
 
       for (let i = 0; i < total; i++) {
         const theta = (i / total) * Math.PI * 2;
-        const y = cachedWidth < 640 ? 20 : 0; // Flat circular film strip, moved up to prevent overlapping gesture hint
+        const y = cachedWidth < 640 ? -40 : 0; // Flat circular film strip, slightly lower on mobile
 
         const dummy = targets.ring[i];
         dummy.position.set(
@@ -364,13 +364,18 @@ export default function Gallery3D() {
           targetRotY = THREE.MathUtils.lerp(startRot.y, ringTarget.rotation.y, t_ease);
           targetRotZ = THREE.MathUtils.lerp(startRot.z, ringTarget.rotation.z, t_ease);
 
+          // Calculate Dynamic Scale for Center Highlight
+          const theta = (idx / total) * Math.PI * 2;
+          const currentAngle = theta + currentTotalRotation;
+          const cosVal = Math.cos(currentAngle); // 1 is center front, -1 is back
+          
+          const intensity = Math.pow(Math.max(0, cosVal), 14); // Sharp peak at the center
+          const baseScale = cachedWidth < 640 ? 0.85 : 0.95;
+          const peakBoost = cachedWidth < 640 ? 0.35 : 0.25; // Center card goes up to 1.2
+          const cardScale = baseScale + (intensity * peakBoost);
+
           if (cachedWidth < 640) {
             // Mobile: fade out cards that aren't near the front
-            const theta = (idx / total) * Math.PI * 2;
-            const currentAngle = theta + currentTotalRotation;
-            const cosVal = Math.cos(currentAngle); // 1 is center front, -1 is back
-            
-            // Dynamic opacity to only show front and immediate neighbors
             let opacity = 0;
             if (cosVal > 0.75) {
                opacity = 1;
@@ -379,13 +384,13 @@ export default function Gallery3D() {
             }
             obj.element.style.opacity = opacity.toString();
             obj.element.style.pointerEvents = opacity > 0.6 ? 'auto' : 'none';
-            obj.scale.set(1, 1, 1);
           } else {
             // Desktop: Normal Ring opacity
             obj.element.style.opacity = "1";
             obj.element.style.pointerEvents = 'auto';
-            obj.scale.set(1, 1, 1);
           }
+
+          obj.scale.set(cardScale, cardScale, cardScale);
 
           obj.position.set(targetX, targetY, targetZ);
           obj.rotation.set(targetRotX, targetRotY, targetRotZ);
@@ -398,7 +403,7 @@ export default function Gallery3D() {
         const sceneQuatInverse = scene.quaternion.clone().invert();
         centerObj.quaternion.copy(sceneQuatInverse);
         if (cachedWidth < 640) {
-           centerObj.position.y = 240; // Move text further up to maintain gap with cards
+           centerObj.position.y = 200; // Move text to maintain gap with cards while staying visible
         } else {
            centerObj.position.y = 0;
         }
@@ -455,7 +460,7 @@ export default function Gallery3D() {
   return (
     <div
       ref={scrollContainerRef}
-      className="relative h-[85vh] md:h-[110vh] w-full mt-6 md:-mt-[30vh] bg-transparent transition-colors duration-500 overflow-hidden cursor-grab active:cursor-grabbing"
+      className="relative h-[100vh] md:h-[110vh] w-full mt-6 md:-mt-[30vh] bg-transparent transition-colors duration-500 overflow-hidden cursor-grab active:cursor-grabbing"
       style={{ touchAction: 'pan-y' }}
     >
       {/* Sticky viewport wrapper */}
@@ -497,12 +502,14 @@ export default function Gallery3D() {
       </div>
 
       {/* Swipe Hint for Mobile */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center justify-center opacity-90 md:hidden pointer-events-none z-[100] animate-pulse">
-        <div className="flex items-center gap-2 text-white bg-black/40 px-5 py-2.5 rounded-full backdrop-blur-xl border border-white/20 shadow-xl">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center justify-center md:hidden pointer-events-none z-[100]">
+        <div className="flex items-center gap-3 px-6 py-2.5 rounded-full border border-white/15 bg-black/20 backdrop-blur-lg shadow-2xl animate-pulse">
+          <svg className="w-4 h-4 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
           </svg>
-          <span className="text-[10px] font-bold tracking-widest uppercase">Swipe to Navigate</span>
+          <span className="text-[10px] font-semibold tracking-[0.2em] text-white/90 uppercase whitespace-nowrap">
+            Swipe to Explore
+          </span>
         </div>
       </div>
 
