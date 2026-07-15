@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100..900;1,100..900&family=Protest+Riot&family=Stick+No+Bills:wght@200..800&display=swap");
 @import "tailwindcss";
+@import "./typography.css";
 
 @config "../tailwind.config.js";
 @custom-variant dark (&:where(.dark, .dark *));
