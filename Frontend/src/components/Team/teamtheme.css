@@ -296,22 +296,9 @@ body {
 
 @media (min-width: 768px) {
     .carousel-platform {
-        width: 800px;
-        height: 800px;
-    }
-}
-
-@media (min-width: 1024px) {
-    .carousel-platform {
-        width: 1000px;
-        height: 1000px;
-    }
-}
-
-@media (min-width: 1280px) {
-    .carousel-platform {
-        width: 1200px;
-        height: 1200px;
+        width: calc(1200px * var(--scale-factor)) !important;
+        height: calc(1200px * var(--scale-factor)) !important;
+        bottom: calc(-40px * var(--scale-factor)) !important;
     }
 }
 
@@ -329,4 +316,180 @@ body {
 
 .dial-bg-glow {
     animation: dial-pulse 6s infinite ease-in-out;
+}
+
+/* Default sizes for mobile */
+.team-card-social-link {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.team-card-social-link svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.team-card-badge-container svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* Proportional Responsive Scaling rules for cards, headings, and menus */
+@media (min-width: 768px) {
+  .team-card {
+    border-radius: calc(2rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-inner {
+    padding: calc(1.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-avatar {
+    width: calc(4.75rem * var(--scale-factor)) !important;
+    height: calc(4.75rem * var(--scale-factor)) !important;
+    font-size: calc(1.35rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-name {
+    font-size: calc(1.35rem * var(--scale-factor)) !important;
+    margin-bottom: calc(0.25rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-domain {
+    font-size: calc(0.65rem * var(--scale-factor)) !important;
+    margin-bottom: calc(0.2rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-role {
+    font-size: calc(0.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-social-link {
+    width: calc(1.75rem * var(--scale-factor)) !important;
+    height: calc(1.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-social-link svg {
+    width: calc(0.95rem * var(--scale-factor)) !important;
+    height: calc(0.95rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-footer {
+    padding-top: calc(0.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-badge {
+    font-size: calc(0.6rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-badge-container svg {
+    width: calc(0.75rem * var(--scale-factor)) !important;
+    height: calc(0.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-flip-hint {
+    font-size: calc(0.6rem * var(--scale-factor)) !important;
+  }
+  
+  .team-card-bio {
+    font-size: calc(0.8rem * var(--scale-factor)) !important;
+    line-height: 1.5 !important;
+  }
+
+  .team-heading-sub {
+    font-size: clamp(0.7rem, 0.8vw + 0.2rem, 0.875rem) !important;
+    margin-bottom: calc(0.75rem * var(--scale-factor)) !important;
+  }
+  
+  .team-heading-main {
+    font-size: clamp(1.8rem, 3.2vw + 0.4rem, 3.75rem) !important;
+  }
+}
+
+/* ─── Desktop-only larger headings (≥ 1024px) ──────────────────────────── */
+@media (min-width: 1024px) {
+  .team-heading-sub {
+    font-size: clamp(0.9rem, 1.1vw + 0.1rem, 1.25rem) !important;
+  }
+
+  .team-heading-main {
+    /* Scales from ~3rem on small laptops up to ~6rem on 1920px screens */
+    font-size: clamp(3rem, 4.8vw + 0.5rem, 6rem) !important;
+  }
+
+  .team-showing-text {
+    font-size: calc(11px * var(--scale-factor)) !important;
+  }
+  
+  .team-nav-buttons button {
+    padding: calc(0.625rem * var(--scale-factor)) !important;
+  }
+  
+  .team-nav-buttons svg {
+    width: calc(1.25rem * var(--scale-factor)) !important;
+    height: calc(1.25rem * var(--scale-factor)) !important;
+  }
+}
+
+/* ─── Circular Menu Positioning ─────────────────────────────────────────────
+   Mobile (< 1024px): wrapper is position:fixed so both the collapsed tab
+   AND the expanded dial are viewport-anchored at the same spot.
+   Width = half the dial diameter → dial center sits at the viewport's right edge,
+   naturally showing only the left half (the intended semicircle effect).
+   ─────────────────────────────────────────────────────────────────────────── */
+.circular-menu-wrapper {
+  position: fixed !important;
+  right: 0 !important;
+  top: clamp(8rem, 38vh, 18rem) !important;
+  width: 100px !important;   /* half of 200px dial */
+  z-index: 200 !important;
+  overflow: visible !important;
+}
+
+/* Expanded dial: start at wrapper's left edge (override mx-auto) */
+@media (max-width: 1023px) {
+  .circular-menu-container {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .circular-menu-wrapper {
+    width: 110px !important;  /* half of sm:220px dial */
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .circular-menu-wrapper {
+    width: 120px !important;  /* half of md:240px dial */
+  }
+}
+
+/* Desktop (≥ 1024px): revert to absolute within the section */
+@media (min-width: 1024px) {
+  .circular-menu-wrapper {
+    position: absolute !important;
+    right: calc(2rem * var(--scale-factor)) !important;
+    top: calc(clamp(5rem, 8vh, 7rem) * var(--scale-factor)) !important;
+    width: auto !important;
+    z-index: 30 !important;
+    overflow: visible !important;
+  }
+
+  .circular-menu-container {
+    width: calc(340px * var(--scale-factor)) !important;
+    height: calc(340px * var(--scale-factor)) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .circular-menu-center-text {
+    font-size: calc(1rem * var(--scale-factor)) !important;
+  }
+}
+
+/* Sidebar z-index override for the Team page to prevent cards from overlapping it */
+.sidebar-nav {
+  z-index: 5000 !important;
 }
