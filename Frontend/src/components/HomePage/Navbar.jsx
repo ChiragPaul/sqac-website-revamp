@@ -24,7 +24,7 @@ const navbarStyles = `
   height: 64px; /* Default collapsed height */
   overflow: visible;
   border-radius: 40px;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .sidebar-logo-container {
@@ -203,6 +203,30 @@ function Navbar() {
     });
   };
 
+  const closeMenu = () => {
+    setIsOpen(prev => {
+      if (prev && timelineRef.current) {
+        timelineRef.current.timeScale(1.5).reverse();
+        return false;
+      }
+      return prev;
+    });
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        closeMenu();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
+
   const handleDoubleClick = () => {
     if (isOpen) toggleMenu();
   };
@@ -212,7 +236,7 @@ function Navbar() {
       <style>{navbarStyles}</style>
 
       <div 
-        className={`sidebar-nav ${isOpen ? 'bg-white/95 dark:bg-[#0b0d17]/95 border border-gray-200/50 dark:border-white/10 shadow-2xl backdrop-blur-xl' : 'bg-transparent border-transparent shadow-none'}`}
+        className={`sidebar-nav ${isOpen ? 'bg-white/95 dark:bg-[#0b0d17]/95 border border-gray-200/50 dark:border-white/10 shadow-2xl' : 'bg-transparent border-transparent shadow-none'}`}
         onDoubleClick={handleDoubleClick}
       >
         
@@ -237,7 +261,7 @@ function Navbar() {
                 key={item.path} 
                 to={item.path} 
                 className={`nav-icon-link ${isActuallyActive ? 'active' : ''}`}
-                onClick={() => setIsOpen(false)}
+                onClick={closeMenu}
               >
                 {item.icon}
                 <div className="nav-tooltip">{item.label}</div>
