@@ -1,0 +1,188 @@
+/* src/components/Aboutus/aboutus.css */
+
+.aboutus-container {
+  overflow-x: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* SwatchBook specific styles */
+.swatch-book {
+  position: relative;
+  width: 320px;
+  height: 440px;
+  margin: 100px auto;
+  perspective: 1000px;
+}
+
+.swatch-item {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 260px;
+  height: 400px;
+  margin-left: -130px;
+  border-radius: 8px;
+  box-shadow: -4px 4px 15px rgba(0,0,0,0.4);
+  transform-origin: 20px 380px; /* Pivot at bottom-left rivet */
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  backface-visibility: hidden;
+}
+
+/* Stitched border effect */
+.swatch-item::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  pointer-events: none;
+}
+
+/* Metal rivet at the pivot point */
+.swatch-item::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #f9f9f9, #b0b0b0 50%, #555);
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.8), 0 2px 4px rgba(0,0,0,0.6);
+  z-index: 10;
+}
+
+.swatch-item-closed {
+  transform: rotate(0deg);
+}
+
+.swatch-item h3 {
+  margin-top: 20px;
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: 900;
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.swatch-item p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.swatch-item .subdomains {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-left: 20px; /* prevent overlap with rivet */
+}
+
+.swatch-item .subdomains span {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+}
+
+.swatch-icon {
+  font-size: 32px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+/* Colors for SwatchBook based on theme with woven pattern overlay */
+.swatch-1 { 
+  background-color: #e03268;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #f34a82, #e03268);
+  z-index: 6; 
+}
+.swatch-2 { 
+  background-color: #d68b1a;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #F0A01F, #d68b1a);
+  z-index: 5; 
+}
+.swatch-3 { 
+  background-color: #7a150e;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #951D13, #7a150e);
+  z-index: 4; 
+}
+.swatch-4 { 
+  background-color: #5c1520;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #7A1E2C, #5c1520);
+  z-index: 3; 
+}
+.swatch-5 { 
+  background-color: #2D3748;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #4A5568, #2D3748);
+  z-index: 2; 
+}
+.swatch-6 { 
+  background-color: #2F855A;
+  background-image: 
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.25' d='M0 0h2v2H0zm2 2h2v2H2z'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #48BB78, #2F855A);
+  z-index: 1; 
+}
+
+/* Opened states - fanning out from the bottom-left rivet */
+.swatch-book.opened .swatch-1 { --rot: 40deg; }
+.swatch-book.opened .swatch-2 { --rot: 20deg; }
+.swatch-book.opened .swatch-3 { --rot: 0deg; }
+.swatch-book.opened .swatch-4 { --rot: -20deg; }
+.swatch-book.opened .swatch-5 { --rot: -40deg; }
+.swatch-book.opened .swatch-6 { --rot: -60deg; }
+
+.swatch-book.opened .swatch-item {
+  transform: rotate(var(--rot));
+}
+
+/* Hover states when opened */
+.swatch-book.opened .swatch-item:hover {
+  box-shadow: -8px 10px 30px rgba(0,0,0,0.5);
+  z-index: 10 !important;
+  transform: rotate(calc(var(--rot) - 5deg)) scale(1.05) !important;
+}
+
+/* Mobile fallback for SwatchBook - stack instead of fan */
+@media (max-width: 768px) {
+  .swatch-book {
+    width: 100%;
+    height: auto;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .swatch-item {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    margin-left: 0;
+    transform: none !important;
+    width: 90%;
+    max-width: 320px;
+    height: auto;
+    min-height: 250px;
+  }
+}

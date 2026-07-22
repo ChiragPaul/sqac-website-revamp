@@ -9,6 +9,7 @@ import Events from "./components/Eventspage/Events.jsx";
 import Team from "./components/Team/Team.jsx";
 import Projects from "./components/Projects/Projects.jsx";
 import JoinUs from "./components/JoinUs/JoinUs.jsx";
+import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
 import HistoryTimeline from "./components/History/HistoryTimeline.jsx";
 import Achievements from "./components/Achievements/Achievements.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
@@ -24,12 +25,13 @@ import "./App.css";
 
 const AppContent = () => {
   const location = useLocation();
-  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements" && location.pathname !== "/events";
+  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements" && location.pathname !== "/events" && location.pathname !== "/admin";
+  const showNavbar = location.pathname !== "/admin";
 
   return (
     <>
       <ScrollToTop />
-      <Navbar />
+      {showNavbar && <Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<Aboutus />} />
@@ -38,6 +40,7 @@ const AppContent = () => {
         <Route path="/team" element={<Team />} />
         <Route path="/projects" element={<Projects />} />
         <Route path="/recruitment" element={<JoinUs />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/achievements" element={<Achievements />} />
       </Routes>
       {showFooter && <Footer />}

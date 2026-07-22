@@ -1,0 +1,174 @@
+/* src/components/JoinUs/naturalLanguageForm.css */
+
+.nl-form-container {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.dark .nl-form-container {
+  color: #f3f4f6;
+}
+
+.nl-form {
+  font-size: 2.2rem;
+  line-height: 1.8;
+  font-weight: 500;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .nl-form {
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+}
+
+.nl-field {
+  display: inline-block;
+  position: relative;
+  padding: 0 5px;
+  margin: 0 2px;
+}
+
+/* Base input styles */
+.nl-field input,
+.nl-field select {
+  background: transparent;
+  border: none;
+  border-bottom: 2px dashed #7A1E2C;
+  color: #951D13;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  padding: 2px 5px;
+  width: auto;
+  min-width: 150px;
+  max-width: 100%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-align: center;
+}
+
+.dark .nl-field input,
+.dark .nl-field select {
+  border-bottom: 2px dashed #f3d8ad;
+  color: #f3d8ad;
+}
+
+/* Remove default focus outline */
+.nl-field input:focus,
+.nl-field select:focus {
+  outline: none;
+  border-bottom-style: solid;
+  border-bottom-color: #f34a82;
+  color: #f34a82;
+  background: rgba(243, 74, 130, 0.05);
+  border-radius: 4px 4px 0 0;
+}
+
+.dark .nl-field input:focus,
+.dark .nl-field select:focus {
+  border-bottom-color: #E76FD3;
+  color: #E76FD3;
+  background: rgba(231, 111, 211, 0.1);
+}
+
+/* Custom styling for select dropdown icon */
+.nl-select-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.nl-select-wrapper::after {
+  content: '▼';
+  font-size: 0.5em;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #7A1E2C;
+}
+
+.dark .nl-select-wrapper::after {
+  color: #f3d8ad;
+}
+
+.nl-select-wrapper select {
+  padding-right: 25px;
+}
+
+/* Dropdown options styling */
+.nl-field select option {
+  background: white;
+  color: #333;
+  font-size: 1rem;
+}
+
+.dark .nl-field select option {
+  background: #1a0033;
+  color: white;
+}
+
+/* Placeholder styling */
+.nl-field input::placeholder {
+  color: rgba(122, 30, 44, 0.4);
+  font-weight: 400;
+}
+
+.dark .nl-field input::placeholder {
+  color: rgba(243, 216, 173, 0.4);
+}
+
+/* Submit section */
+.nl-submit {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.nl-submit button {
+  background: linear-gradient(to right, #951D13, #f34a82);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  padding: 15px 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(243, 74, 130, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dark .nl-submit button {
+  background: linear-gradient(to right, #7A1E2C, #E76FD3);
+  box-shadow: 0 10px 20px rgba(231, 111, 211, 0.2);
+}
+
+.nl-submit button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 25px rgba(243, 74, 130, 0.4);
+}
+
+.nl-submit button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.dark .nl-submit button:disabled {
+  background: #444;
+  color: #888;
+}
+
+/* Auto-resizing input magic (applied via React inline styles based on char count, but this helps) */
+.nl-field input {
+  transition: width 0.1s;
+}

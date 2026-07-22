@@ -4,8 +4,8 @@ import ReactCardFlip from 'react-card-flip';
 //import { teamMembers } from '../data/teamData';
 import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Globe, Users, Mouse } from 'lucide-react';
 import { useTheme } from "../../contexts/ThemeContext";
+import SwipeableMenu from './SwipeableMenu';
 import CircularMenu from './CircularMenu';
-
 import "./teamtheme.css";
 
 const DARK_CARD_GRADIENTS = [
@@ -570,8 +570,10 @@ export default function Team({ darkMode: propDarkMode }) {
       }}
     >
 
-      {/* Circular dial menu — anchored to section top-right, never overlaps cards */}
-      <div className="circular-menu-wrapper z-[200]">
+
+
+      {/* Circular dial menu for desktop — anchored to section top-right */}
+      <div className="hidden lg:block circular-menu-wrapper z-[200]">
         <CircularMenu
           activeFilter={filter}
           activeSubFilter={subFilter}
@@ -584,7 +586,7 @@ export default function Team({ darkMode: propDarkMode }) {
       </div>
 
       {/* Top Header & Filters Section - Constrained Width */}
-      <div className="max-w-[1400px] mx-auto px-6 relative z-20 w-full flex flex-col justify-start" style={{ paddingRight: 'clamp(1.5rem, 22vw, 22rem)' }}>
+      <div className="max-w-[1400px] mx-auto px-6 relative z-20 w-full flex flex-col justify-start lg:pr-[clamp(1.5rem,22vw,22rem)]">
         {/* Header and Filters aligned top */}
         <div className="flex flex-col xl:flex-row xl:items-center justify-between mb-3 gap-2 xl:gap-4">
           <div className="max-w-xl">
@@ -623,6 +625,19 @@ export default function Team({ darkMode: propDarkMode }) {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Swipeable Mode Menu (Mobile Only) */}
+      <div className="w-full relative z-[60] mt-2 lg:hidden">
+        <SwipeableMenu
+          activeFilter={filter}
+          activeSubFilter={subFilter}
+          onChangeFilter={(f, sf) => {
+            setFilter(f);
+            setSubFilter(sf);
+          }}
+          darkMode={darkMode}
+        />
       </div>
 
        {/* Bottom Section - Full Width Carousel Viewport (No rounded glass container) */}
