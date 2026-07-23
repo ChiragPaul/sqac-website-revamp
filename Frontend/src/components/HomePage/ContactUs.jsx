@@ -1,14 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 
-// API config — split to avoid static-analysis false positives
-const _p1 = "b9b073d7";
-const _p2 = "-78e3-4607";
-const _p3 = "-8102-4bc6";
-const _p4 = "9c3f696f";
-const getKey = () => _p1 + _p2 + _p3 + _p4;
-const getEndpoint = () =>
-  ["https://", "api.", "web", "3forms", ".com/submit"].join("");
+// API config — loaded from environment variables
+const getKey = () => import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+const getEndpoint = () => import.meta.env.VITE_WEB3FORMS_URL || "https://api.web3forms.com/submit";
 
 function ContactUs() {
   const [success, setSuccess] = useState(false);

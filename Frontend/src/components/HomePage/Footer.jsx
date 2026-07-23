@@ -38,9 +38,8 @@ function Footer() {
       message: formData.get("message"),
     };
 
-    const apiUrl = "https://api.we" + "b3forms.com/submit";
-    const kn = "access" + "_key";
-    formData.append(kn, "04602206-c2ae-44af-a679-d76004a657fc");
+    const apiUrl = import.meta.env.VITE_WEB3FORMS_URL || "https://api.web3forms.com/submit";
+    formData.append("access_key", import.meta.env.VITE_WEB3FORMS_FOOTER_KEY);
 
     await fetch(apiUrl, {
       method: "POST",
