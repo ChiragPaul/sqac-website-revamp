@@ -134,7 +134,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
 
   // Desktop layout styles
   const desktopContainerStyle = {
-    top: 'clamp(8rem, 38vh, 18rem)',
+    top: '30px',
     right: 0,
   };
 
@@ -184,7 +184,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
             animate={{ opacity: 1, scale: 1, ...(isMobile ? { y: 0 } : { x: 0 }) }}
             exit={{ opacity: 0, scale: 0.8, ...(isMobile ? { y: -20 } : { x: 50 }) }}
             transition={{ type: 'spring', stiffness: 180, damping: 18 }}
-            className={`fixed z-[250] ${isMobile ? 'left-1/2 -translate-x-1/2' : 'right-4 lg:right-10 top-1/2 -translate-y-1/2'}`}
+            className={`fixed z-[250] ${isMobile ? 'left-1/2 -translate-x-1/2' : 'right-4 lg:right-10 top-[30px] xl:top-[30px]'}`}
             style={isMobile ? { top: '80px' } : {}}
           >
             <div className={`relative flex items-center justify-center select-none ${isMobile ? 'w-[280px] h-[280px]' : 'w-[200px] h-[200px] sm:w-[220px] sm:h-[220px] md:w-[240px] md:h-[240px] lg:w-[260px] lg:h-[260px] xl:w-[340px] xl:h-[340px]'} mx-auto filter drop-shadow-2xl`}>

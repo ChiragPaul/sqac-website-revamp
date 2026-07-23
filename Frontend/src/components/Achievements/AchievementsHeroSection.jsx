@@ -68,16 +68,14 @@ export default function HeroSection() {
       >
         {/* Label removed as per user request */}
 
-        {/* Heading — letter-by-letter like Codrops */}
-        <motion.h1
-          variants={container}
+        {/* Heading */}
+        <h1
           className="leading-[1.05] tracking-[-0.03em] mb-6 sqac-heading-gradient pb-2 font-black"
           style={{ fontSize: 'clamp(2.6rem,8vw,5.5rem)' }}
           id="hero-heading"
         >
-          <SplitWord text="Our " />
-          <SplitWord text="Gallery" />
-        </motion.h1>
+          Our Gallery
+        </h1>
 
       
       </motion.div>

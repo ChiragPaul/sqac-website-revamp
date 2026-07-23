@@ -3,6 +3,8 @@ import * as THREE from "three";
 import { CSS3DRenderer, CSS3DObject } from "three/examples/jsm/renderers/CSS3DRenderer.js";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTheme } from "../../contexts/ThemeContext";
+import BorderGlow from "./BorderGlow";
 
 // Import all assets representing key moments
 import imgEvents from "../../assets/Events-photo.png";
@@ -47,6 +49,7 @@ export default function Gallery3D() {
   const scrollContainerRef = useRef(null);
   const containerRef = useRef(null);
   const [activeCard, setActiveCard] = useState(null);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const container = containerRef.current;
@@ -479,16 +482,20 @@ export default function Gallery3D() {
       <div className="gallery-sticky-wrapper sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-center">
         
         {/* Gesture arrows for laptop view */}
-        <div className="hidden md:flex absolute top-[55%] left-4 lg:left-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
-          <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-          </svg>
-        </div>
-        <div className="hidden md:flex absolute top-[55%] right-4 lg:right-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
-          <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-          </svg>
-        </div>
+        {!activeCard && (
+          <>
+            <div className="hidden md:flex absolute top-[55%] left-4 lg:left-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
+              <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+              </svg>
+            </div>
+            <div className="hidden md:flex absolute top-[55%] right-4 lg:right-8 -translate-y-1/2 z-[100] pointer-events-none opacity-40 animate-pulse text-zinc-600 dark:text-zinc-400">
+              <svg className="w-8 h-8 lg:w-12 lg:h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </>
+        )}
         
         {/* Laptop Header inside sticky wrapper */}
         <div className="hidden md:flex flex-col items-center justify-center absolute top-[12vh] left-0 right-0 z-[100] pointer-events-none">
@@ -538,28 +545,32 @@ export default function Gallery3D() {
       </div>
 
       {/* Swipe Hint for Mobile */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center justify-center md:hidden pointer-events-none z-[100]">
-        <div className="flex items-center gap-3 px-6 py-2.5 rounded-full border border-white/15 bg-black/20 backdrop-blur-lg shadow-2xl animate-pulse">
-          <svg className="w-4 h-4 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-          </svg>
-          <span className="text-[10px] font-semibold tracking-[0.2em] text-white/90 uppercase whitespace-nowrap">
-            Swipe to Explore
-          </span>
+      {!activeCard && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center justify-center md:hidden pointer-events-none z-[100]">
+          <div className="flex items-center gap-3 px-6 py-2.5 rounded-full border border-white/15 bg-black/20 backdrop-blur-lg shadow-2xl animate-pulse">
+            <svg className="w-4 h-4 text-white/90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span className="text-[10px] font-semibold tracking-[0.2em] text-white/90 uppercase whitespace-nowrap">
+              Swipe to Explore
+            </span>
+          </div>
         </div>
-      </div>
+      )}
       
       {/* Drag Hint for Desktop */}
-      <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 items-center justify-center pointer-events-none z-[100]">
-        <div className="flex items-center gap-3 px-6 py-2 rounded-full border border-zinc-500/20 bg-zinc-800/10 dark:bg-white/5 backdrop-blur-md shadow-xl animate-pulse">
-          <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-          </svg>
-          <span className="text-[11px] font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase whitespace-nowrap">
-            Drag to Explore
-          </span>
+      {!activeCard && (
+        <div className="hidden md:flex absolute bottom-12 left-1/2 -translate-x-1/2 items-center justify-center pointer-events-none z-[100]">
+          <div className="flex items-center gap-3 px-6 py-2 rounded-full border border-zinc-500/20 bg-zinc-800/10 dark:bg-white/5 backdrop-blur-md shadow-xl animate-pulse">
+            <svg className="w-4 h-4 text-zinc-600 dark:text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+            </svg>
+            <span className="text-[11px] font-medium tracking-[0.15em] text-zinc-700 dark:text-zinc-300 uppercase whitespace-nowrap">
+              Drag to Explore
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Pop details view with centering and alternating thought bubbles */}
       {activeCard && (
@@ -592,41 +603,38 @@ export default function Gallery3D() {
               </button>
             </div>
 
-            {/* Alternating thought bubble details */}
-            <div
-              className={`relative p-6 sm:p-8 md:p-10 bg-white/95 dark:bg-zinc-900/95 border-2 border-dashed border-purple-400 dark:border-purple-600 rounded-[2rem_2rem_2rem_2rem] md:rounded-[3rem_2rem_3rem_2.5rem] shadow-[0_15px_40px_rgba(168,85,247,0.18)] dark:shadow-[0_15px_40px_rgba(0,0,0,0.55)] max-w-sm md:max-w-md font-poppins ${isBubbleLeft ? "animate-cloud-pop-left" : "animate-cloud-pop-right"
-                }`}
+            {/* Alternating thought bubble details replaced by BorderGlow */}
+            <BorderGlow
+              className={`w-[285px] h-[385px] sm:w-[350px] sm:h-[480px] font-poppins ${isBubbleLeft ? "animate-cloud-pop-left" : "animate-cloud-pop-right"}`}
+              edgeSensitivity={30}
+              glowColor={isDarkMode ? "350 60 50" : "330 80 60"} 
+              backgroundColor={isDarkMode ? "rgba(24, 24, 27, 0.95)" : "rgba(255, 255, 255, 0.95)"}
+              borderRadius={32}
+              glowRadius={30}
+              glowIntensity={1.0}
+              coneSpread={30}
+              animated={true}
+              colors={
+                isDarkMode 
+                  ? ['#7A1E2C', '#A93C38', '#d95d39'] 
+                  : ['#951D13', '#f34a82', '#F0A01F']
+              }
             >
-              {/* Cloud content */}
-              <div className="relative z-10 text-left">
-                <span className="inline-block text-[10px] md:text-xs font-bold px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 mb-3 select-none">
-                  Key Moment
-                </span>
-                <h3 className="text-xl md:text-2xl font-extrabold text-zinc-900 dark:text-purple-300 mb-2 leading-tight">
+              {/* Card content */}
+              <div className="relative z-10 text-left flex flex-col justify-center h-full p-6 sm:p-8 md:p-10">
+                <div>
+                  <span className="inline-block text-[10px] md:text-xs font-bold px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 mb-3 select-none">
+                    Key Moment
+                  </span>
+                </div>
+                <h3 className="text-xl md:text-2xl font-extrabold text-zinc-900 dark:text-purple-300 mb-4 leading-tight">
                   {activeCard.title}
                 </h3>
-                <p className="text-zinc-700 dark:text-zinc-300 text-xs md:text-sm leading-relaxed">
+                <p className="text-zinc-700 dark:text-zinc-300 text-sm md:text-base leading-relaxed overflow-y-auto">
                   {activeCard.desc}
                 </p>
               </div>
-
-              {/* Cloud tail circles pointing up on mobile */}
-              <div className="absolute top-[-18px] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 md:hidden pointer-events-none">
-                <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-zinc-900 border border-dashed border-purple-400 dark:border-purple-600 shadow-sm" />
-                <div className="w-2.5 h-2.5 rounded-full bg-white dark:bg-zinc-900 border border-dashed border-purple-400 dark:border-purple-600 shadow-sm" />
-                <div className="w-4 h-4 rounded-full bg-white dark:bg-zinc-900 border-2 border-dashed border-purple-400 dark:border-purple-600 shadow-md" />
-              </div>
-
-              {/* Cloud tail circles pointing horizontally on desktop (alternating sides) */}
-              <div
-                className={`hidden md:flex absolute bottom-[-15px] ${isBubbleLeft ? "right-12 flex-row-reverse" : "left-12 flex-row"
-                  } gap-1.5 items-end pointer-events-none`}
-              >
-                <div className="w-4.5 h-4.5 rounded-full bg-white dark:bg-zinc-900 border-2 border-dashed border-purple-400 dark:border-purple-600 shadow-md" />
-                <div className="w-2.5 h-2.5 rounded-full bg-white dark:bg-zinc-900 border-2 border-dashed border-purple-400 dark:border-purple-600 shadow-sm" />
-                <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-zinc-900 border border-dashed border-purple-400 dark:border-purple-600 shadow-sm" />
-              </div>
-            </div>
+            </BorderGlow>
           </div>
         </div>
       )}
