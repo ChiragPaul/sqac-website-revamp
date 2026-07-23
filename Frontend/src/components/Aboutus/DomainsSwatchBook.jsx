@@ -1,60 +1,58 @@
-import React, { useState } from "react";
-import { Monitor, Briefcase, Film, Shield, Cpu, Users } from "lucide-react";
+import React from "react";
+import { Globe, Smartphone, Cpu, Calendar, Handshake, Film } from "lucide-react";
 
-const domains = [
+const subdomains = [
   {
-    id: "technical",
-    title: "TECHNICAL",
-    icon: Monitor,
-    content: "Web Dev, App Dev, and AI/ML. We build robust, scalable applications and explore the frontiers of artificial intelligence and machine learning to solve real-world problems.",
-    subdomains: ["Web Dev", "App Dev", "AI/ML"],
+    id: "webdev",
+    title: "WEB DEV",
+    icon: Globe,
+    content: "Crafting performant, high-impact web applications using modern frontend frameworks, robust backend architecture, scalable APIs, and intuitive user experiences.",
+    highlights: ["Frontend", "Backend", "UI/UX", "Cloud"],
     className: "swatch-1"
   },
   {
-    id: "corporate",
-    title: "CORPORATE",
-    icon: Briefcase,
-    content: "Sponsorships and Events. We manage the operational lifeline of the club, securing partnerships, organizing tech events, and ensuring smooth logistical execution.",
-    subdomains: ["Sponsorship", "Events"],
+    id: "appdev",
+    title: "APP DEV",
+    icon: Smartphone,
+    content: "Building seamless cross-platform and native mobile solutions using Flutter, React Native, and Android SDKs to deliver smooth on-device performance.",
+    highlights: ["Flutter", "React Native", "iOS / Android"],
     className: "swatch-2"
+  },
+  {
+    id: "aiml",
+    title: "AI / ML",
+    icon: Cpu,
+    content: "Exploring deep learning, neural networks, computer vision, and LLM integrations to create intelligent systems and predictive software models.",
+    highlights: ["Deep Learning", "NLP", "Computer Vision"],
+    className: "swatch-3"
+  },
+  {
+    id: "events",
+    title: "EVENTS",
+    icon: Calendar,
+    content: "Organizing and executing technical workshops, flagship hackathons, interactive webinars, and student engagement sessions across campus.",
+    highlights: ["Hackathons", "Workshops", "Tech Talks"],
+    className: "swatch-4"
+  },
+  {
+    id: "sponsorship",
+    title: "SPONSORSHIP",
+    icon: Handshake,
+    content: "Connecting SQAC with industry sponsors, corporate leaders, and tech partners to secure resource funding, prizes, and professional opportunities.",
+    highlights: ["Corporate Links", "Funding", "Outreach"],
+    className: "swatch-5"
   },
   {
     id: "media",
     title: "MEDIA",
     icon: Film,
-    content: "Creative and PR. We are the voice and visual identity of SQAC, crafting compelling narratives, designing digital assets, and managing our public relations footprint.",
-    subdomains: ["Creatives", "PR"],
-    className: "swatch-3"
-  },
-  {
-    id: "board",
-    title: "BOARD",
-    icon: Shield,
-    content: "The core leadership encompassing the Secretary, Joint Secretary, and Tech/Corp leads, guiding the strategic vision and overall execution of the community.",
-    subdomains: ["Leadership", "Strategy"],
-    className: "swatch-4"
-  },
-  {
-    id: "research",
-    title: "R&D",
-    icon: Cpu,
-    content: "Research and Development. Exploring new technologies, innovating for the future, and pushing the boundaries of what our technical teams can achieve.",
-    subdomains: ["Research", "Innovation"],
-    className: "swatch-5"
-  },
-  {
-    id: "community",
-    title: "COMMUNITY",
-    icon: Users,
-    content: "Community Management. Building and maintaining relationships within our tech community, supporting our members, and fostering a collaborative environment.",
-    subdomains: ["Outreach", "Support"],
+    content: "Driving the digital identity of SQAC through creative graphic design, promotional video creation, photography, and active social media management.",
+    highlights: ["Creatives", "PR", "Video Production"],
     className: "swatch-6"
   }
 ];
 
 const DomainsSwatchBook = () => {
-
-
   return (
     <section className="relative w-full py-16 px-4 lg:py-24 z-10 font-sans overflow-hidden">
       <div className="max-w-[1400px] mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
@@ -62,30 +60,31 @@ const DomainsSwatchBook = () => {
         {/* Left Side: Text */}
         <div className="w-full lg:w-1/2 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
           <h2
-            className="text-5xl lg:text-7xl font-black tracking-tight mb-6 uppercase text-[#951D13] dark:text-[#f3d8ad]"
+            className="text-5xl lg:text-7xl font-black tracking-wider mb-2 uppercase bg-clip-text text-transparent bg-gradient-to-r from-[#951D13] via-[#f34a82] to-[#F0A01F] dark:from-[#7A1E2C] dark:via-[#A93C38] dark:to-[#d95d39]"
             style={{ fontFamily: '"Poppins", sans-serif' }}
           >
-            Our Domains
+            Our Subdomains
           </h2>
-          <p className="text-base text-gray-800 dark:text-gray-300 leading-relaxed max-w-lg mb-8">
-            At SQAC, we operate through specialized domains to ensure a comprehensive approach to technology, management, and community building.
+          <div className="h-[2px] w-48 bg-gradient-to-r from-[#951D13] via-[#f34a82] to-transparent dark:via-[#7A1E2C] my-3"></div>
+          <p className="text-base text-gray-800 dark:text-gray-300 leading-relaxed max-w-lg mb-8 mt-2">
+            Discover the core technical, operational, and creative subdomains that power SQAC's initiatives, projects, and community events.
           </p>
         </div>
 
         {/* Right Side: SwatchBook */}
         <div className="w-full lg:w-1/2 flex justify-center">
           <div className="swatch-book opened">
-            {domains.map((domain, index) => {
-              const Icon = domain.icon;
+            {subdomains.map((subdomain) => {
+              const Icon = subdomain.icon;
               return (
-                <div key={domain.id} className={`swatch-item ${domain.className}`}>
+                <div key={subdomain.id} className={`swatch-item ${subdomain.className}`}>
                   <Icon className="swatch-icon" />
-                  <h3 style={{ fontFamily: '"Poppins", sans-serif' }}>{domain.title}</h3>
-                  <p>{domain.content}</p>
+                  <h3 style={{ fontFamily: '"Poppins", sans-serif' }}>{subdomain.title}</h3>
+                  <p>{subdomain.content}</p>
                   
                   <div className="subdomains">
-                    {domain.subdomains.map((sub, i) => (
-                      <span key={i}>{sub}</span>
+                    {subdomain.highlights.map((item, i) => (
+                      <span key={i}>{item}</span>
                     ))}
                   </div>
                 </div>
