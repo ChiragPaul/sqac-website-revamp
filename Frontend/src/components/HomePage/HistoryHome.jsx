@@ -3,6 +3,10 @@ import { createPortal } from "react-dom";
 import { Compass, Rocket, Milestone, Award, Star, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import sqacLogo from "../../assets/LogoSQAC.png";
+import genesisImg from "../../assets/genesis.jpg";
+import tenure1Img from "../../assets/tenure1.jpg";
+import tenure2Img from "../../assets/tenure2.jpg";
+import winterImg from "../../assets/winter.jpg";
 import GridMotion from "../ui/GridMotion";
 
 export default function HistoryHome() {
@@ -21,10 +25,10 @@ export default function HistoryHome() {
     {
       spineTitle: "Vol I: Genesis",
       overline: "A MEMORY FROM APRIL 2025",
-      title: "The Inception",
-      desc: "It all began in April 2025 under the guidance of our faculty advisor, Dr. Sughanya M. Establishing our core structure across 6 distinct domains, we set the stage and vision for everything the club would soon become.",
+      title: "The Genesis",
+      desc: "It all began in April 2025 under the guidance of our faculty mentor, Dr. Sughanya M. Establishing our core structure across 7 distinct domains, we set the stage and vision for everything the club would soon become.",
       footerText: "— The SQAC Archives",
-      image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop&q=60",
+      image: genesisImg,
       icon: <Compass className="text-pink-300" size={24} />,
       year: "2025"
     },
@@ -34,7 +38,7 @@ export default function HistoryHome() {
       title: "Laying the Foundation",
       desc: "Under the leadership of our First Secretary, Yash Gupta, we started as a humble foundation of just 5 members. Through our very first recruitment drive and the launch of our debut flagship event, Mineverse, our family quickly grew to a solid 32 members.",
       footerText: "— The SQAC Archives",
-      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60",
+      image: tenure1Img,
       icon: <Milestone className="text-purple-300" size={24} />,
       year: "2025"
     },
@@ -44,7 +48,7 @@ export default function HistoryHome() {
       title: "The Great Expansion",
       desc: "Our second tenure brought unprecedented growth under Second Secretary Priyanshu Vasudev. Driven by the massive Oasis 25' recruitment event, our community exploded in size, reaching an incredible milestone of 130 to 150 members.",
       footerText: "— The SQAC Archives",
-      image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60",
+      image: tenure2Img,
       icon: <Award className="text-cyan-300" size={24} />,
       year: "2025"
     },
@@ -54,7 +58,7 @@ export default function HistoryHome() {
       title: "Battles & Breakthroughs",
       desc: "As our community expanded, we put our skills to the test. We successfully navigated the intense rivalries of Club Wars at the end of January 2026, followed closely by the innovative challenges of Hack and Hit in February.",
       footerText: "— The SQAC Archives",
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500&auto=format&fit=crop&q=60",
+      image: winterImg,
       icon: <Rocket className="text-orange-300" size={24} />,
       year: "2026"
     },
@@ -166,8 +170,8 @@ export default function HistoryHome() {
               {/* Spine */}
               <div className="spine absolute inset-0 w-full h-full bg-gradient-to-r from-[#7A1E2C] to-[#5a1620] border-l border-r border-[#4a121b] shadow-[inset_0_0_10px_rgba(0,0,0,0.6)] flex flex-col items-center justify-between py-8 rounded-sm"
                 style={{ transform: 'translateZ(128px)', backfaceVisibility: 'hidden' }}>
-                <div className="opacity-70 group-hover:opacity-100 transition-opacity scale-90">
-                  {milestone.icon}
+                <div className="opacity-70 group-hover:opacity-100 transition-opacity scale-90 mb-2">
+                  <img src={sqacLogo} alt="SQAC" className="w-6 h-6 object-contain" />
                 </div>
                 <span className="text-yellow-400 font-serif font-bold tracking-widest text-lg opacity-80 group-hover:opacity-100 transition-opacity"
                   style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
@@ -257,8 +261,8 @@ export default function HistoryHome() {
                 
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex items-center gap-4 mb-3">
-                    <div className="p-3 bg-[#4A1E5C]/10 dark:bg-[#7A1E2C]/20 rounded-xl text-[#4A1E5C] dark:text-[#F5E1C2]">
-                      {historyMilestones[hoveredBookIndex].icon}
+                    <div className="p-2 bg-[#4A1E5C]/10 dark:bg-[#7A1E2C]/20 rounded-xl">
+                      <img src={sqacLogo} alt="SQAC" className="w-6 h-6 object-contain" />
                     </div>
                     <span className="px-4 py-1.5 bg-[#8b5a2b]/15 text-[#8b5a2b] dark:text-[#F5E1C2] font-bold tracking-[0.2em] text-xs rounded uppercase shadow-sm">
                       {historyMilestones[hoveredBookIndex].overline}
@@ -395,8 +399,8 @@ export default function HistoryHome() {
                 </div>
 
                 {/* Decorative background element */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none">
-                  {historyMilestones[fullscreenBookIndex].icon && React.cloneElement(historyMilestones[fullscreenBookIndex].icon, { size: 400 })}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.05] pointer-events-none">
+                  <img src={sqacLogo} alt="SQAC" className="w-[400px] h-[400px] object-contain" />
                 </div>
 
                 {/* Polaroid Photo Wrapper */}
@@ -423,7 +427,7 @@ export default function HistoryHome() {
 
                   <div className="mt-5 text-center">
                     <span className="font-serif italic text-xl text-[#5c4a3d]/80">
-                      Circa {historyMilestones[fullscreenBookIndex].year}
+                      
                     </span>
                   </div>
                 </motion.div>
@@ -435,8 +439,8 @@ export default function HistoryHome() {
                   transition={{ duration: 1.5, delay: 3.5, type: "spring" }}
                   className="absolute bottom-16 right-16 md:bottom-24 md:right-32 p-2 bg-white shadow-lg border border-gray-100 z-0 opacity-80"
                 >
-                   <div className="w-24 h-24 bg-gray-200 overflow-hidden flex items-center justify-center text-[#8b5a2b]/20">
-                      {historyMilestones[fullscreenBookIndex].icon && React.cloneElement(historyMilestones[fullscreenBookIndex].icon, { size: 48 })}
+                   <div className="w-24 h-24 bg-gray-200 overflow-hidden flex items-center justify-center">
+                      <img src={sqacLogo} alt="SQAC" className="w-16 h-16 object-contain" />
                    </div>
                 </motion.div>
 

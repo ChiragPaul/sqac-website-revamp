@@ -7,19 +7,16 @@ import { useTheme } from "../../contexts/ThemeContext";
 import BorderGlow from "./BorderGlow";
 
 // Import all assets representing key moments
-import imgEvents from "../../assets/Events-photo.png";
-import imgSQACTeam from "../../assets/SQAC_Team.jpg";
-import imgGroupPhoto from "../../assets/SQAC_Group_photo.jpg";
-import imgTeamPhoto from "../../assets/TeamPhoto.png";
-import imgProjects from "../../assets/projectsPhoto.png";
-import imgStadium from "../../assets/stadium.jpg";
-import imgMineverse from "../../assets/image.png";
-import imgDemoTeam from "../../assets/Demo_SQAC_Team.jpg";
-import imgTeam1 from "../../assets/teamImg1.png";
-import imgTeam2 from "../../assets/teamImg2.png";
-import imgTechnical from "../../assets/technical.png";
-import imgCorp from "../../assets/Corp.png";
-import imgMedia from "../../assets/Media.png";
+import img1 from "../../assets/3dgallerypics/1.jpeg";
+import img2 from "../../assets/3dgallerypics/2.jpeg";
+import img3 from "../../assets/3dgallerypics/3.jpeg";
+import img4 from "../../assets/3dgallerypics/4.jpeg";
+import img5 from "../../assets/3dgallerypics/5.jpeg";
+import img6 from "../../assets/3dgallerypics/6.jpeg";
+import img7 from "../../assets/3dgallerypics/7.jpeg";
+import img8 from "../../assets/3dgallerypics/8.jpeg";
+import img9 from "../../assets/3dgallerypics/9.jpeg";
+import img10 from "../../assets/3dgallerypics/10.jpeg";
 import clubLogo from "../../assets/LogoSQAC-removebg-preview.png";
 import clubLogoDark from "../../assets/LogoSQAC.png";
 
@@ -27,19 +24,16 @@ import clubLogoDark from "../../assets/LogoSQAC.png";
 gsap.registerPlugin(ScrollTrigger);
 
 const galleryData = [
-  { img: imgEvents, title: "Vibrant Community Events", desc: "Bringing students together to learn, share, and grow as software engineers." },
-  { img: imgSQACTeam, title: "SQAC Core Team", desc: "The passionate core driving the community's vision and workshops." },
-  { img: imgGroupPhoto, title: "Our Growing Community", desc: "A welcoming ecosystem for developers, testers, and creative thinkers." },
-  { img: imgTeamPhoto, title: "Team Collaboration", desc: "Working hand-in-hand to build high-quality web applications." },
-  { img: imgProjects, title: "Project Showcase & Hackathons", desc: "Transforming ambitious ideas into fully functional code solutions." },
-  { img: imgStadium, title: "Tech Summit at Stadium", desc: "Attending external tech summits and engaging with industry experts." },
-  { img: imgMineverse, title: "Mineverse Virtual Event", desc: "An immersive virtual experience built and organized by our members." },
-  { img: imgDemoTeam, title: "Team Workshop Session", desc: "Regular bootcamps and peer mentorship to polish dev skills." },
-  { img: imgTeam1, title: "Coding Sprint", desc: "Intense coding sessions focusing on scalability and performance." },
-  { img: imgTeam2, title: "Design Review", desc: "Perfecting user experiences and crafting stunning visual flows." },
-  { img: imgTechnical, title: "Technical Workshop", desc: "Exploring debugging, automated testing, and CI/CD pipelines." },
-  { img: imgCorp, title: "Corporate Networking", desc: "Industry interaction sessions preparing members for their careers." },
-  { img: imgMedia, title: "Media & Communications", desc: "Capturing and sharing the community's milestones and stories." }
+  { img: img1, title: "Mineverse Launch", desc: "Code, build, and conquer: The highly anticipated launch of our flagship Minecraft event." },
+  { img: img2, title: "Mineverse Champions", desc: "Celebrating Team GoofYGeeks for securing the 1st position with outstanding creativity." },
+  { img: img3, title: "Hack and Hit Victors", desc: "Honoring Team Nombre as the champions of our intense 24-hour hackathon." },
+  { img: img4, title: "Hack and Hit Event", desc: "Our signature 24-hour coding marathon bringing the best developers together." },
+  { img: img5, title: "Debate Round", desc: "Team SQAC presenting arguments and showcasing strong communication skills." },
+  { img: img6, title: "Technical Session", desc: "Knowledge sharing and deep-dive technical talks led by our core members." },
+  { img: img7, title: "Mineverse Briefing", desc: "Addressing a packed house during the official Mineverse orientation." },
+  { img: img8, title: "Engaging the Crowd", desc: "A spectacular moment of unity with the audience lighting up the auditorium." },
+  { img: img9, title: "Club Wars", desc: "The SQAC Clan fiercely competing in the ultimate Club Wars showdown." },
+  { img: img10, title: "Aaruush Fest Outreach", desc: "Connecting with students and showcasing our vision at the Aaruush college fest." }
 ];
 
 // Double the items to make the 3D layout rich, dense, and full-looking (total of 26 items)
@@ -605,10 +599,10 @@ export default function Gallery3D() {
 
             {/* Alternating thought bubble details replaced by BorderGlow */}
             <BorderGlow
-              className={`w-[285px] h-[385px] sm:w-[350px] sm:h-[480px] font-poppins ${isBubbleLeft ? "animate-cloud-pop-left" : "animate-cloud-pop-right"}`}
+              className={`w-[285px] h-[385px] sm:w-[350px] sm:h-[480px] font-poppins backdrop-blur-xl ${isBubbleLeft ? "animate-cloud-pop-left" : "animate-cloud-pop-right"}`}
               edgeSensitivity={30}
               glowColor={isDarkMode ? "350 60 50" : "330 80 60"} 
-              backgroundColor={isDarkMode ? "rgba(24, 24, 27, 0.95)" : "rgba(255, 255, 255, 0.95)"}
+              backgroundColor={isDarkMode ? "rgba(24, 24, 27, 0.95)" : "rgba(255, 255, 255, 0.6)"}
               borderRadius={32}
               glowRadius={30}
               glowIntensity={1.0}
@@ -622,11 +616,7 @@ export default function Gallery3D() {
             >
               {/* Card content */}
               <div className="relative z-10 text-left flex flex-col justify-center h-full p-6 sm:p-8 md:p-10">
-                <div>
-                  <span className="inline-block text-[10px] md:text-xs font-bold px-3 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-400 mb-3 select-none">
-                    Key Moment
-                  </span>
-                </div>
+
                 <h3 className="text-xl md:text-2xl font-extrabold text-zinc-900 dark:text-purple-300 mb-4 leading-tight">
                   {activeCard.title}
                 </h3>
