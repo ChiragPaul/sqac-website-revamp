@@ -3,7 +3,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
-const cron = require('node-cron');
 const xlsx = require('xlsx');
 
 const dataRoutes = require('./routes/dataRoutes');
@@ -71,7 +70,8 @@ app.patch('/api/candidates/:id/status', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
-cron.schedule('0 * * * *', async () => {
+// --- Vercel Cron Job Endpoint ---
+app.get('/api/cron/sync', async (req, res) => {
   console.log('Running Excel to MongoDB sync...');
 
   try {
@@ -80,18 +80,21 @@ cron.schedule('0 * * * *', async () => {
     const worksheet = workbook.Sheets[sheetName];
     const jsonData = xlsx.utils.sheet_to_json(worksheet);
 
+    const Data = require('./models/Data'); // Assuming Data model exists
     await Data.deleteMany({});
     await Data.insertMany(jsonData);
 
     console.log('Excel data synced to MongoDB successfully.');
+    res.status(200).json({ message: 'Sync successful' });
   } catch (err) {
-    console.log('Error syncing Excel to MongoDB:', err);
+    console.error('Error syncing Excel to MongoDB:', err);
+    res.status(500).json({ error: err.message });
   }
 });
-setInterval(() => {
-  fetch('https://sqac-website-k0bp.onrender.com/api/health')
-    .then(res => console.log(`Self-ping status: ${res.status}`))
-    .catch(err => console.error('Self-ping failed:', err));
-}, 14 * 60 * 1000);
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+module.exports = app;
