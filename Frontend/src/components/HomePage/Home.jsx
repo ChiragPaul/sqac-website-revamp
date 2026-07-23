@@ -1,7 +1,19 @@
 import { motion } from "framer-motion";
 import SQAC from "../../assets/LogoSQAC.png";
+import { useTheme } from "../../contexts/ThemeContext";
+import GridMotion from "../ui/GridMotion";
 
 export default function LandingHero() {
+  const { theme } = useTheme();
+
+  const gridItems = [
+    { year: "2021", title: "The Inception", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop&q=60" },
+    { year: "2022", title: "First Workshops & Growth", image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60" },
+    { year: "2023", title: "Technological Scaling", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60" },
+    { year: "2024", title: "National Flagship: MineVerse", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500&auto=format&fit=crop&q=60" },
+    { year: "2025 & Beyond", title: "Future Boundaries", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60" }
+  ].flatMap(m => [m.year, m.image, m.title, m.image, 'SQAC', m.image]).slice(0, 28);
+
   return (
     <section
       className="
@@ -21,6 +33,20 @@ export default function LandingHero() {
           top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0
         "
       />
+
+      {/* GridMotion Parallax Background */}
+      <div 
+        className="absolute inset-0 overflow-hidden pointer-events-none z-0 opacity-[0.08] dark:opacity-10 mix-blend-multiply dark:mix-blend-screen"
+        style={{
+          maskImage: 'linear-gradient(to bottom, transparent, black 35%, black 50%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 35%, black 50%, transparent)'
+        }}
+      >
+        <GridMotion 
+          items={gridItems} 
+          gradientColor="transparent" 
+        />
+      </div>
 
       <motion.div
         initial="hidden"

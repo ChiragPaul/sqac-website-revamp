@@ -12,13 +12,11 @@ const STRIDE = CARD_W + GAP;
 /* ONE_COPY_W: how far we can scroll before we need to wrap */
 const ONE_COPY_W = achievements.length * STRIDE; // 12 × 210 = 2520 px
 
-/* ── 5 rows, alternating direction ── */
+/* ── 3 rows, alternating direction ── */
 const ROW_CFG = [
   { items: IMGS,                                       speed: 0.40, dir:  1 },
   { items: [...IMGS].reverse(),                        speed: 0.30, dir: -1 },
   { items: [...IMGS.slice(8),  ...IMGS.slice(0, 8)],  speed: 0.50, dir:  1 },
-  { items: [...IMGS.slice(16), ...IMGS.slice(0, 16)], speed: 0.28, dir: -1 },
-  { items: [...IMGS.slice(4),  ...IMGS.slice(0, 4)],  speed: 0.44, dir:  1 },
 ];
 
 /* ────────────────────────────────────────────────────────────────

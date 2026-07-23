@@ -471,7 +471,7 @@ body {
   .circular-menu-wrapper {
     position: absolute !important;
     right: calc(2rem * var(--scale-factor)) !important;
-    top: calc(clamp(5rem, 8vh, 7rem) * var(--scale-factor)) !important;
+    top: calc(2rem * var(--scale-factor)) !important;
     width: auto !important;
     z-index: 30 !important;
     overflow: visible !important;
