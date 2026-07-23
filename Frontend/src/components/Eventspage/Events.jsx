@@ -19,6 +19,8 @@ import EventsPhoto from "../../assets/Events-photo.png";
 import LogoSQAC from "../../assets/LogoSQAC.png";
 import projPhoto from "../../assets/projectsPhoto.png";
 import groupPhoto from "../../assets/SQAC_Group_photo.jpg";
+import img1_3d from "../../assets/3dGalleryPics/1.jpeg";
+import img2_3d from "../../assets/3dGalleryPics/2.jpeg";
 
 const Events = () => {
   const { isDarkMode } = useTheme();
@@ -33,7 +35,7 @@ const Events = () => {
       image: mineverse,
       link: "https://mineverse-sqac.vercel.app/",
       labelColor: "rgba(168, 85, 247, 0.8)", // Increased opacity
-      slideshowImages: [mineverse, projPhoto, groupPhoto],
+      slideshowImages: ["/Mineverse/Minverse/1.jpeg", "/Mineverse/Minverse/2.jpeg", "/Mineverse/Minverse/3.jpeg", "/Mineverse/Minverse/4.jpeg", "/Mineverse/Minverse/45A938F0-B07A-40C8-8A30-EDC8F6AABB6F_1_105_c.jpeg", "/Mineverse/Minverse/BEDFCD3A-3BA0-4FCD-AB51-AF38BBCDDB93_4_5005_c.jpeg", img1_3d, img2_3d],
     },
     {
       id: 2,
@@ -63,8 +65,8 @@ const Events = () => {
       setCinemaMode("spooling");
       setTimeout(() => {
         setCinemaMode("countdown");
-      }, 6000); // Wait 6s for slower spooling animation
-    }, 1500); // Wait 1.5s for lid to close
+      }, 3000); // 3s spooling animation
+    }, 300); // Wait 0.3s for lid to close
   };
 
   const handleStop = () => {
@@ -143,7 +145,7 @@ const Events = () => {
             100% { right: 50%; width: 100vw; }
           }
           .animate-spool {
-            animation: spool-out 6s linear forwards;
+            animation: spool-out 3s linear forwards;
           }
           .cinema-line {
             animation: spin-slow 2s linear infinite;
@@ -359,7 +361,7 @@ const Events = () => {
               <motion.div
                 initial={{ rotateX: 60 }}
                 animate={{ rotateX: cinemaMode === 'idle' ? 60 : 0 }}
-                transition={{ duration: 1.2, type: 'spring', bounce: 0.3 }}
+                transition={{ duration: 0.3, type: 'spring', bounce: 0.3 }}
                 style={{ transformOrigin: "bottom" }}
                 className={`absolute inset-3 md:inset-6 z-40 rounded-[2rem] border-[3px] flex items-end justify-center pb-4 pointer-events-none transition-all duration-500 shadow-[inset_0_20px_50px_rgba(255,255,255,0.1)] ${cinemaMode === 'idle'
                   ? (isDarkMode ? 'bg-white/5 border-white/20 backdrop-blur-[1px]' : 'bg-white/10 border-white/40 backdrop-blur-[1px]')
@@ -586,7 +588,7 @@ const Events = () => {
                   <div className="absolute bottom-0 w-full h-[10vh] bg-black shadow-[0_-10px_30px_rgba(0,0,0,0.8)]"></div>
 
                   {/* Vignette */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.7)_100%)]"></div>
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.3)_100%)]"></div>
 
                   {/* Film Grain */}
                   <div className="absolute inset-0 opacity-30 mix-blend-screen" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/stardust.png")' }}></div>

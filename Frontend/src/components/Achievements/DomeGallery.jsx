@@ -5,12 +5,12 @@ import { achievements } from '../../data/achievements';
 const BASE = [...achievements, ...achievements, ...achievements];
 const IMGS  = BASE.map((a, i) => ({ id: `${a.id}-${i}`, src: a.image, alt: a.title }));
 
-const CARD_W = 200;
-const CARD_H = 150;
-const GAP    = 10;
+const CARD_W = 280;
+const CARD_H = 210;
+const GAP    = 20;
 const STRIDE = CARD_W + GAP;
 /* ONE_COPY_W: how far we can scroll before we need to wrap */
-const ONE_COPY_W = achievements.length * STRIDE; // 12 × 210 = 2520 px
+const ONE_COPY_W = achievements.length * STRIDE;
 
 /* ── 3 rows, alternating direction ── */
 const ROW_CFG = [
@@ -128,7 +128,7 @@ function InfiniteRow({ items, speed, dir, onOpen }) {
             key={img.id}
             ref={el => { cardRefs.current[i] = el; }}
             data-src={img.src}
-            className="flex-shrink-0 w-[200px] h-[150px] rounded-[20px] overflow-hidden shadow-lg cursor-pointer"
+            className="flex-shrink-0 w-[280px] h-[210px] rounded-[20px] overflow-hidden shadow-lg cursor-pointer"
             style={{ transformOrigin: 'center center' }}
           >
             <img

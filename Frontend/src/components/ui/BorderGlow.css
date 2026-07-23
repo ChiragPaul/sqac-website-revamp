@@ -1,0 +1,57 @@
+.border-glow-card {
+  --cursor-angle: 0deg;
+  --border-radius: 32px;
+  --glow-color: hsl(0deg 100% 50%);
+  
+  position: relative;
+  border-radius: var(--border-radius);
+  display: flex;
+  background: var(--card-bg, #111);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+  z-index: 1;
+}
+
+/* The actual spinning gradient background */
+.border-glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -3px; /* border thickness */
+  border-radius: calc(var(--border-radius) + 3px);
+  background: conic-gradient(
+    from var(--cursor-angle) at center,
+    transparent 0%,
+    transparent 60%,
+    var(--glow-color) 90%,
+    transparent 100%
+  );
+  z-index: -1;
+}
+
+/* The outer blurred glow of the spinning gradient */
+.border-glow-card::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: calc(var(--border-radius) + 3px);
+  background: conic-gradient(
+    from var(--cursor-angle) at center,
+    transparent 0%,
+    transparent 60%,
+    var(--glow-color) 90%,
+    transparent 100%
+  );
+  z-index: -2;
+  filter: blur(25px); /* Creates the soft outer glow */
+  opacity: 0.8;
+}
+
+.border-glow-inner {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  border-radius: var(--border-radius);
+  background: var(--card-bg, #111);
+  overflow: hidden; /* contain inner contents */
+}
+

@@ -26,7 +26,7 @@ export default function HistoryHome() {
       spineTitle: "Vol I: Genesis",
       overline: "A MEMORY FROM APRIL 2025",
       title: "The Genesis",
-      desc: "It all began in April 2025 under the guidance of our faculty mentor, Dr. Sughanya M. Establishing our core structure across 7 distinct domains, we set the stage and vision for everything the club would soon become.",
+      desc: "It all began in April 2025 under the guidance of our faculty mentor, Dr. Suganiya M Establishing our core structure across 7 distinct domains, we set the stage and vision for everything the club would soon become.",
       footerText: "— The SQAC Archives",
       image: genesisImg,
       icon: <Compass className="text-pink-300" size={24} />,
