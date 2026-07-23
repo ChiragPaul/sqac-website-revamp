@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Globe } from 'lucide-react';
 
 export default function DeveloperStep({ data, updateData, nextStep, prevStep }) {
   const [localData, setLocalData] = useState({
@@ -18,94 +17,86 @@ export default function DeveloperStep({ data, updateData, nextStep, prevStep }) 
     nextStep();
   };
 
-  // Only Github is strictly required, or maybe they just need to enter at least one.
-  // The spec says "When GitHub is entered Display: Repository Link Established"
   const hasGithub = localData.github.trim().length > 0;
   
+  const inputClass = "w-full bg-transparent border-b border-[#00ff41]/30 py-2 pl-4 text-[#00ff41] placeholder-[#00ff41]/20 focus:outline-none focus:border-[#00ff41] transition-colors font-mono text-sm";
+  const labelClass = "text-[10px] text-[#00ff41]/60 uppercase tracking-widest block mb-1";
+
   return (
-    <div className="flex flex-col text-left">
-      <div className="mb-10">
-        <h2 className="text-3xl font-light tracking-wide mb-2 text-white">Developer Profile</h2>
-        <p className="text-white/50 text-sm">Connect your professional identities.</p>
+    <div className="flex flex-col text-left h-full font-mono">
+      <div className="mb-6">
+        <h2 className="text-xl tracking-widest uppercase mb-1 text-[#00ff41]">
+          <span className="opacity-50">&gt; </span>DEV_METADATA
+        </h2>
+        <div className="w-full h-px bg-gradient-to-r from-[#00ff41]/50 to-transparent mb-4" />
       </div>
 
-      <div className="flex flex-col gap-6 mb-10">
-        {/* GitHub */}
-        <div className="flex flex-col gap-1.5 relative group">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1 flex items-center gap-2">
-            <Github className="w-3.5 h-3.5" /> GitHub Profile <span className="text-red-400/60">*</span>
-          </label>
+      <div className="flex flex-col gap-6 mb-8 flex-1">
+        <div className="relative">
+          <label className={labelClass}>[01] GITHUB_URL <span className="text-red-500/80">*</span></label>
+          <span className="absolute left-0 bottom-2 text-[#00ff41]/50">$</span>
           <input 
             type="url" 
             name="github"
             value={localData.github}
             onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="https://github.com/username"
+            className={inputClass}
+            placeholder="https://github.com/..."
           />
-          <Github className="w-5 h-5 absolute left-3 top-8 text-white/30 group-focus-within:text-white/70 transition-colors" />
         </div>
         
-        {/* LinkedIn */}
-        <div className="flex flex-col gap-1.5 relative group">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1 flex items-center gap-2">
-            <Linkedin className="w-3.5 h-3.5" /> LinkedIn <span className="text-white/20 lowercase text-[10px] ml-1">(Optional)</span>
-          </label>
+        <div className="relative">
+          <label className={labelClass}>[02] LINKEDIN_URL <span className="text-[#00ff41]/30">(OPTIONAL)</span></label>
+          <span className="absolute left-0 bottom-2 text-[#00ff41]/50">$</span>
           <input 
             type="url" 
             name="linkedin"
             value={localData.linkedin}
             onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="https://linkedin.com/in/username"
+            className={inputClass}
+            placeholder="https://linkedin.com/in/..."
           />
-          <Linkedin className="w-5 h-5 absolute left-3 top-8 text-white/30 group-focus-within:text-white/70 transition-colors" />
         </div>
 
-        {/* Portfolio */}
-        <div className="flex flex-col gap-1.5 relative group">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1 flex items-center gap-2">
-            <Globe className="w-3.5 h-3.5" /> Portfolio <span className="text-white/20 lowercase text-[10px] ml-1">(Optional)</span>
-          </label>
+        <div className="relative">
+          <label className={labelClass}>[03] PORTFOLIO_URL <span className="text-[#00ff41]/30">(OPTIONAL)</span></label>
+          <span className="absolute left-0 bottom-2 text-[#00ff41]/50">$</span>
           <input 
             type="url" 
             name="portfolio"
             value={localData.portfolio}
             onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="https://yourwebsite.com"
+            className={inputClass}
+            placeholder="https://..."
           />
-          <Globe className="w-5 h-5 absolute left-3 top-8 text-white/30 group-focus-within:text-white/70 transition-colors" />
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-auto">
+      <div className="flex justify-between items-center mt-auto border-t border-[#00ff41]/20 pt-4">
         <button 
           onClick={prevStep}
-          className="px-6 py-3 rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-all font-medium"
+          className="text-xs uppercase tracking-widest text-[#00ff41]/50 hover:text-[#00ff41]"
         >
-          Back
+          &lt; BACK
         </button>
         
-        <div className="flex items-center gap-6">
-          <div className="text-sm font-medium text-blue-400/80 tracking-wide">
+        <div className="flex items-center gap-4">
+          <div className="text-xs text-[#00ff41]/70">
             {hasGithub ? (
-              <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-                Repository Link Established
-              </motion.div>
+              <motion.span initial={{opacity:0}} animate={{opacity:1}}>&gt; REPO_LINKED</motion.span>
             ) : null}
           </div>
           
           <button 
             onClick={handleContinue}
             disabled={!hasGithub}
-            className={`px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300 ${
+            className={`px-6 py-2 border uppercase tracking-widest text-xs font-bold transition-all ${
               hasGithub 
-                ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-                : 'bg-white/10 text-white/30 cursor-not-allowed'
+                ? 'border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]' 
+                : 'border-[#00ff41]/20 text-[#00ff41]/20 cursor-not-allowed'
             }`}
           >
-            Next
+            EXECUTE
           </button>
         </div>
       </div>

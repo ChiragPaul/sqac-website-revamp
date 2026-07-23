@@ -1,28 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Users, 
-  Activity, 
-  Target, 
-  ShieldAlert, 
-  Lock,
-  Search,
-  ChevronDown,
-  LogOut,
-  FolderDot
+  Users, Activity, Target, ShieldAlert, Lock,
+  Search, ChevronDown, LogOut, FolderDot, CheckCircle, XCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-// MOCK DATA for demonstration
-const MOCK_RECRUITS = [
-  { id: '1', name: 'Chinmay Mishra', domain: 'Technical', role: 'Web Dev', date: '2026-07-22', status: 'Reviewed' },
-  { id: '2', name: 'Aarav Kumar', domain: 'Media', role: 'Creatives', date: '2026-07-21', status: 'Pending' },
-  { id: '3', name: 'Riya Singh', domain: 'Corporate', role: 'Sponsorship', date: '2026-07-21', status: 'Pending' },
-  { id: '4', name: 'Siddharth V', domain: 'Technical', role: 'AI/ML', date: '2026-07-20', status: 'Rejected' },
-  { id: '5', name: 'Ananya Sharma', domain: 'Corporate', role: 'Events', date: '2026-07-20', status: 'Reviewed' },
-  { id: '6', name: 'Kunal Patel', domain: 'Technical', role: 'App Dev', date: '2026-07-19', status: 'Pending' },
-  { id: '7', name: 'Neha Gupta', domain: 'Media', role: 'PR', date: '2026-07-18', status: 'Reviewed' },
-];
 
 export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -31,6 +13,48 @@ export default function AdminDashboard() {
 
   const [activeTab, setActiveTab] = useState('Overview');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const [recruits, setRecruits] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchRecruits();
+    }
+  }, [isAuthenticated]);
+
+  const fetchRecruits = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('http://localhost:5000/api/candidates');
+      if (res.ok) {
+        const data = await res.json();
+        setRecruits(data);
+      } else {
+        console.error('Failed to fetch recruits');
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateStatus = async (id, newStatus) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/candidates/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (res.ok) {
+        // Update local state
+        setRecruits(prev => prev.map(r => r._id === id ? { ...r, status: newStatus } : r));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -43,16 +67,19 @@ export default function AdminDashboard() {
     }
   };
 
-  const filteredRecruits = MOCK_RECRUITS.filter(r => 
-    r.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    r.domain.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredRecruits = recruits.filter(r => 
+    r.name?.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    r.domain?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const totalRecruits = recruits.length;
+  const pendingReviews = recruits.filter(r => r.status === 'Pending').length;
+  const technicalCount = recruits.filter(r => ['web', 'aiml', 'app'].includes(r.domain)).length;
 
   // --- LOGIN SCREEN ---
   if (!isAuthenticated) {
     return (
       <div className="w-full h-screen bg-[#050505] flex items-center justify-center font-sans text-white relative overflow-hidden">
-        {/* Background Grid Pattern */}
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
         
         <motion.div 
@@ -171,25 +198,32 @@ export default function AdminDashboard() {
           
           {/* Metrics Row */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {[
-              { label: 'Total Recruits', value: '142', change: '+12% this week', color: 'text-green-400' },
-              { label: 'Technical Domain', value: '68', change: '48% of total', color: 'text-blue-400' },
-              { label: 'Pending Review', value: '24', change: 'Needs action', color: 'text-orange-400' },
-            ].map((metric, i) => (
-              <div key={i} className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors cursor-default">
-                <p className="text-white/40 text-xs uppercase tracking-widest font-semibold mb-2">{metric.label}</p>
-                <div className="text-4xl font-light tracking-tight mb-2">{metric.value}</div>
-                <div className={`text-xs font-medium ${metric.color}`}>{metric.change}</div>
-              </div>
-            ))}
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors cursor-default">
+              <p className="text-white/40 text-xs uppercase tracking-widest font-semibold mb-2">Total Recruits</p>
+              <div className="text-4xl font-light tracking-tight mb-2">{totalRecruits}</div>
+              <div className="text-xs font-medium text-green-400">Lifetime total</div>
+            </div>
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors cursor-default">
+              <p className="text-white/40 text-xs uppercase tracking-widest font-semibold mb-2">Technical Domain</p>
+              <div className="text-4xl font-light tracking-tight mb-2">{technicalCount}</div>
+              <div className="text-xs font-medium text-blue-400">{Math.round((technicalCount/(totalRecruits||1))*100)}% of total</div>
+            </div>
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors cursor-default">
+              <p className="text-white/40 text-xs uppercase tracking-widest font-semibold mb-2">Pending Review</p>
+              <div className="text-4xl font-light tracking-tight mb-2">{pendingReviews}</div>
+              <div className="text-xs font-medium text-orange-400">Needs action</div>
+            </div>
           </div>
 
           {/* Data Table */}
           <div className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden flex flex-col">
             <div className="px-6 py-4 border-b border-white/5 flex justify-between items-center bg-black/20">
               <h3 className="font-medium tracking-wide">Recent Registrations</h3>
-              <button className="flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors">
-                Filter <ChevronDown className="w-3 h-3" />
+              <button 
+                onClick={fetchRecruits} 
+                className="flex items-center gap-1 text-xs text-white/50 hover:text-white transition-colors"
+              >
+                Refresh <Activity className="w-3 h-3" />
               </button>
             </div>
             
@@ -199,7 +233,7 @@ export default function AdminDashboard() {
                   <tr className="border-b border-white/5 bg-black/40">
                     <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Candidate</th>
                     <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Domain</th>
-                    <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Specialization</th>
+                    <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Specializations</th>
                     <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Status</th>
                     <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest">Date</th>
                     <th className="px-6 py-4 text-xs font-semibold text-white/40 uppercase tracking-widest text-right">Action</th>
@@ -209,15 +243,22 @@ export default function AdminDashboard() {
                   <AnimatePresence>
                     {filteredRecruits.map((recruit) => (
                       <motion.tr 
-                        key={recruit.id}
+                        key={recruit._id}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         className="hover:bg-white/[0.02] transition-colors group"
                       >
-                        <td className="px-6 py-4 font-medium">{recruit.name}</td>
-                        <td className="px-6 py-4 text-white/70">{recruit.domain}</td>
-                        <td className="px-6 py-4 text-white/70">{recruit.role}</td>
+                        <td className="px-6 py-4 font-medium">
+                          {recruit.name}
+                          <div className="text-[10px] text-white/40 font-normal">{recruit.email}</div>
+                        </td>
+                        <td className="px-6 py-4 text-white/70 capitalize">{recruit.domain}</td>
+                        <td className="px-6 py-4 text-white/70">
+                          {recruit.specializations?.map(s => (
+                            <span key={s} className="block text-xs">{s}</span>
+                          ))}
+                        </td>
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border
                             ${recruit.status === 'Reviewed' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
@@ -227,20 +268,38 @@ export default function AdminDashboard() {
                             {recruit.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-white/40 text-sm">{recruit.date}</td>
-                        <td className="px-6 py-4 text-right">
-                          <button className="text-white/30 hover:text-white transition-colors text-sm font-medium opacity-0 group-hover:opacity-100">
-                            View
-                          </button>
+                        <td className="px-6 py-4 text-white/40 text-sm">{new Date(recruit.submittedAt).toLocaleDateString()}</td>
+                        <td className="px-6 py-4 text-right flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          {recruit.status === 'Pending' && (
+                            <>
+                              <button 
+                                onClick={() => updateStatus(recruit._id, 'Reviewed')}
+                                className="p-1 rounded bg-green-500/10 hover:bg-green-500/20 text-green-400 transition-colors" title="Accept"
+                              >
+                                <CheckCircle className="w-4 h-4" />
+                              </button>
+                              <button 
+                                onClick={() => updateStatus(recruit._id, 'Rejected')}
+                                className="p-1 rounded bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors" title="Reject"
+                              >
+                                <XCircle className="w-4 h-4" />
+                              </button>
+                            </>
+                          )}
                         </td>
                       </motion.tr>
                     ))}
                   </AnimatePresence>
                 </tbody>
               </table>
-              {filteredRecruits.length === 0 && (
+              {loading && (
                 <div className="px-6 py-12 text-center text-white/30 text-sm">
-                  No records found matching "{searchQuery}"
+                  Loading telemetry...
+                </div>
+              )}
+              {!loading && filteredRecruits.length === 0 && (
+                <div className="px-6 py-12 text-center text-white/30 text-sm">
+                  No records found.
                 </div>
               )}
             </div>

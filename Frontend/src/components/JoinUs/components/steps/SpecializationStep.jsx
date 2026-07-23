@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 const SPECIALIZATIONS = {
-  web: ['Frontend (React/Vue)', 'Backend (Node/Python)', 'Fullstack', 'Web3 / Smart Contracts'],
-  aiml: ['Computer Vision', 'Natural Language Processing', 'Data Science', 'Generative AI'],
-  app: ['Android (Kotlin/Java)', 'iOS (Swift)', 'Flutter', 'React Native'],
-  uiux: ['User Research', 'Wireframing', 'Prototyping', 'Interaction Design'],
-  media: ['Video Editing', 'Graphic Design', 'Social Media Management', 'Content Writing'],
-  corporate: ['Sponsorships', 'Event Management', 'Public Relations', 'Logistics']
+  web: ['FRONTEND_REACT', 'BACKEND_NODE', 'FULLSTACK', 'WEB3_CONTRACTS'],
+  aiml: ['COMPUTER_VISION', 'NLP', 'DATA_SCIENCE', 'GENERATIVE_AI'],
+  app: ['ANDROID_KOTLIN', 'IOS_SWIFT', 'FLUTTER', 'REACT_NATIVE'],
+  uiux: ['USER_RESEARCH', 'WIREFRAMING', 'PROTOTYPING', 'INTERACTION_DESIGN'],
+  media: ['VIDEO_EDITING', 'GRAPHIC_DESIGN', 'SOCIAL_MEDIA', 'CONTENT_WRITING'],
+  corporate: ['SPONSORSHIPS', 'EVENT_MGMT', 'PUBLIC_RELATIONS', 'LOGISTICS']
 };
 
 export default function SpecializationStep({ data, updateData, nextStep, prevStep }) {
@@ -30,13 +30,15 @@ export default function SpecializationStep({ data, updateData, nextStep, prevSte
   };
 
   return (
-    <div className="flex flex-col text-left h-full">
-      <div className="mb-8">
-        <h2 className="text-3xl font-light tracking-wide mb-2 text-white">Specialization</h2>
-        <p className="text-white/50 text-sm">Select up to two areas of focus.</p>
+    <div className="flex flex-col text-left h-full font-mono">
+      <div className="mb-6">
+        <h2 className="text-xl tracking-widest uppercase mb-1 text-[#00ff41]">
+          <span className="opacity-50">&gt; </span>SUB_ROUTINES <span className="text-[10px] text-[#00ff41]/50 ml-2">(MAX 2)</span>
+        </h2>
+        <div className="w-full h-px bg-gradient-to-r from-[#00ff41]/50 to-transparent mb-4" />
       </div>
 
-      <div className="flex flex-col gap-3 mb-8">
+      <div className="flex flex-col gap-2 mb-8 flex-1 overflow-y-auto no-scrollbar">
         {specs.map((spec, idx) => {
           const isSelected = selectedSpecs.includes(spec);
           const isDisabled = !isSelected && selectedSpecs.length >= 2;
@@ -46,51 +48,45 @@ export default function SpecializationStep({ data, updateData, nextStep, prevSte
               key={idx}
               onClick={() => toggleSpec(spec)}
               disabled={isDisabled}
-              className={`w-full text-left px-6 py-4 rounded-xl border transition-all duration-300 flex items-center justify-between
+              className={`w-full text-left px-4 py-3 border transition-all duration-300 flex items-center justify-between
                 ${isSelected 
-                  ? 'bg-white/10 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.1)]' 
+                  ? 'bg-[#00ff41]/10 border-[#00ff41] shadow-[0_0_15px_rgba(0,255,65,0.2)]' 
                   : isDisabled 
-                    ? 'bg-black/20 border-white/5 opacity-40 cursor-not-allowed' 
-                    : 'bg-black/20 border-white/10 hover:bg-white/5 hover:border-white/20'
+                    ? 'bg-transparent border-[#00ff41]/5 opacity-30 cursor-not-allowed' 
+                    : 'bg-transparent border-[#00ff41]/20 hover:bg-[#00ff41]/5 hover:border-[#00ff41]/50'
                 }
               `}
             >
-              <span className={`font-medium ${isSelected ? 'text-white' : 'text-white/70'}`}>
+              <span className={`text-sm tracking-widest ${isSelected ? 'text-[#00ff41] font-bold' : 'text-[#00ff41]/70'}`}>
                 {spec}
               </span>
               
-              <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors
-                ${isSelected ? 'border-white bg-white' : 'border-white/20'}
-              `}>
-                {isSelected && (
-                  <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
+              <div className="text-xs">
+                {isSelected ? '[ X ]' : '[   ]'}
               </div>
             </button>
           );
         })}
       </div>
 
-      <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/10">
+      <div className="flex justify-between items-center mt-auto border-t border-[#00ff41]/20 pt-4">
         <button 
           onClick={prevStep}
-          className="px-6 py-3 rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-all font-medium"
+          className="text-xs uppercase tracking-widest text-[#00ff41]/50 hover:text-[#00ff41]"
         >
-          Back
+          &lt; BACK
         </button>
         
         <button 
           onClick={handleContinue}
           disabled={selectedSpecs.length === 0}
-          className={`px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300 ${
+          className={`px-6 py-2 border uppercase tracking-widest text-xs font-bold transition-all ${
             selectedSpecs.length > 0
-              ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-              : 'bg-white/10 text-white/30 cursor-not-allowed'
+              ? 'border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]' 
+              : 'border-[#00ff41]/20 text-[#00ff41]/20 cursor-not-allowed'
           }`}
         >
-          Next
+          EXECUTE
         </button>
       </div>
     </div>

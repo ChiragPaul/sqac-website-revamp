@@ -9,6 +9,9 @@ const xlsx = require('xlsx');
 const dataRoutes = require('./routes/dataRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const teamRoutes = require('./routes/teamRoutes');
+const Candidate = require('./models/Candidate');
+const { storage } = require('./utils/cloudinary');
+const upload = multer({ storage });
 
 const app = express();
 app.use(cors());
@@ -31,6 +34,43 @@ app.get('/api/health', (req, res) => {
   res.send('Backend is running');
 });
 
+// --- Candidate / Registration API ---
+app.post('/api/candidates', async (req, res) => {
+  try {
+    const candidate = new Candidate(req.body);
+    await candidate.save();
+    res.status(201).json({ message: 'Application submitted successfully', candidate });
+  } catch (err) {
+    console.error('Error saving candidate:', err);
+    res.status(400).json({ message: err.message });
+  }
+});
+
+app.get('/api/candidates', async (req, res) => {
+  try {
+    const candidates = await Candidate.find().sort({ submittedAt: -1 });
+    res.json(candidates);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+app.patch('/api/candidates/:id/status', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!['Pending', 'Reviewed', 'Rejected'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+    const updatedCandidate = await Candidate.findByIdAndUpdate(
+      req.params.id, 
+      { status }, 
+      { new: true }
+    );
+    res.json(updatedCandidate);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 cron.schedule('0 * * * *', async () => {
   console.log('Running Excel to MongoDB sync...');
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SQACCore from './components/SQACCore';
 import IdentityStep from './components/steps/IdentityStep';
@@ -16,6 +16,24 @@ const STEPS = [
   { id: 'mission', title: 'Mission', component: MissionStep },
   { id: 'deploy', title: 'Deploy', component: ReviewStep },
 ];
+
+// Typewriter effect component for the AI dialogue
+const TypewriterText = ({ text }) => {
+  const [displayedText, setDisplayedText] = useState('');
+  
+  useEffect(() => {
+    setDisplayedText('');
+    let i = 0;
+    const intervalId = setInterval(() => {
+      setDisplayedText(text.substring(0, i));
+      i++;
+      if (i > text.length) clearInterval(intervalId);
+    }, 30);
+    return () => clearInterval(intervalId);
+  }, [text]);
+
+  return <span>{displayedText}</span>;
+};
 
 export default function RegistrationFlow() {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
@@ -55,127 +73,122 @@ export default function RegistrationFlow() {
     }
   };
 
-  const handleDeploy = () => {
-    // In a real app, send API request here.
-    setIsSuccess(true);
+  const handleDeploy = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/candidates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (res.ok) {
+        setIsSuccess(true);
+      } else {
+        console.error('Failed to submit application');
+      }
+    } catch (error) {
+      console.error('Error submitting:', error);
+    }
   };
 
-  // The step components need access to the data, update function, and navigation
   const CurrentStepComponent = STEPS[currentStepIndex].component;
 
-  // Animation variants for sliding screens
-  const pageVariants = {
-    initial: (direction) => ({
-      x: direction > 0 ? 1000 : -1000,
-      opacity: 0,
-      scale: 0.95
-    }),
-    in: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 30
-      }
-    },
-    out: (direction) => ({
-      x: direction > 0 ? -1000 : 1000,
-      opacity: 0,
-      scale: 0.95,
-      transition: {
-        type: 'spring',
-        stiffness: 300,
-        damping: 30
-      }
-    })
+  // RPG Dialogue Box animation
+  const dialogueVariants = {
+    initial: { opacity: 0, y: 50 },
+    in: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+    out: { opacity: 0, y: 50, transition: { duration: 0.3 } }
   };
 
   if (isSuccess) {
     return (
-      <div className="relative w-full h-screen bg-[#050505] text-white overflow-hidden flex items-center justify-center font-sans">
-        {/* Background 3D Core - Fully Assembled */}
+      <div className="relative w-full h-screen bg-[#050505] text-[#00ff41] overflow-hidden flex items-center justify-center font-mono">
         <div className="absolute inset-0 z-0 opacity-40">
           <SQACCore stage={6} />
         </div>
         
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="relative z-10 flex flex-col items-center text-center p-8 glass-panel rounded-3xl"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="relative z-10 p-8 border border-[#00ff41]/30 bg-black/80 shadow-[0_0_20px_rgba(0,255,65,0.2)] max-w-md w-full text-center"
         >
-          <div className="w-24 h-24 mb-6 rounded-full bg-green-500/20 flex items-center justify-center border border-green-500/50 shadow-[0_0_30px_rgba(34,197,94,0.3)]">
-            <motion.svg 
-              className="w-12 h-12 text-green-400"
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </motion.svg>
-          </div>
-          <h2 className="text-3xl font-light tracking-wide mb-2 text-white">Application Successfully Deployed</h2>
-          <p className="text-white/50 mb-8 max-w-md">Welcome to SQAC. We'll review your application shortly and get back to you.</p>
+          <h2 className="text-2xl mb-4 tracking-widest uppercase">&gt; SYSTEM OVERRIDE SUCCESS</h2>
+          <p className="text-[#00ff41]/70 mb-8 text-sm">
+            <TypewriterText text="Your telemetry has been injected into the SQAC mainframe. Await further instructions." />
+          </p>
           <button 
             onClick={() => window.location.href = '/'}
-            className="px-8 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 transition-all font-medium tracking-wide"
+            className="px-6 py-2 border border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black transition-colors uppercase tracking-widest text-sm font-bold"
           >
-            Return to Base
+            DISCONNECT
           </button>
         </motion.div>
       </div>
     );
   }
 
+  // AI Prompts based on step
+  const aiPrompts = [
+    "USER DETECTED. PLEASE IDENTIFY YOURSELF TO PROCEED.",
+    "IDENTITY CONFIRMED. PROVIDE REPOSITORY COORDINATES.",
+    "UPLINK ESTABLISHED. SELECT YOUR PRIMARY DOMAIN VECTOR.",
+    "DOMAIN LOCKED. SPECIFY YOUR TECHNICAL SUB-ROUTINES.",
+    "STATE YOUR MISSION. WHY ARE YOU ACCESSING THIS SYSTEM?",
+    "REVIEW TELEMETRY. CONFIRM DEPLOYMENT TO MAINFRAME."
+  ];
+
   return (
-    <div className="relative w-full h-screen bg-[#050505] text-white overflow-hidden font-sans">
+    <div className="relative w-full h-screen bg-[#050505] text-[#00ff41] overflow-hidden font-mono selection:bg-[#00ff41] selection:text-black">
       
-      {/* 3D Hero Background - Z-index 0 */}
+      {/* 3D Hero Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* The stage directly correlates to the step index (0 to 5) */}
         <SQACCore stage={currentStepIndex} />
       </div>
 
       {/* Main UI Overlay - Z-index 10 */}
-      <div className="relative z-10 w-full h-full flex flex-col px-4 md:px-12 lg:px-24 pt-24 pb-12">
+      <div className="relative z-10 w-full h-full flex flex-col justify-end pb-12 px-4 md:px-12 lg:px-24">
         
-        {/* Top Progress Bar */}
-        <div className="w-full max-w-4xl mx-auto flex items-center justify-between mb-8 md:mb-16">
-          <div className="flex gap-2 w-full max-w-md">
-            {STEPS.map((step, idx) => (
-              <div 
-                key={step.id} 
-                className="h-1 flex-1 rounded-full transition-all duration-500"
-                style={{ 
-                  backgroundColor: idx <= currentStepIndex ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.1)',
-                  boxShadow: idx <= currentStepIndex ? '0 0 8px rgba(255,255,255,0.4)' : 'none'
-                }}
-              />
-            ))}
+        <div className="w-full max-w-5xl mx-auto flex flex-col md:flex-row gap-6">
+          
+          {/* AI Dialogue Box */}
+          <div className="w-full md:w-1/3 flex flex-col justify-end">
+            <div className="border border-[#00ff41]/30 bg-black/80 backdrop-blur-md p-6 shadow-[0_0_15px_rgba(0,255,65,0.1)]">
+              <div className="flex items-center gap-2 mb-4 text-xs font-bold tracking-widest uppercase text-[#00ff41]/50 border-b border-[#00ff41]/30 pb-2">
+                <div className="w-2 h-2 rounded-full bg-[#00ff41] animate-pulse" />
+                SQAC_CORE_AI // STATUS: LISTENING
+              </div>
+              <p className="text-sm leading-relaxed min-h-[60px]">
+                &gt; <TypewriterText text={aiPrompts[currentStepIndex]} />
+                <motion.span 
+                  animate={{ opacity: [1, 0] }} 
+                  transition={{ repeat: Infinity, duration: 0.8 }}
+                  className="inline-block ml-1 w-2 h-4 bg-[#00ff41] align-middle"
+                />
+              </p>
+              
+              <div className="mt-6 flex gap-1 h-1">
+                {STEPS.map((step, idx) => (
+                  <div 
+                    key={step.id} 
+                    className="flex-1 transition-all duration-300"
+                    style={{ backgroundColor: idx <= currentStepIndex ? '#00ff41' : 'rgba(0,255,65,0.2)' }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-          <div className="text-xs uppercase tracking-widest font-semibold text-white/50 ml-4 hidden sm:block">
-            {STEPS[currentStepIndex].title} • {Math.round(((currentStepIndex + 1) / STEPS.length) * 100)}%
-          </div>
-        </div>
 
-        {/* Sliding Step Content */}
-        <div className="flex-1 relative w-full max-w-4xl mx-auto flex flex-col justify-center">
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.div
-              key={currentStepIndex}
-              custom={direction}
-              variants={pageVariants}
-              initial="initial"
-              animate="in"
-              exit="out"
-              className="w-full absolute inset-0 flex items-center justify-center"
-            >
-              <div className="w-full max-w-2xl bg-black/40 backdrop-blur-2xl border border-white/5 p-8 md:p-12 rounded-[2rem] shadow-2xl">
+          {/* User Input Area */}
+          <div className="w-full md:w-2/3">
+            <AnimatePresence custom={direction} mode="wait">
+              <motion.div
+                key={currentStepIndex}
+                custom={direction}
+                variants={dialogueVariants}
+                initial="initial"
+                animate="in"
+                exit="out"
+                className="w-full border border-[#00ff41]/30 bg-black/80 backdrop-blur-md p-6 md:p-8 shadow-[0_0_15px_rgba(0,255,65,0.1)] min-h-[400px] flex flex-col"
+              >
                 <CurrentStepComponent 
                   data={formData} 
                   updateData={updateFormData} 
@@ -185,11 +198,11 @@ export default function RegistrationFlow() {
                   isLast={currentStepIndex === STEPS.length - 1}
                   handleDeploy={handleDeploy}
                 />
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
+        </div>
       </div>
     </div>
   );

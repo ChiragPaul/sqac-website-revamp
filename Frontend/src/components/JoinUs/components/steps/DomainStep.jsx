@@ -2,19 +2,18 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const DOMAINS = [
-  { id: 'web', title: 'Web Development', desc: 'Build modern, responsive web applications.', color: 'from-blue-500/20 to-blue-900/20', border: 'border-blue-500/30' },
-  { id: 'aiml', title: 'AI / ML', desc: 'Train models and build intelligent systems.', color: 'from-purple-500/20 to-purple-900/20', border: 'border-purple-500/30' },
-  { id: 'app', title: 'App Development', desc: 'Create native and cross-platform mobile apps.', color: 'from-green-500/20 to-green-900/20', border: 'border-green-500/30' },
-  { id: 'uiux', title: 'UI / UX', desc: 'Design beautiful and intuitive user experiences.', color: 'from-pink-500/20 to-pink-900/20', border: 'border-pink-500/30' },
-  { id: 'media', title: 'Media & PR', desc: 'Manage social presence and public relations.', color: 'from-orange-500/20 to-orange-900/20', border: 'border-orange-500/30' },
-  { id: 'corporate', title: 'Corporate', desc: 'Handle sponsorships, events, and outreach.', color: 'from-yellow-500/20 to-yellow-900/20', border: 'border-yellow-500/30' },
+  { id: 'web', title: 'WEB_DEV', desc: 'Build modern, responsive web applications.' },
+  { id: 'aiml', title: 'AI_ML', desc: 'Train models and build intelligent systems.' },
+  { id: 'app', title: 'APP_DEV', desc: 'Create native and cross-platform mobile apps.' },
+  { id: 'uiux', title: 'UI_UX', desc: 'Design beautiful and intuitive user experiences.' },
+  { id: 'media', title: 'MEDIA_PR', desc: 'Manage social presence and public relations.' },
+  { id: 'corporate', title: 'CORPORATE', desc: 'Handle sponsorships, events, and outreach.' },
 ];
 
 export default function DomainStep({ data, updateData, nextStep, prevStep }) {
   const [selectedDomain, setSelectedDomain] = useState(data.domain || '');
 
   const handleContinue = () => {
-    // If they changed the domain, clear previous specializations
     if (data.domain !== selectedDomain) {
       updateData({ domain: selectedDomain, specializations: [] });
     } else {
@@ -24,33 +23,35 @@ export default function DomainStep({ data, updateData, nextStep, prevStep }) {
   };
 
   return (
-    <div className="flex flex-col text-left h-full">
-      <div className="mb-8">
-        <h2 className="text-3xl font-light tracking-wide mb-2 text-white">Choose Your Domain</h2>
-        <p className="text-white/50 text-sm">Select your primary area of expertise.</p>
+    <div className="flex flex-col text-left h-full font-mono">
+      <div className="mb-6">
+        <h2 className="text-xl tracking-widest uppercase mb-1 text-[#00ff41]">
+          <span className="opacity-50">&gt; </span>DOMAIN_SELECTION
+        </h2>
+        <div className="w-full h-px bg-gradient-to-r from-[#00ff41]/50 to-transparent mb-4" />
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8 max-h-[50vh] overflow-y-auto no-scrollbar pr-2 pb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8 max-h-[50vh] overflow-y-auto no-scrollbar flex-1">
         {DOMAINS.map((domain) => {
           const isSelected = selectedDomain === domain.id;
-          const isFaded = selectedDomain !== '' && !isSelected;
 
           return (
             <motion.div
               key={domain.id}
               onClick={() => setSelectedDomain(domain.id)}
-              layout
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className={`cursor-pointer rounded-2xl p-6 border transition-all duration-500 flex flex-col justify-between min-h-[140px]
+              className={`cursor-pointer p-3 border transition-all duration-300 flex flex-col justify-start
                 ${isSelected 
-                  ? `bg-gradient-to-br ${domain.color} ${domain.border} shadow-[0_0_30px_rgba(255,255,255,0.1)] scale-100` 
-                  : `bg-white/5 border-white/5 hover:bg-white/10 ${isFaded ? 'opacity-30 scale-95' : 'opacity-100 scale-100'} hover:border-white/20`
+                  ? `bg-[#00ff41]/10 border-[#00ff41] shadow-[0_0_15px_rgba(0,255,65,0.2)]` 
+                  : `bg-transparent border-[#00ff41]/20 hover:bg-[#00ff41]/5 hover:border-[#00ff41]/50`
                 }
               `}
             >
-              <h3 className={`text-lg font-bold mb-2 transition-colors ${isSelected ? 'text-white' : 'text-white/70'}`}>
-                {domain.title}
-              </h3>
+              <div className="flex items-center gap-2 mb-2">
+                <div className={`w-2 h-2 ${isSelected ? 'bg-[#00ff41] shadow-[0_0_5px_#00ff41]' : 'bg-[#00ff41]/20'}`} />
+                <h3 className={`text-sm font-bold tracking-widest ${isSelected ? 'text-[#00ff41]' : 'text-[#00ff41]/70'}`}>
+                  {domain.title}
+                </h3>
+              </div>
               
               <AnimatePresence>
                 {isSelected && (
@@ -58,41 +59,35 @@ export default function DomainStep({ data, updateData, nextStep, prevStep }) {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    className="text-white/60 text-sm leading-relaxed"
+                    className="text-[#00ff41]/60 text-xs leading-relaxed"
                   >
                     {domain.desc}
                   </motion.p>
                 )}
               </AnimatePresence>
-
-              {!isSelected && (
-                <p className="text-white/40 text-xs line-clamp-2">
-                  {domain.desc}
-                </p>
-              )}
             </motion.div>
           );
         })}
       </div>
 
-      <div className="flex justify-between items-center mt-auto pt-4 border-t border-white/10">
+      <div className="flex justify-between items-center mt-auto border-t border-[#00ff41]/20 pt-4">
         <button 
           onClick={prevStep}
-          className="px-6 py-3 rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-all font-medium"
+          className="text-xs uppercase tracking-widest text-[#00ff41]/50 hover:text-[#00ff41]"
         >
-          Back
+          &lt; BACK
         </button>
         
         <button 
           onClick={handleContinue}
           disabled={!selectedDomain}
-          className={`px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300 ${
+          className={`px-6 py-2 border uppercase tracking-widest text-xs font-bold transition-all ${
             selectedDomain 
-              ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-              : 'bg-white/10 text-white/30 cursor-not-allowed'
+              ? 'border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]' 
+              : 'border-[#00ff41]/20 text-[#00ff41]/20 cursor-not-allowed'
           }`}
         >
-          Next
+          EXECUTE
         </button>
       </div>
     </div>

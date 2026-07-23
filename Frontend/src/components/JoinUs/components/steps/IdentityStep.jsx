@@ -20,120 +20,86 @@ export default function IdentityStep({ data, updateData, nextStep, isFirst }) {
     nextStep();
   };
 
-  // Simple validation: check if all fields have some value
   const isValid = Object.values(localData).every(val => val.trim().length > 0);
 
+  const inputClass = "w-full bg-transparent border-b border-[#00ff41]/30 py-2 text-[#00ff41] placeholder-[#00ff41]/20 focus:outline-none focus:border-[#00ff41] transition-colors font-mono text-sm uppercase";
+  const labelClass = "text-[10px] text-[#00ff41]/60 uppercase tracking-widest block mb-1";
+
   return (
-    <div className="flex flex-col text-left">
-      <div className="mb-8">
-        <h2 className="text-3xl font-light tracking-wide mb-2 text-white">Identify Yourself</h2>
-        <p className="text-white/50 text-sm">Let's build your developer profile.</p>
+    <div className="flex flex-col text-left h-full font-mono">
+      <div className="mb-6">
+        <h2 className="text-xl tracking-widest uppercase mb-1 text-[#00ff41]">
+          <span className="opacity-50">&gt; </span>USER_IDENTITY_FORM
+        </h2>
+        <div className="w-full h-px bg-gradient-to-r from-[#00ff41]/50 to-transparent mb-4" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Full Name</label>
-          <input 
-            type="text" 
-            name="name"
-            value={localData.name}
-            onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="John Doe"
-          />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mb-8 flex-1">
+        <div>
+          <label className={labelClass}>[01] FULL_NAME</label>
+          <input type="text" name="name" value={localData.name} onChange={handleChange} className={inputClass} placeholder="_ENTER_NAME" />
         </div>
         
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Email Address</label>
-          <input 
-            type="email" 
-            name="email"
-            value={localData.email}
-            onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="john@srmist.edu.in"
-          />
+        <div>
+          <label className={labelClass}>[02] EMAIL_ADDR</label>
+          <input type="email" name="email" value={localData.email} onChange={handleChange} className={inputClass} placeholder="_ENTER_EMAIL" />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Phone Number</label>
-          <input 
-            type="tel" 
-            name="phone"
-            value={localData.phone}
-            onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="9876543210"
-          />
+        <div>
+          <label className={labelClass}>[03] COMM_LINK_ID</label>
+          <input type="tel" name="phone" value={localData.phone} onChange={handleChange} className={inputClass} placeholder="_ENTER_PHONE" />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Roll Number (RA)</label>
-          <input 
-            type="text" 
-            name="rollNumber"
-            value={localData.rollNumber}
-            onChange={handleChange}
-            className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/20 focus:outline-none focus:border-white/30 focus:bg-white/5 transition-all"
-            placeholder="RA2211003010000"
-          />
+        <div>
+          <label className={labelClass}>[04] ROLL_NUMBER</label>
+          <input type="text" name="rollNumber" value={localData.rollNumber} onChange={handleChange} className={inputClass} placeholder="_ENTER_REG_ID" />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Branch</label>
-          <select 
-            name="branch"
-            value={localData.branch}
-            onChange={handleChange}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all appearance-none"
-          >
-            <option value="" disabled>Select Branch</option>
-            <option value="CSE">CSE Core</option>
-            <option value="CSE-AIML">CSE AIML</option>
-            <option value="CSE-DS">CSE Data Science</option>
-            <option value="SWE">Software Engineering</option>
-            <option value="IT">Information Technology</option>
-            <option value="ECE">ECE</option>
-            <option value="Other">Other</option>
+        <div>
+          <label className={labelClass}>[05] BRANCH_CODE</label>
+          <select name="branch" value={localData.branch} onChange={handleChange} className={`${inputClass} appearance-none cursor-pointer`}>
+            <option value="" disabled className="bg-black">_SELECT_BRANCH</option>
+            <option value="CSE" className="bg-black text-[#00ff41]">CSE Core</option>
+            <option value="CSE-AIML" className="bg-black text-[#00ff41]">CSE AIML</option>
+            <option value="CSE-DS" className="bg-black text-[#00ff41]">CSE Data Science</option>
+            <option value="SWE" className="bg-black text-[#00ff41]">Software Engineering</option>
+            <option value="IT" className="bg-black text-[#00ff41]">Information Technology</option>
+            <option value="ECE" className="bg-black text-[#00ff41]">ECE</option>
+            <option value="Other" className="bg-black text-[#00ff41]">Other</option>
           </select>
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-xs uppercase tracking-widest text-white/40 font-semibold pl-1">Year</label>
-          <select 
-            name="year"
-            value={localData.year}
-            onChange={handleChange}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-white/30 focus:bg-white/10 transition-all appearance-none"
-          >
-            <option value="" disabled>Select Year</option>
-            <option value="1">1st Year</option>
-            <option value="2">2nd Year</option>
-            <option value="3">3rd Year</option>
-            <option value="4">4th Year</option>
+        <div>
+          <label className={labelClass}>[06] ACTIVE_YEAR</label>
+          <select name="year" value={localData.year} onChange={handleChange} className={`${inputClass} appearance-none cursor-pointer`}>
+            <option value="" disabled className="bg-black">_SELECT_YEAR</option>
+            <option value="1" className="bg-black text-[#00ff41]">1st Year</option>
+            <option value="2" className="bg-black text-[#00ff41]">2nd Year</option>
+            <option value="3" className="bg-black text-[#00ff41]">3rd Year</option>
+            <option value="4" className="bg-black text-[#00ff41]">4th Year</option>
           </select>
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-4">
-        <div className="text-sm font-medium text-green-400/80 tracking-wide h-6">
+      <div className="flex justify-between items-center mt-auto border-t border-[#00ff41]/20 pt-4">
+        <div className="text-xs text-[#00ff41]/70">
           {isValid ? (
-            <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-              +25 XP • Identity Verified
-            </motion.div>
-          ) : null}
+            <motion.span initial={{opacity:0}} animate={{opacity:1}}>&gt; STATUS: VALIDATED</motion.span>
+          ) : (
+            <span className="text-red-500/70">&gt; STATUS: AWAITING_INPUT</span>
+          )}
         </div>
         
         <button 
           onClick={handleContinue}
           disabled={!isValid}
-          className={`px-8 py-3 rounded-full font-medium tracking-wide transition-all duration-300 ${
+          className={`px-6 py-2 border uppercase tracking-widest text-xs font-bold transition-all ${
             isValid 
-              ? 'bg-white text-black hover:bg-gray-200 hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(255,255,255,0.3)]' 
-              : 'bg-white/10 text-white/30 cursor-not-allowed'
+              ? 'border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black shadow-[0_0_10px_rgba(0,255,65,0.3)]' 
+              : 'border-[#00ff41]/20 text-[#00ff41]/20 cursor-not-allowed'
           }`}
         >
-          Next
+          EXECUTE
         </button>
       </div>
     </div>
