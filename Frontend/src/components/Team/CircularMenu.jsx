@@ -85,18 +85,20 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
     (s) => s.filter === activeFilter && s.subFilter === activeSubFilter
   );
   const activeIdx = activeSegmentIndex >= 0 ? activeSegmentIndex : 0;
-  const rotationAngle = isMobile ? 180 - (activeIdx * degPerSegment + degPerSegment / 2) : 0;
+  // On mobile, anchor to bottom (180 deg). On desktop, anchor to left (270 deg) since it's on the right edge.
+  const anchorAngle = isMobile ? 180 : 270;
+  const rotationAngle = anchorAngle - (activeIdx * degPerSegment + degPerSegment / 2);
 
   const handlePan = (e, info) => {
-    if (!isMobile) return;
-    const dy = info.delta.y;
-    setDragRotation((prev) => prev - dy * 0.45);
+    // Determine rotation delta based on axis of movement. 
+    // On desktop (right edge), vertical drag rotates it. On mobile (top edge), horizontal drag rotates it.
+    const delta = isMobile ? info.delta.x : info.delta.y;
+    setDragRotation((prev) => prev - delta * 0.45);
   };
 
   const handlePanEnd = (e, info) => {
-    if (!isMobile) return;
     const finalRotation = rotationAngle + dragRotation;
-    const targetAngle = (180 - finalRotation + 360 * 10) % 360;
+    const targetAngle = (anchorAngle - finalRotation + 360 * 10) % 360;
     const nearestIdx = Math.round((targetAngle - 22.5) / degPerSegment);
     const normalizedIdx = ((nearestIdx % N) + N) % N;
 
@@ -251,9 +253,9 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
                         className="cursor-pointer"
                         onMouseEnter={() => setHoveredId(seg.id)}
                         onMouseLeave={() => setHoveredId(null)}
-                        onClick={() => {
+                        onTap={() => {
                           onChangeFilter(seg.filter, seg.subFilter);
-                          if(isMobile) setIsExpanded(false);
+                          if (isMobile) setIsExpanded(false);
                         }}
                       >
                         <path

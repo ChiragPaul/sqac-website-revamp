@@ -6,87 +6,29 @@ const multer = require('multer');
 const cron = require('node-cron');
 const xlsx = require('xlsx');
 
-const Data = require('./models/Data');
-const Contact = require('./models/Contact');
-const { storage } = require('./utils/cloudinary');
-const upload = multer({ storage });
+const dataRoutes = require('./routes/dataRoutes');
+const contactRoutes = require('./routes/contactRoutes');
+const teamRoutes = require('./routes/teamRoutes');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+if (process.env.MONGO_URI) {
+  mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log('MongoDB connection error:', err));
+} else {
+  console.warn('⚠️ MONGO_URI is undefined! Skipping MongoDB connection. (Data and Contact routes will fail)');
+}
 
-app.get('/api/data', async (req, res) => {
-  try {
-    const data = await Data.find({});
-    res.json(data);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-app.get('/api/data/field/:fieldName', async (req, res) => {
-  const field = req.params.fieldName;
-  try {
-    const data = await Data.find({}, { [field]: 1, _id: 0 });
-    res.json(data.map(d => d[field]));
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-app.post('/api/upload/:id', upload.single('image'), async (req, res) => {
-  try {
-    const id = req.params.id;
-    const imageUrl = req.file.path;
-
-    const updatedData = await Data.findByIdAndUpdate(
-      id,
-      { image: imageUrl },
-      { new: true }
-    );
-
-    res.json(updatedData);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// Routes
+app.use('/api', dataRoutes);
+app.use('/api', contactRoutes);
+app.use('/api', teamRoutes);
 
 app.get('/api/health', (req, res) => {
   res.send('Backend is running');
-});
-
-app.post('/api/contact', async (req, res) => {
-  try {
-    console.log('Contact form submission received:', req.body);
-    const { name, email, message } = req.body;
-    
-    if (!name || !email || !message) {
-      console.log('Validation failed - missing fields');
-      return res.status(400).json({ message: 'Name, email, and message are required' });
-    }
-
-    const contact = new Contact({
-      name,
-      email,
-      message
-    });
-
-    await contact.save();
-    console.log('Contact saved to MongoDB:', contact._id);
-    res.status(201).json({ message: 'Contact form submitted successfully', contact });
-  } catch (err) {
-    console.error('Error saving contact:', err);
-    res.status(500).json({ message: err.message });
-  }
-});
-
-app.get('/api/contact', async (req, res) => {
-  const contacts = await Contact.find().sort({ submittedAt: -1 });
-  res.json(contacts);
 });
 
 cron.schedule('0 * * * *', async () => {

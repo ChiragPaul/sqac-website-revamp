@@ -24,218 +24,7 @@ const LIGHT_CARD_GRADIENTS = [
   'from-[#FFD663] to-[#FF8547]'  // Yellow orange to Vivid orange
 ];
 
-const PLACEHOLDER_MEMBERS = [
-  // Board
-  {
-    id: 'placeholder-1',
-    name: 'Yash Gupta',
-    initials: 'YG',
-    role: 'Secretary',
-    bio: 'Yash Gupta is a dedicated secretary at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Shaped the strategic vision and direction of SQAC.',
-      'Mentored members and oversaw operations across all domains.'
-    ],
-    domain: 'Board',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-2',
-    name: 'Tanmay Bansal',
-    initials: 'TB',
-    role: 'Joint Secretary',
-    bio: 'Tanmay Bansal is a dedicated joint secretary at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Shaped the strategic vision and direction of SQAC.',
-      'Mentored members and oversaw operations across all domains.'
-    ],
-    domain: 'Board',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-3',
-    name: 'Nityam Sharma',
-    initials: 'NS',
-    role: 'Joint Secretary',
-    bio: 'Nityam Sharma is a dedicated joint secretary at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Shaped the strategic vision and direction of SQAC.',
-      'Mentored members and oversaw operations across all domains.'
-    ],
-    domain: 'Board',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-4',
-    name: 'Priyanshu Vasudev',
-    initials: 'PV',
-    role: 'Technical Lead',
-    bio: 'Priyanshu Vasudev is a dedicated technical lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Shaped the strategic vision and direction of SQAC.',
-      'Mentored members and oversaw operations across all domains.'
-    ],
-    domain: 'Board',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-5',
-    name: 'Vedant Modi',
-    initials: 'VM',
-    role: 'Corporate Lead',
-    bio: 'Vedant Modi is a dedicated corporate lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Shaped the strategic vision and direction of SQAC.',
-      'Mentored members and oversaw operations across all domains.'
-    ],
-    domain: 'Board',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  // Technical
-  {
-    id: 'placeholder-6',
-    name: 'Akshaj Bansal',
-    initials: 'AB',
-    role: 'Domain Lead',
-    bio: 'Akshaj Bansal is a dedicated domain lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Developed and optimized core software modules.',
-      'Ensured code quality through rigorous testing and code reviews.'
-    ],
-    domain: 'Technical',
-    subDomain: 'Web Dev',
-    position: 'Lead',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-7',
-    name: 'Christin Kurian',
-    initials: 'CK',
-    role: 'Member',
-    bio: 'Christin Kurian is a dedicated member at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Developed and optimized core software modules.',
-      'Ensured code quality through rigorous testing and code reviews.'
-    ],
-    domain: 'Technical',
-    subDomain: 'AI/ML',
-    position: 'Member',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-8',
-    name: 'Vaibhav Dev',
-    initials: 'VD',
-    role: 'Associate',
-    bio: 'Vaibhav Dev is a dedicated associate at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Developed and optimized core software modules.',
-      'Ensured code quality through rigorous testing and code reviews.'
-    ],
-    domain: 'Technical',
-    subDomain: 'App Dev',
-    position: 'Associate',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  // Corporate
-  {
-    id: 'placeholder-9',
-    name: 'Vansh Jain',
-    initials: 'VJ',
-    role: 'Domain Lead',
-    bio: 'Vansh Jain is a dedicated domain lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Managed corporate partnerships and sponsor outreach.',
-      'Organized and coordinated logistics for major events.'
-    ],
-    domain: 'Corporate',
-    subDomain: 'Sponsorship',
-    position: 'Lead',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-10',
-    name: 'Javin Trivedi',
-    initials: 'JT',
-    role: 'Domain Lead',
-    bio: 'Javin Trivedi is a dedicated domain lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Managed corporate partnerships and sponsor outreach.',
-      'Organized and coordinated logistics for major events.'
-    ],
-    domain: 'Corporate',
-    subDomain: 'Events',
-    position: 'Lead',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  // Media
-  {
-    id: 'placeholder-11',
-    name: 'Simran Nayak',
-    initials: 'SN',
-    role: 'Domain Lead',
-    bio: 'Simran Nayak is a dedicated domain lead at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Designed high-fidelity UI/UX mockups and graphic assets.',
-      'Led public relations campaigns and social media presence.'
-    ],
-    domain: 'Media',
-    subDomain: 'Creative',
-    position: 'Lead',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  },
-  {
-    id: 'placeholder-12',
-    name: 'Roopa K',
-    initials: 'RK',
-    role: 'Associate',
-    bio: 'Roopa K is a dedicated associate at SQAC, focusing on driving quality, collaboration, and excellence across projects.',
-    contributions: [
-      'Designed high-fidelity UI/UX mockups and graphic assets.',
-      'Led public relations campaigns and social media presence.'
-    ],
-    domain: 'Media',
-    subDomain: 'PR',
-    position: 'Associate',
-    pic: '',
-    linkedin: 'https://linkedin.com',
-    github: 'https://github.com',
-    portfolio: 'https://instagram.com'
-  }
-];
+const PLACEHOLDER_MEMBERS = [];
 
 export default function Team({ darkMode: propDarkMode }) {
   const { isDarkMode } = useTheme();
@@ -275,101 +64,13 @@ export default function Team({ darkMode: propDarkMode }) {
 
   useEffect(() => {
     const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
-    fetch(`${backendUrl}/api/data`)
+    fetch(`${backendUrl}/api/team`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch team data");
         return res.json();
       })
       .then((data) => {
-        const mapped = data.map((db) => {
-          const name = db.Name || '';
-          const initials = name
-            .split(' ')
-            .filter(Boolean)
-            .map(n => n[0])
-            .join('')
-            .toUpperCase()
-            .slice(0, 2);
-
-          const coreDomain = (db['Your Core Domain'] || '').trim().toLowerCase();
-          const subDomain = (db['Sub Domain'] || '').trim().toLowerCase();
-          const position = (db['Position in SQAC'] || '').trim();
-
-          let domain = 'Technical';
-          let role = position;
-
-          if (position.toLowerCase() === 'board member' || position.toLowerCase() === 'board-member') {
-            domain = 'Board';
-            role = db['Sub Domain'] || 'Board Member';
-          } else if (subDomain.includes('creative') || subDomain.includes('pr') || subDomain.includes('media') || subDomain.includes('design')) {
-            domain = 'Media';
-          } else if (coreDomain === 'technical') {
-            domain = 'Technical';
-          } else if (coreDomain === 'corporate') {
-            domain = 'Corporate';
-          } else if (coreDomain === 'both') {
-            if (subDomain.includes('web') || subDomain.includes('app') || subDomain.includes('ai') || subDomain.includes('ml')) {
-              domain = 'Technical';
-            } else {
-              domain = 'Corporate';
-            }
-          }
-
-          const extractDriveImage = (url) => {
-            if (!url) return '';
-            if (url.includes('cloudinary.com')) return url;
-            const match = url.match(/[-\w]{25,}/);
-            return match ? `https://drive.google.com/uc?export=view&id=${match[0]}` : url;
-          };
-
-          const image = db.image || extractDriveImage(db['Your Image For Website ']) || '';
-
-          const roleName = role || 'Core Member';
-          const bio = `${name} is a dedicated ${roleName.toLowerCase()} at SQAC, focusing on driving quality, collaboration, and excellence across projects.`;
-
-          let contributions = [
-            'Contributed to core team initiatives and deliverables.',
-            'Collaborated across domains to support SQAC activities.'
-          ];
-          if (domain === 'Technical') {
-            contributions = [
-              'Developed and optimized core software modules.',
-              'Ensured code quality through rigorous testing and code reviews.'
-            ];
-          } else if (domain === 'Corporate') {
-            contributions = [
-              'Managed corporate partnerships and sponsor outreach.',
-              'Organized and coordinated logistics for major events.'
-            ];
-          } else if (domain === 'Media') {
-            contributions = [
-              'Designed high-fidelity UI/UX mockups and graphic assets.',
-              'Led public relations campaigns and social media presence.'
-            ];
-          } else if (domain === 'Board') {
-            contributions = [
-              'Shaped the strategic vision and direction of SQAC.',
-              'Mentored members and oversaw operations across all domains.'
-            ];
-          }
-
-          return {
-            id: db._id || Math.random().toString(),
-            name,
-            initials,
-            role,
-            bio,
-            contributions,
-            domain,
-            subDomain,
-            position,
-            pic: image,
-            linkedin: db['LinkedIn Profile Link'] || '#',
-            github: db['GitHub Profile Link'] || '#',
-            portfolio: db['Instagram Profile Link'] || '#',
-          };
-        });
-        setTeamMembers(mapped);
+        setTeamMembers(data);
       })
       .catch((err) => {
         console.error("Error fetching team members:", err);
@@ -425,7 +126,7 @@ export default function Team({ darkMode: propDarkMode }) {
   }, []);
 
   const filteredMembers = React.useMemo(() => {
-    return teamMembers.filter(member => {
+    const filtered = teamMembers.filter(member => {
       // 1. Parent domain matching
       const matchParent = filter === 'All' ? true : member.domain === filter;
       if (!matchParent) return false;
@@ -454,6 +155,17 @@ export default function Team({ darkMode: propDarkMode }) {
       }
       return true;
     });
+
+    // Sort logic: Lead first, then Associate Lead, then Member
+    const roleWeight = (role) => {
+      const r = (role || '').toLowerCase();
+      if (r.includes('head') || r.includes('president') || r.includes('secretary')) return 1;
+      if (r.includes('lead') && !r.includes('associate')) return 2;
+      if (r.includes('associate')) return 3;
+      return 4; // Member
+    };
+
+    return filtered.sort((a, b) => roleWeight(a.role) - roleWeight(b.role));
   }, [teamMembers, filter, subFilter]);
 
   // Duplicate members to ensure a continuous full ring with no gaps (minimum 10 cards)
