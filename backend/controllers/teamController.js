@@ -1,6 +1,7 @@
 exports.getTeam = async (req, res) => {
   try {
-    const response = await fetch('https://sqac-member-form-1.onrender.com/api/getdata');
+    const apiUrl = process.env.MEMBER_FORM_API_URL || 'https://sqac-member-form-1.onrender.com/api/getdata';
+    const response = await fetch(apiUrl);
     if (!response.ok) {
       throw new Error(`Failed to fetch from Gateway: ${response.statusText}`);
     }
