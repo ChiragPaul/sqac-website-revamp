@@ -76,7 +76,7 @@ export default function HeroSection() {
           id="hero-heading"
         >
           <SplitWord text="Our " />
-          <SplitWord text="Achievements" />
+          <SplitWord text="Gallery" />
         </motion.h1>
 
       

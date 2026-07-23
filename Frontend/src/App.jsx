@@ -25,7 +25,7 @@ import "./App.css";
 
 const AppContent = () => {
   const location = useLocation();
-  const showFooter = location.pathname !== "/team" && location.pathname !== "/achievements" && location.pathname !== "/events" && location.pathname !== "/admin";
+  const showFooter = location.pathname !== "/team" && location.pathname !== "/gallery" && location.pathname !== "/events" && location.pathname !== "/admin";
   const showNavbar = location.pathname !== "/admin";
 
   return (
@@ -41,7 +41,7 @@ const AppContent = () => {
         <Route path="/projects" element={<Projects />} />
         <Route path="/recruitment" element={<JoinUs />} />
         <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/achievements" element={<Achievements />} />
+        <Route path="/gallery" element={<Achievements />} />
       </Routes>
       {showFooter && <Footer />}
     </>

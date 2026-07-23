@@ -161,7 +161,7 @@ function Navbar() {
     { label: "Team", path: "/team", icon: <GroupOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Projects", path: "/projects", icon: <RocketLaunchOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Events", path: "/events", icon: <EventOutlinedIcon style={{ fontSize: '22px' }} /> },
-    { label: "Achievements", path: "/achievements", icon: <EmojiEventsOutlinedIcon style={{ fontSize: '22px' }} /> },
+    { label: "Gallery", path: "/gallery", icon: <EmojiEventsOutlinedIcon style={{ fontSize: '22px' }} /> },
     { label: "Join Us", path: "/recruitment", icon: <PersonAddOutlinedIcon style={{ fontSize: '22px' }} /> },
   ];
 
