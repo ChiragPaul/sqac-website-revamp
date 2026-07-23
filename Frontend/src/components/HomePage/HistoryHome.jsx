@@ -19,39 +19,54 @@ export default function HistoryHome() {
 
   const historyMilestones = [
     {
-      year: "2021",
+      spineTitle: "Vol I: Genesis",
+      overline: "A MEMORY FROM APRIL 2025",
       title: "The Inception",
-      desc: "SQAC was founded by a team of forward-thinking students, aiming to foster a collaborative culture around testing and software engineering.",
+      desc: "It all began in April 2025 under the guidance of our faculty advisor, Dr. Sughanya M. Establishing our core structure across 6 distinct domains, we set the stage and vision for everything the club would soon become.",
+      footerText: "— The SQAC Archives",
       image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=500&auto=format&fit=crop&q=60",
       icon: <Compass className="text-pink-300" size={24} />,
+      year: "2025"
     },
     {
-      year: "2022",
-      title: "First Workshops & Growth",
-      desc: "We expanded our learning tracks to cover automated testing, CI/CD, and full-stack web architectures, organizing our first dev bootcamps.",
+      spineTitle: "Vol II: Tenure 1",
+      overline: "THE FIRST LEADERSHIP",
+      title: "Laying the Foundation",
+      desc: "Under the leadership of our First Secretary, Yash Gupta, we started as a humble foundation of just 5 members. Through our very first recruitment drive and the launch of our debut flagship event, Mineverse, our family quickly grew to a solid 32 members.",
+      footerText: "— The SQAC Archives",
       image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&auto=format&fit=crop&q=60",
       icon: <Milestone className="text-purple-300" size={24} />,
+      year: "2025"
     },
     {
-      year: "2023",
-      title: "Technological Scaling",
-      desc: "Integrated modern Devops pipelines, cloud deployment, and advanced AI/ML algorithms, training over 200+ active club members.",
+      spineTitle: "Vol III: Tenure 2",
+      overline: "OASIS '25 & BEYOND",
+      title: "The Great Expansion",
+      desc: "Our second tenure brought unprecedented growth under Second Secretary Priyanshu Vasudev. Driven by the massive Oasis 25' recruitment event, our community exploded in size, reaching an incredible milestone of 130 to 150 members.",
+      footerText: "— The SQAC Archives",
       image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60",
       icon: <Award className="text-cyan-300" size={24} />,
+      year: "2025"
     },
     {
-      year: "2024",
-      title: "National Flagship: MineVerse",
-      desc: "Launched MineVerse, a nationwide hackathon bringing developers from across the country to compete in building secure, tested web systems.",
+      spineTitle: "Vol IV: Winter '26",
+      overline: "A SEASON OF COMPETITION",
+      title: "Battles & Breakthroughs",
+      desc: "As our community expanded, we put our skills to the test. We successfully navigated the intense rivalries of Club Wars at the end of January 2026, followed closely by the innovative challenges of Hack and Hit in February.",
+      footerText: "— The SQAC Archives",
       image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500&auto=format&fit=crop&q=60",
       icon: <Rocket className="text-orange-300" size={24} />,
+      year: "2026"
     },
     {
-      year: "2025 & Beyond",
-      title: "Future Boundaries",
-      desc: "Pioneering quality assurance in decentralized systems, AI agents, and incubator labs for student-led startup products.",
+      spineTitle: "Vol V: Tenure 3",
+      overline: "THE PRESENT DAY",
+      title: "Continuing the Legacy",
+      desc: "With two successful tenures completed, our third is actively unfolding under our current Third Secretary, Tusharika Suman. Standing strong with 60 to 70 dedicated members before the next recruitment phase, the journey continues.",
+      footerText: "— The SQAC Archives",
       image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60",
       icon: <Star className="text-yellow-300" size={24} />,
+      year: "2026"
     },
   ];
 
@@ -156,7 +171,7 @@ export default function HistoryHome() {
                 </div>
                 <span className="text-yellow-400 font-serif font-bold tracking-widest text-lg opacity-80 group-hover:opacity-100 transition-opacity"
                   style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
-                  {milestone.year}
+                  {milestone.spineTitle}
                 </span>
               </div>
 
@@ -246,7 +261,7 @@ export default function HistoryHome() {
                       {historyMilestones[hoveredBookIndex].icon}
                     </div>
                     <span className="px-4 py-1.5 bg-[#8b5a2b]/15 text-[#8b5a2b] dark:text-[#F5E1C2] font-bold tracking-[0.2em] text-xs rounded uppercase shadow-sm">
-                      {historyMilestones[hoveredBookIndex].year}
+                      {historyMilestones[hoveredBookIndex].overline}
                     </span>
                   </div>
                   
@@ -335,7 +350,7 @@ export default function HistoryHome() {
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.8 }} className="mb-6 relative">
                    {/* Vintage Label */}
                    <div className="inline-block px-6 py-2 border-b-2 border-t-2 border-[#8b5a2b]/30 text-[#8b5a2b] font-serif tracking-[0.2em] uppercase text-sm">
-                      A Memory from {historyMilestones[fullscreenBookIndex].year}
+                      {historyMilestones[fullscreenBookIndex].overline}
                    </div>
                 </motion.div>
 
@@ -355,7 +370,7 @@ export default function HistoryHome() {
                   {/* Signature */}
                   <div className="mt-8 text-right">
                     <span className="font-serif italic text-xl md:text-2xl text-[#8b5a2b]/70 transform -rotate-2 inline-block">
-                      — The SQAC Archives
+                      {historyMilestones[fullscreenBookIndex].footerText}
                     </span>
                   </div>
                 </motion.div>

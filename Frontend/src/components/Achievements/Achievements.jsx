@@ -13,7 +13,7 @@ export default function Achievements() {
   return (
     <div
       className={`
-        w-full font-[Poppins,ui-sans-serif,system-ui,sans-serif]
+        w-full min-h-screen font-[Poppins,ui-sans-serif,system-ui,sans-serif]
         antialiased overflow-x-hidden
         ${isDarkMode 
           ? 'bg-black text-gray-100' 
