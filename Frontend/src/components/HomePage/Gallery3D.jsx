@@ -7,16 +7,16 @@ import { useTheme } from "../../contexts/ThemeContext";
 import BorderGlow from "./BorderGlow";
 
 // Import all assets representing key moments
-import img1 from "../../assets/3dgallerypics/1.jpeg";
-import img2 from "../../assets/3dgallerypics/2.jpeg";
-import img3 from "../../assets/3dgallerypics/3.jpeg";
-import img4 from "../../assets/3dgallerypics/4.jpeg";
-import img5 from "../../assets/3dgallerypics/5.jpeg";
-import img6 from "../../assets/3dgallerypics/6.jpeg";
-import img7 from "../../assets/3dgallerypics/7.jpeg";
-import img8 from "../../assets/3dgallerypics/8.jpeg";
-import img9 from "../../assets/3dgallerypics/9.jpeg";
-import img10 from "../../assets/3dgallerypics/10.jpeg";
+import img1 from "../../assets/3dGalleryPics/1.jpeg";
+import img2 from "../../assets/3dGalleryPics/2.jpeg";
+import img3 from "../../assets/3dGalleryPics/3.jpeg";
+import img4 from "../../assets/3dGalleryPics/4.jpeg";
+import img5 from "../../assets/3dGalleryPics/5.jpeg";
+import img6 from "../../assets/3dGalleryPics/6.jpeg";
+import img7 from "../../assets/3dGalleryPics/7.jpeg";
+import img8 from "../../assets/3dGalleryPics/8.jpeg";
+import img9 from "../../assets/3dGalleryPics/9.jpeg";
+import img10 from "../../assets/3dGalleryPics/10.jpeg";
 import clubLogo from "../../assets/LogoSQAC-removebg-preview.png";
 import clubLogoDark from "../../assets/LogoSQAC.png";
 
