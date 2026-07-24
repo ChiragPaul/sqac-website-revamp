@@ -29,14 +29,14 @@ const communitySlides = [
   },
   {
     id: 3,
-    image: "/About Us/3.jpg",
+    image: "/About Us/3.jpeg",
     title: "Interactive Workshops & Hackathons",
     subtitle: "Hands-on sessions on modern web tech, industrial testing tools, continuous deployment, and open-source.",
     tag: "Events & Workshops"
   },
   {
     id: 4,
-    image: "/About Us/4.jpg",
+    image: "/About Us/4.jpeg",
     title: "Collaborative Project Builds",
     subtitle: "Creating production-grade software applications and solving real-world challenges through teamwork.",
     tag: "Technical Domain"
