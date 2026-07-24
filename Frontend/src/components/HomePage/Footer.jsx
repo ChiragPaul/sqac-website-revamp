@@ -12,11 +12,11 @@ function Footer() {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const socialLogos = [
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaGithub /></div>, title: "GitHub", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaGithub /></div>, title: "GitHub", href: "https://github.com/SQAC-Tech" },
     { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-shadow"><FaYoutube /></div>, title: "YouTube", href: "#" },
     { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(34,211,238,0.5)] transition-shadow"><FaTwitter /></div>, title: "Twitter", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaLinkedin /></div>, title: "LinkedIn", href: "#" },
-    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-shadow"><FaInstagram /></div>, title: "Instagram", href: "#" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(236,72,153,0.5)] transition-shadow"><FaLinkedin /></div>, title: "LinkedIn", href: "https://www.linkedin.com/company/sqacsrm/posts/?feedView=all" },
+    { node: <div className="w-11 h-11 bg-[#f3d8ad] dark:bg-neutral-900 text-[#7A1E2C] dark:text-[#7A1E2C] rounded-full flex items-center justify-center text-xl hover:shadow-[0_0_15px_rgba(243,216,173,0.5)] dark:hover:shadow-[0_0_15px_rgba(168,85,247,0.5)] transition-shadow"><FaInstagram /></div>, title: "Instagram", href: "https://www.instagram.com/sqac.srmist/" },
   ];
 
 
@@ -156,14 +156,14 @@ function Footer() {
               <h4 className="font-black text-xl lg:text-2xl mb-1 text-[#7A1E2C] uppercase tracking-wide">
                 <Shuffle text="Community" tag="span" />
               </h4>
-              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
-                <Shuffle text="Discord" tag="span" />
+              <a href="https://github.com/SQAC-Tech" target="_blank" rel="noopener noreferrer" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
+                <Shuffle text="GitHub" tag="span" />
               </a>
-              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
-                <Shuffle text="WhatsApp" tag="span" />
+              <a href="https://www.instagram.com/sqac.srmist/" target="_blank" rel="noopener noreferrer" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
+                <Shuffle text="Instagram" tag="span" />
               </a>
-              <a href="#" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
-                <Shuffle text="Contact" tag="span" />
+              <a href="https://www.linkedin.com/company/sqacsrm/posts/?feedView=all" target="_blank" rel="noopener noreferrer" className="text-base font-bold hover:underline text-[#7A1E2C] hover:text-[#a82b3d] transition-colors">
+                <Shuffle text="LinkedIn" tag="span" />
               </a>
             </div>
           </div>

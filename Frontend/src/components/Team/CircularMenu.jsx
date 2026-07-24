@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Code, Smartphone, Briefcase, Handshake, Film, Calendar, Shield, ChevronLeft, ChevronDown } from 'lucide-react';
 
@@ -29,20 +29,32 @@ const getSegmentPath = (cx, cy, r_in, r_out, startAngle, endAngle) => {
 
 export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFilter, darkMode }) {
   const [hoveredId, setHoveredId] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' ? window.innerWidth < 1024 : false);
+  const [isExpanded, setIsExpanded] = useState(() => typeof window !== 'undefined' ? window.innerWidth >= 1024 : true);
   const [dragRotation, setDragRotation] = useState(0);
 
+  const isDraggingRef = useRef(false);
+  const dragDistanceRef = useRef(0);
+  const svgRef = useRef(null);
+
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setIsExpanded(true);
+      }
+    };
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
-    setIsExpanded(false);
-  }, [activeFilter, activeSubFilter]);
+    if (isMobile) {
+      setIsExpanded(false);
+    }
+  }, [activeFilter, activeSubFilter, isMobile]);
 
   const lightGradients = [
     { from: '#C4325F', to: '#D9566E' },
@@ -89,24 +101,79 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
   const anchorAngle = isMobile ? 180 : 270;
   const rotationAngle = anchorAngle - (activeIdx * degPerSegment + degPerSegment / 2);
 
+  const handlePanStart = () => {
+    isDraggingRef.current = false;
+  };
+
   const handlePan = (e, info) => {
-    // Determine rotation delta based on axis of movement. 
-    // On desktop (right edge), vertical drag rotates it. On mobile (top edge), horizontal drag rotates it.
-    const delta = isMobile ? info.delta.x : info.delta.y;
-    setDragRotation((prev) => prev - delta * 0.45);
+    const totalOffset = Math.hypot(info.offset.x, info.offset.y);
+    if (totalOffset > 15) {
+      isDraggingRef.current = true;
+    }
+    if (isDraggingRef.current) {
+      const delta = isMobile ? info.delta.x : info.delta.y;
+      setDragRotation((prev) => prev - delta * 0.45);
+    }
+  };
+
+  const getEventCoords = (e) => {
+    if (!e) return null;
+    if (typeof e.clientX === 'number' && typeof e.clientY === 'number') {
+      return { x: e.clientX, y: e.clientY };
+    }
+    if (e.touches && e.touches[0]) {
+      return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+    if (e.changedTouches && e.changedTouches[0]) {
+      return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+    }
+    if (e.srcEvent) {
+      return getEventCoords(e.srcEvent);
+    }
+    return null;
   };
 
   const handlePanEnd = (e, info) => {
-    const finalRotation = rotationAngle + dragRotation;
-    const targetAngle = (anchorAngle - finalRotation + 360 * 10) % 360;
-    const nearestIdx = Math.round((targetAngle - 22.5) / degPerSegment);
-    const normalizedIdx = ((nearestIdx % N) + N) % N;
+    if (isDraggingRef.current) {
+      const finalRotation = rotationAngle + dragRotation;
+      const targetAngle = (anchorAngle - finalRotation + 360 * 10) % 360;
+      const nearestIdx = Math.round((targetAngle - 22.5) / degPerSegment);
+      const normalizedIdx = ((nearestIdx % N) + N) % N;
 
-    const newSeg = segments[normalizedIdx];
-    if (newSeg) {
-      onChangeFilter(newSeg.filter, newSeg.subFilter);
+      const newSeg = segments[normalizedIdx];
+      if (newSeg) {
+        onChangeFilter(newSeg.filter, newSeg.subFilter);
+      }
+    } else {
+      const coords = getEventCoords(e);
+      const svgEl = svgRef.current;
+      if (coords && svgEl) {
+        const rect = svgEl.getBoundingClientRect();
+        const scaleX = 400 / rect.width;
+        const scaleY = 400 / rect.height;
+        const svgX = (coords.x - rect.left) * scaleX;
+        const svgY = (coords.y - rect.top) * scaleY;
+
+        const dx = svgX - cx;
+        const dy = svgY - cy;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist >= r_in - 15 && dist <= r_out + 25) {
+          let physicalAngle = (Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360;
+          let unrotatedAngle = (physicalAngle - rotationAngle + 360 * 10) % 360;
+          let clickedIdx = Math.floor(unrotatedAngle / degPerSegment) % N;
+          const clickedSeg = segments[clickedIdx];
+          if (clickedSeg) {
+            onChangeFilter(clickedSeg.filter, clickedSeg.subFilter);
+            if (isMobile) setIsExpanded(false);
+          }
+        } else if (dist < r_in - 15) {
+          if (isMobile) setIsExpanded(false);
+        }
+      }
     }
     setDragRotation(0);
+    isDraggingRef.current = false;
   };
 
   const displayRotation = rotationAngle + dragRotation;
@@ -205,10 +272,12 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
               )}
 
               <motion.svg
+                ref={svgRef}
                 width="100%"
                 height="100%"
                 viewBox="0 0 400 400"
                 className="overflow-visible relative z-10 cursor-grab active:cursor-grabbing"
+                onPanStart={handlePanStart}
                 onPan={handlePan}
                 onPanEnd={handlePanEnd}
               >
@@ -245,6 +314,13 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
                     const pt = polarToCartesian(cx, cy, textRadius, midAngle);
                     const pathData = getSegmentPath(cx, cy, r_in, r_out, startAngle, endAngle);
 
+                    const handleSegmentClick = (e) => {
+                      if (e) e.stopPropagation();
+                      if (isDraggingRef.current) return;
+                      onChangeFilter(seg.filter, seg.subFilter);
+                      if (isMobile) setIsExpanded(false);
+                    };
+
                     return (
                       <motion.g
                         key={seg.id}
@@ -253,10 +329,7 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
                         className="cursor-pointer"
                         onMouseEnter={() => setHoveredId(seg.id)}
                         onMouseLeave={() => setHoveredId(null)}
-                        onTap={() => {
-                          onChangeFilter(seg.filter, seg.subFilter);
-                          if (isMobile) setIsExpanded(false);
-                        }}
+                        onClick={handleSegmentClick}
                       >
                         <path
                           d={pathData}
@@ -347,11 +420,10 @@ export default function CircularMenu({ activeFilter, activeSubFilter, onChangeFi
               </motion.svg>
 
               <div
-                className={`absolute inset-0 flex flex-col items-center justify-center text-center p-3 transition-transform duration-300 z-20 cursor-pointer`}
-                onClick={() => setIsExpanded(false)}
+                className={`absolute inset-0 flex flex-col items-center justify-center text-center p-3 transition-transform duration-300 z-20 pointer-events-none`}
               >
                 <h4
-                  className="text-[14px] sm:text-xs md:text-sm lg:text-base font-black tracking-tight leading-tight transition-all duration-300 capitalize text-center uppercase"
+                  className="text-[14px] sm:text-xs md:text-sm lg:text-base font-black tracking-tight leading-tight transition-all duration-300 capitalize text-center uppercase pointer-events-none"
                   style={{
                     color: centerColor,
                     textShadow: `0 0 10px ${centerColor}44`,

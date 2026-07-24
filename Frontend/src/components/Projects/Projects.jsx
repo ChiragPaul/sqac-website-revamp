@@ -30,9 +30,9 @@ export default function Projects() {
       </div>
 
       {/* PROJECT 1: Housie of Fame (Split Circular Layout) */}
-      <div className={['relative min-h-[80vh] flex flex-col md:flex-row border-y mt-16 backdrop-blur-md', isDarkMode ? 'border-[#7A1E2C]/30 bg-black/40' : 'border-[#F18B85]/50 bg-white/30'].join(' ')}>
+      <div className={['relative min-h-[80vh] flex flex-col md:flex-row mt-12 backdrop-blur-sm transition-all duration-500', isDarkMode ? 'bg-gradient-to-b from-transparent via-black/20 to-transparent' : 'bg-gradient-to-b from-transparent via-white/20 to-transparent'].join(' ')}>
         {/* Left Side */}
-        <div className={['w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10 border-r', isDarkMode ? 'border-[#7A1E2C]/30' : 'border-[#F18B85]/50'].join(' ')}>
+        <div className={['w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center relative z-10 border-r', isDarkMode ? 'border-[#7A1E2C]/20' : 'border-[#F18B85]/30'].join(' ')}>
           <div className="max-w-xl">
             <p className={['font-mono text-xs tracking-widest uppercase mb-8', isDarkMode ? 'text-[#d95d39]' : 'text-[#bd4110]'].join(' ')}>001 / Interactive Gaming</p>
             <h2 className={['text-[3rem] md:text-[5rem] font-bold leading-[1.1] tracking-tight mb-8 font-head', isDarkMode ? 'text-[#F5E1C2]' : 'text-[#951D13]'].join(' ')}>
@@ -61,7 +61,7 @@ export default function Projects() {
         </div>
 
         {/* Right Side - Rotating Text Circle */}
-        <div className={['w-full md:w-1/2 relative overflow-hidden flex items-center justify-center min-h-[50vh]', isDarkMode ? 'bg-gradient-to-br from-[#7A1E2C]/20 to-black' : 'bg-white/20'].join(' ')}>
+        <div className={['w-full md:w-1/2 relative overflow-hidden flex items-center justify-center min-h-[50vh]', isDarkMode ? 'bg-gradient-to-br from-[#7A1E2C]/10 to-transparent' : 'bg-transparent'].join(' ')}>
           <div 
             style={{ willChange: 'transform' }}
             className="w-[120%] md:w-[150%] aspect-square absolute opacity-50 animate-[spin_60s_linear_infinite]"
@@ -92,7 +92,7 @@ export default function Projects() {
       </div>
 
       {/* PROJECT 2: SQAC Portal (Massive Typography Section) */}
-      <div className={['relative py-40 overflow-hidden border-b backdrop-blur-sm', isDarkMode ? 'border-[#7A1E2C]/30 bg-black/60' : 'border-[#F18B85]/50 bg-white/40'].join(' ')}>
+      <div className={['relative py-40 overflow-hidden backdrop-blur-sm transition-all duration-500', isDarkMode ? 'bg-gradient-to-b from-transparent via-black/40 to-transparent' : 'bg-gradient-to-b from-transparent via-white/20 to-transparent'].join(' ')}>
         {/* Background Monospace Pattern */}
         <div className={['absolute inset-0 overflow-hidden pointer-events-none text-[8px] leading-tight font-mono text-justify p-4 break-all whitespace-pre-wrap', isDarkMode ? 'text-[#7A1E2C]/30' : 'text-[#f34a82]/20'].join(' ')}>
           {'SQAC PORTAL MANAGEMENT SYSTEM CENTRAL HUB OPERATIONS DATA DRIVEN DASHBOARD AUTHENTICATION ROLE BASED ACCESS CONTROL ANALYTICS '.repeat(150)}
@@ -130,7 +130,7 @@ export default function Projects() {
       </div>
 
       {/* PROJECT 3: MOM Generator (IDE Mockup Section) */}
-      <div className="py-32 px-4 md:px-12 relative">
+      <div className={['py-32 px-4 md:px-12 relative transition-all duration-500', isDarkMode ? 'bg-gradient-to-b from-transparent via-black/20 to-transparent' : 'bg-gradient-to-b from-transparent via-white/10 to-transparent'].join(' ')}>
         <div className="max-w-6xl mx-auto mb-16 text-center relative z-10">
           <p className={['font-mono text-xs font-bold tracking-widest uppercase mb-4', isDarkMode ? 'text-[#d95d39]' : 'text-[#bd4110]'].join(' ')}>003 / Productivity Tools</p>
           <h2 className={['text-4xl md:text-6xl font-bold tracking-tight mb-6 font-head', isDarkMode ? 'text-[#F5E1C2]' : 'text-[#951D13]'].join(' ')}>MOM Generator</h2>
