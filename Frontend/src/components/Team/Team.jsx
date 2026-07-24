@@ -69,7 +69,9 @@ export default function Team({ darkMode: propDarkMode }) {
   const [isCardFlipped, setIsCardFlipped] = useState(false);
 
   useEffect(() => {
-    const backendUrl = import.meta.env.VITE_API_BACKEND || "";
+    const backendUrl = import.meta.env.VITE_API_BACKEND !== undefined && import.meta.env.VITE_API_BACKEND !== ""
+      ? import.meta.env.VITE_API_BACKEND
+      : (import.meta.env.DEV ? "http://localhost:5000" : "");
     fetch(`${backendUrl}/api/team`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch team data");
