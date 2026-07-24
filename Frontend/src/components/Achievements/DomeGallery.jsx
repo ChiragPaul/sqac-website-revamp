@@ -24,18 +24,18 @@ const ROW_CFG = [
    Maintains consistent card size (MIN_SC = 0.88) to prevent large empty gaps
    while preserving smooth 3D curved perspective.
    ──────────────────────────────────────────────────────────────── */
-const RADIUS  = 650;
-const MAX_ANG = Math.PI / 2.2;
-const MIN_SC  = 0.88;
+const RADIUS  = 520;
+const MAX_ANG = Math.PI / 2.0;
+const MIN_SC  = 0.78;
 
 function applyDome(el, screenCX, vpW) {
   const raw   = (screenCX - vpW / 2) / RADIUS;
   const angle = Math.max(-MAX_ANG, Math.min(MAX_ANG, raw));
   const c     = Math.cos(angle);
-  const rotDeg = -(angle * 180) / Math.PI * 0.45;
-  const tz     = RADIUS * (c - 1) * 0.3;
+  const rotDeg = -(angle * 180) / Math.PI * 0.75;
+  const tz     = RADIUS * (c - 1) * 0.65;
   const sc     = MIN_SC + (1 - MIN_SC) * c;
-  /* Single transform write — cheapest possible per-card update */
+  /* Single transform write — 3D cylindrical dome curve */
   el.style.transform = `rotateY(${rotDeg.toFixed(2)}deg) translateZ(${tz.toFixed(1)}px) scale(${sc.toFixed(3)})`;
 }
 
@@ -107,7 +107,7 @@ function InfiniteRow({ items, speed, dir, onOpen }) {
       className="relative w-full overflow-hidden cursor-grab active:cursor-grabbing select-none"
       style={{
         height: CARD_H + 4,
-        perspective: `${RADIUS * 1.6}px`,
+        perspective: '1000px',
         /* Fade cards to transparent at left + right edges — zero JS cost */
         WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
         maskImage:       'linear-gradient(to right, transparent 0%, black 20%, black 80%, transparent 100%)',
