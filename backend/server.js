@@ -13,7 +13,12 @@ const { storage } = require('./utils/cloudinary');
 const upload = multer({ storage });
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options('*', cors());
 app.use(express.json());
 
 if (process.env.MONGO_URI) {
