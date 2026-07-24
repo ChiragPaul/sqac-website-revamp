@@ -26,27 +26,6 @@ const communitySlides = [
     title: "Core Executive Board",
     subtitle: "Student leaders driving strategic vision, organizing technical workshops, and mentoring project teams.",
     tag: "Leadership & Leads"
-  },
-  {
-    id: 3,
-    image: "/about-us/3.jpeg",
-    title: "Interactive Workshops & Hackathons",
-    subtitle: "Hands-on sessions on modern web tech, industrial testing tools, continuous deployment, and open-source.",
-    tag: "Events & Workshops"
-  },
-  {
-    id: 4,
-    image: "/about-us/4.jpeg",
-    title: "Collaborative Project Builds",
-    subtitle: "Creating production-grade software applications and solving real-world challenges through teamwork.",
-    tag: "Technical Domain"
-  },
-  {
-    id: 5,
-    image: "/about-us/5.jpeg",
-    title: "Annual Community Gathering",
-    subtitle: "Fostering lifelong networking, peer mentorship, and celebrating major team achievements.",
-    tag: "Networking & Gatherings"
   }
 ];
 
