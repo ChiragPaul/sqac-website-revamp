@@ -15,35 +15,35 @@ const fadeUp = {
 const communitySlides = [
   {
     id: 1,
-    image: GroupPic,
+    image: "/About Us/1.jpeg",
     title: "SQAC Community Family",
     subtitle: "Over 200+ active student members united by a passion for quality software, testing, and continuous innovation.",
     tag: "Community Board & Members"
   },
   {
     id: 2,
-    image: TeamPic,
+    image: "/About Us/2.jpeg",
     title: "Core Executive Board",
     subtitle: "Student leaders driving strategic vision, organizing technical workshops, and mentoring project teams.",
     tag: "Leadership & Leads"
   },
   {
     id: 3,
-    image: EventsPic,
+    image: "/About Us/3.jpg",
     title: "Interactive Workshops & Hackathons",
     subtitle: "Hands-on sessions on modern web tech, industrial testing tools, continuous deployment, and open-source.",
     tag: "Events & Workshops"
   },
   {
     id: 4,
-    image: TeamPhoto,
+    image: "/About Us/4.jpg",
     title: "Collaborative Project Builds",
     subtitle: "Creating production-grade software applications and solving real-world challenges through teamwork.",
     tag: "Technical Domain"
   },
   {
     id: 5,
-    image: Tenure1,
+    image: "/About Us/5.jpeg",
     title: "Annual Community Gathering",
     subtitle: "Fostering lifelong networking, peer mentorship, and celebrating major team achievements.",
     tag: "Networking & Gatherings"
@@ -104,7 +104,7 @@ const AboutUsHero = () => {
             className="lg:col-span-5 rounded-3xl overflow-hidden relative group h-[300px] lg:h-auto border border-[#7A1E2C]/20 dark:border-[#7A1E2C]/40 shadow-xl"
           >
             <img
-              src={TeamPic}
+              src="/About Us/1.jpeg"
               alt="SQAC Team"
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 dark:opacity-85"
             />

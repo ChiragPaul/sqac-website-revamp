@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactCardFlip from 'react-card-flip';
 //import { teamMembers } from '../data/teamData';
-import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Globe, Users, Mouse } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Instagram, Users, Mouse } from 'lucide-react';
 import { useTheme } from "../../contexts/ThemeContext";
 import SwipeableMenu from './SwipeableMenu';
 import CircularMenu from './CircularMenu';
@@ -41,6 +41,12 @@ export default function Team({ darkMode: propDarkMode }) {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   };
+
+  const getSocialLinks = (member) => [
+    { icon: <Linkedin className="w-4 h-4" />, url: member.linkedin, label: 'LinkedIn', color: 'hover:bg-[#0A66C2] hover:text-white border-white/20' },
+    { icon: <Github className="w-4 h-4" />, url: member.github, label: 'GitHub', color: 'hover:bg-[#333] hover:text-white border-white/20' },
+    { icon: <Instagram className="w-4 h-4" />, url: member.portfolio, label: 'Instagram', color: 'hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-600 hover:text-white border-white/20' },
+  ];
 
 
   const [teamMembers, setTeamMembers] = useState(PLACEHOLDER_MEMBERS);
@@ -473,50 +479,48 @@ export default function Team({ darkMode: propDarkMode }) {
                     containerClassName="w-full h-full"
                   >
                     {/* CARD FRONT */}
-                    <div className="team-card-inner w-full h-full p-4 flex flex-col justify-between relative z-10">
-                      <div className="flex flex-col gap-2.5">
-                        {/* Initials Circle (Larger Profile Pic) */}
+                    <div className="team-card-inner w-full h-full p-5 flex flex-col justify-between items-center text-center relative z-10 select-none">
+                      {/* Main Profile Content */}
+                      <div className="flex flex-col items-center justify-center w-full my-auto">
+                        {/* Profile Image / Avatar */}
                         <div
-                          className="team-card-avatar w-14 h-14 rounded-full flex items-center justify-center font-bold text-white shadow-sm overflow-hidden"
+                          className="w-20 h-20 sm:w-22 sm:h-22 rounded-full flex items-center justify-center font-bold text-white shadow-2xl overflow-hidden border border-white/30 ring-2 ring-white/20 mb-3 transition-transform duration-300 hover:scale-105"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%)',
-                            backdropFilter: 'blur(10px)',
-                            border: '1px solid rgba(255,255,255,0.3)'
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.05) 100%)',
+                            backdropFilter: 'blur(12px)',
                           }}
                         >
                           {member.pic ? (
                             <img src={member.pic} alt={member.name} className="w-full h-full object-cover" />
                           ) : (
-                            member.initials
+                            <span className="text-xl sm:text-2xl font-black tracking-wider">{member.initials}</span>
                           )}
                         </div>
 
-                        {/* Header info (Name, Domain, Position) */}
-                        <div className="space-y-1">
-                          <h4 className="team-card-name font-black tracking-tight leading-tight text-[#1C1C1E] dark:text-white whitespace-normal break-words">
-                            {member.name}
-                          </h4>
-                          <p className="team-card-domain uppercase font-extrabold tracking-widest text-[#1C1C1E]/70 dark:text-gray-300">
-                            {getDisplayDomain(member)}
-                          </p>
-                          <p className="team-card-role font-semibold opacity-85 text-[#1C1C1E] dark:text-gray-200">
-                            {member.role}
-                          </p>
-                        </div>
+                        {/* Name */}
+                        <h4 className="font-extrabold text-base sm:text-lg tracking-tight leading-snug text-white max-w-[95%] truncate">
+                          {member.name}
+                        </h4>
 
-                        {/* Social Logos */}
-                        <div className={`flex items-center gap-1.5 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                          {[
-                            { icon: <Linkedin />, url: member.linkedin, label: 'LinkedIn' },
-                            { icon: <Github />, url: member.github, label: 'GitHub' },
-                            { icon: <Globe />, url: member.portfolio, label: 'Portfolio' },
-                          ].map((social, idx) => (
+                        {/* Role */}
+                        <p className="font-medium text-xs text-white/80 mt-0.5">
+                          {member.role}
+                        </p>
+
+                        {/* Domain Badge */}
+                        <span className="inline-block px-3 py-0.5 mt-2 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-extrabold tracking-widest uppercase text-white/90 border border-white/15 shadow-sm">
+                          {getDisplayDomain(member)}
+                        </span>
+
+                        {/* Social Links */}
+                        <div className={`flex items-center justify-center gap-2.5 mt-4 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                          {getSocialLinks(member).map((social, idx) => (
                             <a
                               key={idx}
                               href={social.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="team-card-social-link rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
+                              className={`w-8 h-8 rounded-full bg-white/10 hover:bg-white/25 border border-white/15 flex items-center justify-center text-white/90 transition-all duration-300 ${social.color} shadow-sm`}
                               onClick={(e) => e.stopPropagation()}
                               aria-label={`${member.name} ${social.label}`}
                             >
@@ -526,59 +530,74 @@ export default function Team({ darkMode: propDarkMode }) {
                         </div>
                       </div>
 
-                      {/* Bottom Area (Domain Badge / Flip Action) */}
-                      <div className="team-card-footer mt-auto pt-2 flex items-center justify-between border-t border-white/20">
-                        {/* Domain Badge */}
-                        <div className="team-card-badge-container flex items-center gap-1 text-[#1C1C1E] dark:text-white">
-                          <Users className="opacity-80" />
-                          <span className="team-card-badge font-bold">
-                            {getDisplayDomain(member)}
-                          </span>
+                      {/* Card Front Footer */}
+                      <div className="w-full pt-2.5 flex items-center justify-between border-t border-white/15 text-[10px] text-white/70">
+                        <div className="flex items-center gap-1.5 font-bold uppercase tracking-wider">
+                          <Users className="w-3 h-3 opacity-80" />
+                          <span>{getDisplayDomain(member)}</span>
                         </div>
 
-                        {/* Flip Indicator */}
                         {i === activeDisplayIndex && (
-                          <span className="team-card-flip-hint font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
-                            Click to View Bio
+                          <span className="font-bold tracking-wider text-white/80 animate-pulse">
+                            Click to View Bio ➔
                           </span>
                         )}
                       </div>
                     </div>
 
                     {/* CARD BACK */}
-                    <div className="team-card-inner w-full h-full p-4 flex flex-col justify-between relative z-10">
-                      {/* Bio content only */}
-                      <div className="flex-1 flex flex-col justify-center overflow-y-auto pr-1">
-                        <p className="team-card-bio font-medium text-[#1C1C1E]/95 dark:text-white/95 leading-relaxed">
-                          {member.bio}
-                        </p>
+                    <div className="team-card-inner w-full h-full p-4 sm:p-5 flex flex-col justify-between relative z-10 text-left select-none overflow-hidden">
+                      {/* Back Header */}
+                      <div className="pb-2 border-b border-white/15 flex items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <h4 className="font-extrabold text-sm sm:text-base text-white leading-tight truncate">
+                            {member.name}
+                          </h4>
+                          <p className="text-[11px] font-medium text-white/75 mt-0.5 truncate">
+                            {member.role}
+                          </p>
+                        </div>
+                        <span className="shrink-0 text-[9px] font-black px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 uppercase tracking-wider text-white/90">
+                          {getDisplayDomain(member)}
+                        </span>
                       </div>
 
-                      {/* Bottom Area (Socials / Flip Back) */}
-                      <div className="team-card-footer mt-auto pt-3 flex items-center justify-between border-t border-white/20">
-                        {/* Social Links */}
-                        <div className="flex items-center gap-1.5">
-                          {[
-                            { icon: <Linkedin />, url: member.linkedin, label: 'LinkedIn' },
-                            { icon: <Github />, url: member.github, label: 'GitHub' },
-                            { icon: <Globe />, url: member.portfolio, label: 'Portfolio' },
-                          ].map((social, idx) => (
-                            <a
-                              key={idx}
-                              href={social.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="team-card-social-link rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center text-[#1C1C1E] dark:text-white transition-colors"
-                              onClick={(e) => e.stopPropagation()}
-                              aria-label={`${member.name} ${social.label}`}
-                            >
-                              {social.icon}
-                            </a>
-                          ))}
+                      {/* Back Content - Clean, Non-Scrolling */}
+                      <div className="flex-1 my-2 flex flex-col justify-center space-y-2 text-[11px] leading-relaxed overflow-hidden">
+                        <div>
+                          <p className="font-bold uppercase tracking-widest text-[9px] text-white/50 mb-0.5">
+                            About
+                          </p>
+                          <p className="font-normal text-white/90 line-clamp-3">
+                            {member.bio}
+                          </p>
                         </div>
 
-                        <span className="team-card-flip-hint font-extrabold text-[#1C1C1E]/60 dark:text-white/60 animate-pulse">
-                          Click to Flip Back
+                        {member.contributions && member.contributions.length > 0 && (
+                          <div>
+                            <p className="font-bold uppercase tracking-widest text-[9px] text-white/50 mb-0.5">
+                              Highlights
+                            </p>
+                            <ul className="space-y-0.5 font-normal text-white/85">
+                              {member.contributions.slice(0, 2).map((contrib, cIdx) => (
+                                <li key={cIdx} className="flex items-start gap-1.5 line-clamp-1">
+                                  <span className="text-white/40">•</span>
+                                  <span className="truncate">{contrib}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Back Footer - Minimal (No Social Buttons) */}
+                      <div className="pt-2 border-t border-white/15 flex items-center justify-between text-[10px] text-white/70">
+                        <span className="font-semibold uppercase tracking-wider">
+                          {getDisplayDomain(member)}
+                        </span>
+
+                        <span className="font-bold tracking-wider text-white/80 animate-pulse">
+                          Click to Flip ↺
                         </span>
                       </div>
                     </div>

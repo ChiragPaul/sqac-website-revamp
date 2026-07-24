@@ -43,10 +43,17 @@ const Events = () => {
       description: "Think and code",
       date: "13 & 14 th February 2026",
       venue: "TP -401/402",
-      image: stadium,
+      image: "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124457.png",
       link: "https://hack-and-hit-webiste.vercel.app/",
-      labelColor: "rgba(107, 114, 128, 0.4)",
-      slideshowImages: [stadium, EventsPhoto, projPhoto],
+      labelColor: "rgba(244, 63, 94, 0.8)",
+      slideshowImages: [
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124457.png",
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124518.png",
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124525.png",
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124535.png",
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124546.png",
+        "/Hack & Hit/Hack & Hit/Screenshot 2026-07-24 124553.png",
+      ],
     }
   ];
 
@@ -60,6 +67,7 @@ const Events = () => {
 
   const handlePlay = () => {
     if (cinemaMode !== "idle") return;
+    setCurrentSlideIndex(0);
     setCinemaMode("closing_lid");
     setTimeout(() => {
       setCinemaMode("spooling");
@@ -112,11 +120,11 @@ const Events = () => {
   useEffect(() => {
     if (cinemaMode === "slideshow") {
       const interval = setInterval(() => {
-        setCurrentSlideIndex((prev) => (prev + 1) % 3);
+        setCurrentSlideIndex((prev) => (prev + 1) % selectedEvent.slideshowImages.length);
       }, 2500); // Change image every 2.5 seconds
       return () => clearInterval(interval);
     }
-  }, [cinemaMode]);
+  }, [cinemaMode, selectedEvent]);
 
   return (
     <div className={`min-h-screen flex flex-col items-center py-12 px-4 transition-colors duration-500 overflow-hidden relative ${isDarkMode ? 'bg-black text-white' : 'bg-gradient-to-b from-[#e6e6e6] via-[#f3d8ad] to-red-300 text-gray-900'}`}>
@@ -572,7 +580,10 @@ const Events = () => {
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={currentSlideIndex}
-                    src={selectedEvent.slideshowImages[currentSlideIndex]}
+                    src={encodeURI(selectedEvent.slideshowImages[currentSlideIndex] || selectedEvent.image)}
+                    onError={(e) => {
+                      e.currentTarget.src = encodeURI(selectedEvent.image);
+                    }}
                     initial={{ opacity: 0, scale: 1.05, x: '1%', y: '1%' }}
                     animate={{ opacity: 1, scale: 1, x: '0%', y: '0%' }}
                     exit={{ opacity: 0 }}
