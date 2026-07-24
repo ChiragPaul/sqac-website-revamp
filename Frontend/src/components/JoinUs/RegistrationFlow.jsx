@@ -73,9 +73,9 @@ export default function RegistrationFlow() {
     }
   };
 
-  const handleDeploy = async () => {
+    const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
     try {
-      const res = await fetch('http://localhost:5000/api/candidates', {
+      const res = await fetch(`${backendUrl}/api/candidates`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
