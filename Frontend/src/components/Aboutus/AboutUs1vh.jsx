@@ -53,7 +53,7 @@ const AboutUs = () => {
         >
           <div className="rounded-xl overflow-hidden mb-4 max-h-[45vh]">
             <img
-              src="/About Us/1.jpeg"
+              src="/about-us/1.jpeg"
               alt="SQAC Team"
               className="w-full max-w-[1000px] h-auto mx-auto object-cover rounded-xl shadow-lg"
             />
