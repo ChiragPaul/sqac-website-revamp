@@ -7,7 +7,7 @@ const IMGS  = BASE.map((a, i) => ({ id: `${a.id}-${i}`, src: a.image, alt: a.tit
 
 const CARD_W = 280;
 const CARD_H = 210;
-const GAP    = 20;
+const GAP    = 16;
 const STRIDE = CARD_W + GAP;
 /* ONE_COPY_W: how far we can scroll before we need to wrap */
 const ONE_COPY_W = achievements.length * STRIDE;
@@ -21,20 +21,19 @@ const ROW_CFG = [
 
 /* ────────────────────────────────────────────────────────────────
    DOME MATH
-   Only writes style.transform — NO per-card filter or opacity.
-   Edge darkening is handled by a single CSS vignette overlay
-   which is free (GPU composited, one element).
+   Maintains consistent card size (MIN_SC = 0.88) to prevent large empty gaps
+   while preserving smooth 3D curved perspective.
    ──────────────────────────────────────────────────────────────── */
-const RADIUS  = 450;
-const MAX_ANG = Math.PI / 1.9;
-const MIN_SC  = 0.48;
+const RADIUS  = 650;
+const MAX_ANG = Math.PI / 2.2;
+const MIN_SC  = 0.88;
 
 function applyDome(el, screenCX, vpW) {
   const raw   = (screenCX - vpW / 2) / RADIUS;
   const angle = Math.max(-MAX_ANG, Math.min(MAX_ANG, raw));
   const c     = Math.cos(angle);
-  const rotDeg = -(angle * 180) / Math.PI;
-  const tz     = RADIUS * (c - 1);
+  const rotDeg = -(angle * 180) / Math.PI * 0.45;
+  const tz     = RADIUS * (c - 1) * 0.3;
   const sc     = MIN_SC + (1 - MIN_SC) * c;
   /* Single transform write — cheapest possible per-card update */
   el.style.transform = `rotateY(${rotDeg.toFixed(2)}deg) translateZ(${tz.toFixed(1)}px) scale(${sc.toFixed(3)})`;
@@ -121,7 +120,7 @@ function InfiniteRow({ items, speed, dir, onOpen }) {
     >
       <div
         ref={trackRef}
-        className="absolute top-0 left-0 flex gap-[10px] will-change-transform"
+        className="absolute top-0 left-0 flex gap-[16px] will-change-transform"
       >
         {items.map((img, i) => (
           <div
