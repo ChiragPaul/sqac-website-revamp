@@ -47,7 +47,7 @@ function Footer() {
     });
 
     const backendUrl =
-      import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
+      import.meta.env.VITE_API_BACKEND || "";
 
     try {
       await fetch(`${backendUrl}/api/contact`, {

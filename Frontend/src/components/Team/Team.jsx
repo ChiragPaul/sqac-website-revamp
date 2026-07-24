@@ -69,7 +69,7 @@ export default function Team({ darkMode: propDarkMode }) {
   const [isCardFlipped, setIsCardFlipped] = useState(false);
 
   useEffect(() => {
-    const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
+    const backendUrl = import.meta.env.VITE_API_BACKEND || "";
     fetch(`${backendUrl}/api/team`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch team data");
@@ -502,15 +502,15 @@ export default function Team({ darkMode: propDarkMode }) {
                           {member.name}
                         </h4>
 
-                        {/* Role */}
-                        <p className="font-medium text-xs text-white/80 mt-0.5">
-                          {member.role}
-                        </p>
-
                         {/* Domain Badge */}
-                        <span className="inline-block px-3 py-0.5 mt-2 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-extrabold tracking-widest uppercase text-white/90 border border-white/15 shadow-sm">
+                        <span className="inline-block px-3 py-0.5 mt-1.5 rounded-full bg-white/10 backdrop-blur-md text-[10px] font-extrabold tracking-widest uppercase text-white/90 border border-white/15 shadow-sm">
                           {getDisplayDomain(member)}
                         </span>
+
+                        {/* Role */}
+                        <p className="font-medium text-xs text-white/80 mt-1.5">
+                          {member.role}
+                        </p>
 
                         {/* Social Links */}
                         <div className={`flex items-center justify-center gap-2.5 mt-4 transition-opacity duration-300 ${i === activeDisplayIndex ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
