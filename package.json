@@ -2,6 +2,9 @@
   "name": "sqac-website-revamp",
   "private": true,
   "scripts": {
+    "dev": "cd Frontend && npm run dev",
+    "dev:frontend": "cd Frontend && npm run dev:frontend",
+    "dev:backend": "cd Frontend && npm run dev:backend",
     "build": "cd Frontend && npm install && npm run build"
   }
 }
