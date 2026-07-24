@@ -23,7 +23,9 @@ export default function AdminDashboard() {
     }
   }, [isAuthenticated]);
 
-  const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
+  const backendUrl = import.meta.env.VITE_API_BACKEND !== undefined && import.meta.env.VITE_API_BACKEND !== ""
+    ? import.meta.env.VITE_API_BACKEND
+    : (import.meta.env.DEV ? "http://localhost:5000" : "");
 
   const fetchRecruits = async () => {
     setLoading(true);
