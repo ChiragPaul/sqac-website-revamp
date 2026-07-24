@@ -23,12 +23,10 @@ export default function AdminDashboard() {
     }
   }, [isAuthenticated]);
 
-  const backendUrl = import.meta.env.VITE_API_BACKEND || "http://localhost:5000";
-
   const fetchRecruits = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${backendUrl}/api/candidates`);
+      const res = await fetch('http://localhost:5000/api/candidates');
       if (res.ok) {
         const data = await res.json();
         setRecruits(data);
@@ -44,7 +42,7 @@ export default function AdminDashboard() {
 
   const updateStatus = async (id, newStatus) => {
     try {
-      const res = await fetch(`${backendUrl}/api/candidates/${id}/status`, {
+      const res = await fetch(`http://localhost:5000/api/candidates/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
