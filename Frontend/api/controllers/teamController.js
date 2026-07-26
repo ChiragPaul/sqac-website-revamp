@@ -75,21 +75,29 @@ function formatMembers(rawMembers) {
       pic: member.pic || '',
       linkedin: member.linkdln || '#',
       github: member.github || '#',
-      portfolio: member.insta || '#'
+      instagram: member.insta || '#',
+      portfolio: member.portfolio || '#'
     };
   });
 }
 
 exports.getTeam = async (req, res) => {
   try {
+    // We fetch directly from the Member Form API without the "-1" !
     const apiUrl = process.env.MEMBER_FORM_API_URL || 'https://sqac-member-form-1.onrender.com/api/getdata';
     const response = await fetch(apiUrl);
+    
     if (!response.ok) {
       throw new Error(`Failed to fetch from Gateway: ${response.statusText}`);
     }
     
     const json = await response.json();
     const rawMembers = json.data || [];
+    
+    if (rawMembers.length === 0) {
+      throw new Error('API returned 0 members');
+    }
+    
     res.json(formatMembers(rawMembers));
   } catch (err) {
     console.error('Error fetching team data from gateway, using fallback local data:', err.message);
@@ -98,8 +106,8 @@ exports.getTeam = async (req, res) => {
       if (fs.existsSync(localDataPath)) {
         const raw = fs.readFileSync(localDataPath, 'utf8');
         const json = JSON.parse(raw);
-        const rawMembers = json.data || json || [];
-        return res.json(formatMembers(rawMembers));
+        const fallbackMembers = json.data || json || [];
+        return res.json(formatMembers(fallbackMembers));
       }
     } catch (fallbackErr) {
       console.error('Fallback error:', fallbackErr);
@@ -107,4 +115,3 @@ exports.getTeam = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ReactCardFlip from 'react-card-flip';
 //import { teamMembers } from '../data/teamData';
-import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Instagram, Users, Mouse } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronDown, Linkedin, Github, Instagram, Users, Mouse, Globe } from 'lucide-react';
 import { useTheme } from "../../contexts/ThemeContext";
 import SwipeableMenu from './SwipeableMenu';
 import CircularMenu from './CircularMenu';
@@ -42,11 +42,22 @@ export default function Team({ darkMode: propDarkMode }) {
       .join(' ');
   };
 
-  const getSocialLinks = (member) => [
-    { icon: <Linkedin className="w-4 h-4" />, url: member.linkedin, label: 'LinkedIn', color: 'hover:bg-[#0A66C2] hover:text-white border-white/20' },
-    { icon: <Github className="w-4 h-4" />, url: member.github, label: 'GitHub', color: 'hover:bg-[#333] hover:text-white border-white/20' },
-    { icon: <Instagram className="w-4 h-4" />, url: member.portfolio, label: 'Instagram', color: 'hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-600 hover:text-white border-white/20' },
-  ];
+  const getSocialLinks = (member) => {
+    const links = [];
+    if (member.linkedin && member.linkedin !== '#') {
+      links.push({ icon: <Linkedin className="w-4 h-4" />, url: member.linkedin, label: 'LinkedIn', color: 'hover:bg-[#0A66C2] hover:text-white border-white/20' });
+    }
+    if (member.github && member.github !== '#') {
+      links.push({ icon: <Github className="w-4 h-4" />, url: member.github, label: 'GitHub', color: 'hover:bg-[#333] hover:text-white border-white/20' });
+    }
+    if (member.instagram && member.instagram !== '#') {
+      links.push({ icon: <Instagram className="w-4 h-4" />, url: member.instagram, label: 'Instagram', color: 'hover:bg-gradient-to-tr hover:from-yellow-400 hover:via-pink-500 hover:to-purple-600 hover:text-white border-white/20' });
+    }
+    if (member.portfolio && member.portfolio !== '#') {
+      links.push({ icon: <Globe className="w-4 h-4" />, url: member.portfolio, label: 'Portfolio', color: 'hover:bg-emerald-500 hover:text-white border-white/20' });
+    }
+    return links;
+  };
 
 
   const [teamMembers, setTeamMembers] = useState(PLACEHOLDER_MEMBERS);
