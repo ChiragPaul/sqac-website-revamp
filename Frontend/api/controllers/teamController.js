@@ -83,8 +83,10 @@ function formatMembers(rawMembers) {
 
 exports.getTeam = async (req, res) => {
   try {
-    // We fetch directly from the Member Form API without the "-1" !
-    const apiUrl = process.env.MEMBER_FORM_API_URL || 'https://sqac-member-form-1.onrender.com/api/getdata';
+    const apiUrl = process.env.MEMBER_FORM_API_URL;
+    if (!apiUrl) {
+      throw new Error('MEMBER_FORM_API_URL environment variable is not defined');
+    }
     const response = await fetch(apiUrl);
     
     if (!response.ok) {
